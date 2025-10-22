@@ -2,7 +2,7 @@ import { CheckIcon } from "lucide-react";
 
 const Stepper = ({ steps, currentStep }) => {
   return (
-    <div className="flex overflow-x-auto items-center justify-between gap-4 px-4 py-6 border rounded-2xl bg-card text-card-foreground relative">
+    <div className="flex overflow-x-auto items-start justify-between gap-4 px-4 py-6 border rounded-2xl bg-card text-card-foreground relative">
       {steps.map((step, index) => {
         const isCompleted = index < currentStep;
         const isActive = index === currentStep;
@@ -22,7 +22,14 @@ const Stepper = ({ steps, currentStep }) => {
                   : "border-border text-muted-foreground group-hover:border-primary/60"
               }`}
             >
-              {isCompleted ? <CheckIcon size={18} /> : index + 1}
+              {/* without icon */}
+              {/* {isCompleted ? <CheckIcon size={18} /> : index + 1} */}
+              {/* with icon */}
+              {/* { isCompleted ? 
+                <CheckIcon size={18} /> :
+                <span>{step.icon}</span>
+              } */}
+              <span>{step.icon}</span>
             </div>
 
             <span

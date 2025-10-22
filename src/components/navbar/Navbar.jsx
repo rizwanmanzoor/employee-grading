@@ -9,12 +9,12 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto flex items-center justify-between p-4">
         {/* logo */}
         <a href="#" className="flex items-center gap-3">
-          <img
+          {/* <img
             src="./favicon.svg"
             className="h-8"
             alt="Employee Grading Logo"
-          />
-          <span className="text-lg md:text-2xl font-semibold">
+          /> */}
+          <span className="text-lg md:text-2xl font-bold">
             Employee Grading
           </span>
         </a>
