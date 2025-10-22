@@ -1,20 +1,20 @@
 import { useState } from "react";
-import { ModeToggle } from "./mode-toggle";
+import { ModeToggle } from "../mode-toggle";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <nav className="dark:bg-gray-900">
-      <div className="max-w-7xl flex items-center justify-between mx-auto p-4">
+    <nav className="border-b border-border bg-background text-foreground transition-colors duration-300">
+      <div className="max-w-7xl mx-auto flex items-center justify-between p-4">
         {/* logo */}
-        <a href="#" className="flex items-center space-x-3 rtl:space-x-reverse">
+        <a href="#" className="flex items-center gap-3">
           <img
             src="./favicon.svg"
             className="h-8"
             alt="Employee Grading Logo"
           />
-          <span className="self-center text-lg md:text-2xl font-semibold whitespace-nowrap dark:text-white">
+          <span className="text-lg md:text-2xl font-semibold">
             Employee Grading
           </span>
         </a>
@@ -22,11 +22,11 @@ const Navbar = () => {
         <div className="md:flex md:items-center md:justify-between md:gap-12">
           {/* Desktop Menu */}
           <div className="hidden md:block">
-            <ul className="font-medium flex items-center space-x-8 dark:text-white">
+            <ul className="flex items-center gap-8 font-medium">
               <li>
                 <a
                   href="#"
-                  className="text-blue-700 dark:text-blue-500 hover:underline"
+                  className="text-primary hover:text-primary/80 transition-colors"
                 >
                   Start Grading
                 </a>
@@ -34,7 +34,7 @@ const Navbar = () => {
               <li>
                 <a
                   href="#"
-                  className="hover:text-blue-700 dark:hover:text-blue-400"
+                  className="text-primary hover:text-primary/80 transition-colors"
                 >
                   Progress
                 </a>
@@ -42,7 +42,7 @@ const Navbar = () => {
               <li>
                 <a
                   href="#"
-                  className="hover:text-blue-700 dark:hover:text-blue-400"
+                  className="text-primary hover:text-primary/80 transition-colors"
                 >
                   How to Use
                 </a>
@@ -50,7 +50,7 @@ const Navbar = () => {
             </ul>
           </div>
 
-          {/* Right side (theme + toggle button) */}
+          {/* right side theme toggle */}
           <div className="flex items-center gap-2 md:gap-8">
             {/* Theme toggle (always visible) */}
             <ModeToggle />
@@ -59,11 +59,9 @@ const Navbar = () => {
             <button
               onClick={() => setIsOpen(!isOpen)}
               type="button"
-              className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg 
-                      md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 
-                      dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+              className="inline-flex items-center justify-center w-10 h-10 rounded-lg text-muted-foreground hover:bg-accent focus:outline-none focus:ring-2 focus:ring-ring md:hidden"
             >
-              <span className="sr-only">Open main menu</span>
+              <span className="sr-only">Toggle menu</span>
               {isOpen ? (
                 // Close icon
                 <svg
@@ -105,17 +103,22 @@ const Navbar = () => {
 
       {/* Mobile menu (full width dropdown) */}
       <div
-        className={`${
-          isOpen ? "opacity-100" : "max-h-0 opacity-0"
-        } overflow-hidden transition-all duration-300 ease-in-out md:hidden absolute top-16 left-0 w-full bg-gray-50 scroll-auto 
-          dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700`}
-        style={{ height: "calc(100svh - 64px)" }}
+        className={`md:hidden absolute left-0 w-full bg-background border-t border-border transition-all duration-300 ease-in-out 
+          ${
+            isOpen
+              ? "opacity-100 max-h-screen"
+              : "opacity-0 max-h-0 overflow-hidden"
+          } bg-popover`}
+        style={{
+          height: "calc(100svh - 64px)",
+          overflowY: isOpen ? "auto" : "hidden",
+        }}
       >
         <ul className="flex flex-col items-start p-4 space-y-2 font-semibold text-2xl">
           <li>
             <a
               href="#"
-              className="block py-2 px-3 text-blue-700 dark:text-white rounded-sm hover:bg-gray-100 dark:hover:bg-gray-700"
+              className="block py-2 px-3 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors"
             >
               Start Grading
             </a>
@@ -123,7 +126,7 @@ const Navbar = () => {
           <li>
             <a
               href="#"
-              className="block py-2 px-3 text-gray-900 dark:text-white rounded-sm hover:bg-gray-100 dark:hover:bg-gray-700"
+              className="block py-2 px-3 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors"
             >
               Progress
             </a>
@@ -131,7 +134,7 @@ const Navbar = () => {
           <li>
             <a
               href="#"
-              className="block py-2 px-3 text-gray-900 dark:text-white rounded-sm hover:bg-gray-100 dark:hover:bg-gray-700"
+              className="block py-2 px-3 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors"
             >
               How to Use
             </a>

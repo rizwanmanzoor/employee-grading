@@ -114,7 +114,55 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
+  }
+
+  /* === Layout Styling === */
+
+  html,
+  body,
+  #root {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Wrapper layout (full height, scroll inside body only) */
+  .app-layout {
+    @apply flex flex-col h-screen overflow-hidden;
+  }
+
+  /* Sticky navbar */
+  nav {
+    @apply sticky top-0 z-50 bg-background border-b border-border;
+  }
+
+  /* Main content area (scrollable body section) */
+  .app-body {
+    @apply flex-1 overflow-y-auto px-4 sm:px-6 md:px-8 lg:px-12 py-6 sm:py-8 md:py-10 mx-auto w-full max-w-7xl scroll-smooth;
+    height: calc(100vh - 64px);
+  }
+
+  /* === Custom Scrollbar === */
+  .app-body::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .app-body::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .app-body::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--muted-foreground) / 0.3);
+    border-radius: 9999px;
+  }
+
+  /* Hide scrollbar on mobile */
+  @media (max-width: 768px) {
+    .app-body::-webkit-scrollbar {
+      display: none;
+    }
   }
 }

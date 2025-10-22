@@ -1,0 +1,69 @@
+import React, { useState } from "react";
+import { steps } from "../components/steps/Steps";
+import Stepper from "@/components/stepper/Stepper";
+import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
+
+const ButtonLabels = {
+  BACK: "Back",
+  NEXT: "Next",
+  SUBMIT: "Submit",
+};
+
+const StepperForm = () => {
+  const [currentStep, setCurrentStep] = useState(0);
+
+  const isFirstStep = currentStep === 0;
+  const isLastStep = currentStep < steps.length - 1;
+
+  const handleNext = () => {
+    if (currentStep < steps.length) {
+      setCurrentStep(currentStep + 1);
+    }
+  };
+
+  const handleBack = () => {
+    if (currentStep > 0) {
+      setCurrentStep(currentStep - 1);
+    }
+  };
+
+  return (
+    <>
+      {/* Stepper Header */}
+      <Stepper steps={steps} currentStep={currentStep} />
+
+      {/* Step Content */}
+      <div className="p-6 my-8 border rounded-2xl shadow-sm">
+        {steps[currentStep].content}
+      </div>
+
+      {/* Navigation Buttons */}
+      <div className="flex items-center justify-end gap-4">
+        <Button
+          disabled={isFirstStep}
+          variant={"ghost"}
+          className={"px-6 py-2"}
+          onClick={handleBack}
+        >
+          <span>{ButtonLabels.BACK}</span>
+        </Button>
+
+        {isLastStep ? (
+          <Button className={"px-6 py-2"} onClick={handleNext}>
+            <span>{ButtonLabels.NEXT}</span>
+          </Button>
+        ) : (
+          <Button
+            className={"px-6 py-2"}
+            onClick={() => toast.success("Form Submitted Successfully!")}
+          >
+            <span>{ButtonLabels.SUBMIT}</span>
+          </Button>
+        )}
+      </div>
+    </>
+  );
+};
+
+export default StepperForm;
