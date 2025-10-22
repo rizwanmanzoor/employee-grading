@@ -2,7 +2,7 @@ import { CheckIcon } from "lucide-react";
 
 const Stepper = ({ steps, currentStep }) => {
   return (
-    <div className="flex overflow-x-auto items-start justify-between gap-4 px-4 py-6 border rounded-2xl bg-card text-card-foreground relative">
+    <div className="md:sticky top-0 flex overflow-x-auto items-start justify-between gap-4 px-4 py-6 border rounded-2xl bg-card text-card-foreground">
       {steps.map((step, index) => {
         const isCompleted = index < currentStep;
         const isActive = index === currentStep;

@@ -34,7 +34,7 @@ const StepperForm = () => {
       <Stepper steps={steps} currentStep={currentStep} />
 
       {/* Step Content */}
-      <div className="p-6 my-8 border rounded-2xl shadow-sm">
+      <div className="p-6 my-4 border rounded-2xl shadow-sm">
         {steps[currentStep].content}
       </div>
 
@@ -42,7 +42,7 @@ const StepperForm = () => {
       <div className="flex items-center justify-end gap-4">
         <Button
           disabled={isFirstStep}
-          variant={"ghost"}
+          variant={"outline"}
           className={"px-6 py-2"}
           onClick={handleBack}
         >
