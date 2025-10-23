@@ -9,7 +9,7 @@ const Navbar = () => {
     <nav className="border-b border-border bg-background text-foreground transition-colors duration-300">
       <div className="max-w-7xl mx-auto flex items-center justify-between p-4">
         {/* logo */}
-        <Link to={"/"} className="flex items-center gap-3">
+        <Link to={"/home"} className="flex items-center gap-3">
           {/* <img
             src="./favicon.svg"
             className="h-8"

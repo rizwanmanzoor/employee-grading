@@ -97,7 +97,7 @@ const Login = () => {
                 </div>
               </div>
 
-              <Link to={"/"}>
+              <Link to={"/home"}>
                 <Button
                   type="submit"
                   className="w-full mt-4 cursor-pointer"
