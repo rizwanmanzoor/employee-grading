@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ModeToggle } from "../mode-toggle";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -8,7 +9,7 @@ const Navbar = () => {
     <nav className="border-b border-border bg-background text-foreground transition-colors duration-300">
       <div className="max-w-7xl mx-auto flex items-center justify-between p-4">
         {/* logo */}
-        <a href="#" className="flex items-center gap-3">
+        <Link to={"/"} className="flex items-center gap-3">
           {/* <img
             src="./favicon.svg"
             className="h-8"
@@ -17,35 +18,35 @@ const Navbar = () => {
           <span className="text-lg md:text-2xl font-bold">
             Employee Grading
           </span>
-        </a>
+        </Link>
 
         <div className="md:flex md:items-center md:justify-between md:gap-12">
           {/* Desktop Menu */}
           <div className="hidden md:block">
             <ul className="flex items-center gap-8 font-medium">
               <li>
-                <a
-                  href="#"
+                <Link
+                  to="/grading"
                   className="text-primary hover:text-primary/80 transition-colors"
                 >
                   Start Grading
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#"
+                <Link
+                  to="/result"
                   className="text-primary hover:text-primary/80 transition-colors"
                 >
                   Progress
-                </a>
+                </Link>
               </li>
               <li>
-                <a
-                  href="#"
+                <Link
+                  to="/how-to-use"
                   className="text-primary hover:text-primary/80 transition-colors"
                 >
                   How to Use
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -116,28 +117,28 @@ const Navbar = () => {
       >
         <ul className="flex flex-col items-start p-4 space-y-2 font-semibold text-2xl">
           <li>
-            <a
-              href="#"
+            <Link
+              to="/grading"
               className="block py-2 px-3 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors"
             >
               Start Grading
-            </a>
+            </Link>
           </li>
           <li>
-            <a
-              href="#"
+            <Link
+              to="/result"
               className="block py-2 px-3 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors"
             >
               Progress
-            </a>
+            </Link>
           </li>
           <li>
-            <a
-              href="#"
+            <Link
+              to="/how-to-use"
               className="block py-2 px-3 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors"
             >
               How to Use
-            </a>
+            </Link>
           </li>
         </ul>
       </div>

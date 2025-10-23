@@ -74,6 +74,32 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  /* new-color-scheme */
+  /* Base colors */
+  --background: #ffffff;
+  --foreground: #0f172a;
+
+  /* Card and muted surfaces */
+  --bg-card: #f8fafc;
+  --bg-muted: #f1f5f9;
+
+  /* Text */
+  --text-muted: #64748b;
+
+  /* Borders */
+  --border-color: #e2e8f0;
+
+  /* Primary tones */
+  --primary-blue: #2563eb;
+  --primary-navy: #1e293b;
+  --primary-red: #ef4444;
+  --primary-green: #10b981;
+  --primary-amber: #f59e0b;
+  --accent-violet: #7c3aed;
+
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, var(--primary-blue) 0%, var(--accent-violet) 100%);
 }
 
 .dark {
@@ -108,6 +134,25 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+
+  /* new-color-scheme */
+  --background: #0f172a;
+  --foreground: #f8fafc;
+
+  --bg-card: #1e293b;
+  --bg-muted: #334155;
+
+  --text-muted: #94a3b8;
+  --border-color: #475569;
+
+  --primary-blue: #3b82f6;
+  --primary-navy: #e2e8f0;
+  --primary-red: #f87171;
+  --primary-green: #22c55e;
+  --primary-amber: #fbbf24;
+  --accent-violet: #8b5cf6;
+
+  --gradient-primary: linear-gradient(135deg, var(--primary-blue) 0%, var(--accent-violet) 100%);
 }
 
 @layer base {
@@ -142,7 +187,7 @@
   /* Main content area (scrollable body section) */
   .app-body {
     @apply flex-1 overflow-y-auto px-4 sm:px-6 md:px-8 lg:px-12 py-3 mx-auto w-full max-w-7xl scroll-smooth;
-    height: calc(100vh - 64px);
+    height: calc(100vh - 70px);
   }
 
   /* === Custom Scrollbar === */
