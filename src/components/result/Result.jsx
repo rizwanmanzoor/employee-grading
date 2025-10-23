@@ -224,7 +224,7 @@ const Result = () => {
             // }}
           >
             <Trophy className="w-5 h-5" />
-            Grade Again
+            Test Again
           </Button>
         </Link>
       </div>

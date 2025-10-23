@@ -3,27 +3,49 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 
 const SelectOptionGroup = () => {
-  const [selected, setSelected] = useState("verified");
+  const [verifiedSelected, setVerifiedSelected] = useState("");
+  const [relevantSelected, setRelevantSelected] = useState("");
 
-  const options = [
+  const optionsVerified = [
     { id: "verified", label: "Verified" },
     { id: "unverified", label: "Unverified" },
+  ];
+
+  const optionsRelevant = [
     { id: "relevant", label: "Relevant" },
     { id: "irrelevant", label: "Irrelevant" },
   ];
 
-  const handleSelect = (id) => {
-    setSelected(id);
+  const handleVerifiedSelect = (id) => {
+    setVerifiedSelected(id);
   };
+
+  const handleRelevantSelect = (id) => {
+    setRelevantSelected(id);
+  };
+
   return (
     <div className="flex flex-wrap gap-6">
-      {options.map((option) => (
+      {optionsVerified.map((option) => (
         <div key={option.id} className="flex items-center gap-3">
           <Checkbox
             id={option.id}
-            checked={selected === option.id}
+            checked={verifiedSelected === option.id}
             onCheckedChange={(checked) => {
-              if (checked) handleSelect(option.id);
+              if (checked) handleVerifiedSelect(option.id);
+            }}
+          />
+          <Label htmlFor={option.id}>{option.label}</Label>
+        </div>
+      ))}
+
+      {optionsRelevant.map((option) => (
+        <div key={option.id} className="flex items-center gap-3">
+          <Checkbox
+            id={option.id}
+            checked={relevantSelected === option.id}
+            onCheckedChange={(checked) => {
+              if (checked) handleRelevantSelect(option.id);
             }}
           />
           <Label htmlFor={option.id}>{option.label}</Label>

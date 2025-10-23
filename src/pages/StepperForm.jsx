@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { steps } from "../components/steps/Steps";
 import Stepper from "@/components/stepper/Stepper";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useNavigate } from "react-router-dom";
 
 const ButtonLabels = {
   BACK: "Back",
@@ -13,6 +14,7 @@ const ButtonLabels = {
 
 const StepperForm = () => {
   const [currentStep, setCurrentStep] = useState(0);
+  const navigate = useNavigate();
 
   const isFirstStep = currentStep === 0;
   const isLastStep = currentStep < steps.length - 1;
@@ -28,6 +30,14 @@ const StepperForm = () => {
       setCurrentStep(currentStep - 1);
     }
   };
+
+  const handleSubmit = () => {
+    toast.success("Form Submitted Successfully!");
+
+    setTimeout(() => {
+      navigate("/result");
+    }, 1000);
+  }
 
   return (
     <>
@@ -59,7 +69,7 @@ const StepperForm = () => {
         ) : (
           <Button
             className={"px-6 py-2"}
-            onClick={() => toast.success("Form Submitted Successfully!")}
+            onClick={handleSubmit}
           >
             <span>{ButtonLabels.SUBMIT}</span>
           </Button>

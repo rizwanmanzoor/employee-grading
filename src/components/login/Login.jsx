@@ -100,7 +100,7 @@ const Login = () => {
               <Link to={"/home"}>
                 <Button
                   type="submit"
-                  className="w-full mt-4 cursor-pointer"
+                  className="w-full mt-2 cursor-pointer"
                   // style={{
                   //   backgroundColor: "var(--primary)",
                   //   color: "var(--primary-foreground)",
@@ -109,6 +109,26 @@ const Login = () => {
                   Sign in
                 </Button>
               </Link>
+
+              <div className="mt-5">
+                <h4
+                  className="font-bold mb-2"
+                  style={{ color: "hsl(var(--primary))" }}
+                >
+                  Disclaimer:
+                </h4>
+                <p
+                  className="text-xs leading-relaxed"
+                  style={{ color: "hsl(var(--muted-foreground))" }}
+                >
+                  I acknowledge the confidentiality of the information and
+                  undertake full responsibility for the accuracy of the
+                  information provided. <br />
+                  In case of false / tempered / modified / forged information
+                  strict action will be taken including the termination and / or
+                  suspension of the employees.
+                </p>
+              </div>
             </form>
           </CardContent>
         </Card>

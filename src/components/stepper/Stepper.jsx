@@ -18,18 +18,18 @@ const Stepper = ({ steps, currentStep }) => {
                 isCompleted
                   ? "bg-primary border-primary text-primary-foreground"
                   : isActive
-                  ? "border-primary text-primary"
+                  ? "bg-primary border-primary text-primary-foreground"
                   : "border-border text-muted-foreground group-hover:border-primary/60"
               }`}
             >
               {/* without icon */}
               {/* {isCompleted ? <CheckIcon size={18} /> : index + 1} */}
               {/* with icon */}
-              {/* { isCompleted ? 
+              { isCompleted ? 
                 <CheckIcon size={18} /> :
                 <span>{step.icon}</span>
-              } */}
-              <span>{step.icon}</span>
+              }
+              {/* <span>{step.icon}</span> */}
             </div>
 
             <span
