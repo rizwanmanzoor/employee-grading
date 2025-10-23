@@ -37,6 +37,14 @@ const Navbar = () => {
                   to="/result"
                   className="text-primary hover:text-primary/80 transition-colors"
                 >
+                  Result
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to="/progress"
+                  className="text-primary hover:text-primary/80 transition-colors"
+                >
                   Progress
                 </Link>
               </li>
@@ -127,6 +135,14 @@ const Navbar = () => {
           <li>
             <Link
               to="/result"
+              className="block py-2 px-3 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors"
+            >
+              Result
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/progress"
               className="block py-2 px-3 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors"
             >
               Progress

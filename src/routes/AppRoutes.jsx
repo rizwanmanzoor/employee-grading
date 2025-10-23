@@ -3,14 +3,12 @@ import HomePage from "@/pages/HomePage";
 import HowToUsePage from "@/pages/HowToUsePage";
 import LoginPage from "@/pages/LoginPage";
 import NotFound from "@/pages/NotFound";
+import ProgressPage from "@/pages/ProgressPage";
 import ResultPage from "@/pages/ResultPage";
 import StepperForm from "@/pages/StepperForm";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 const AppRoutes = () => {
-  const location = useLocation();
-  const hideNavbarRoutes = ["/login"];
-
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
@@ -19,6 +17,7 @@ const AppRoutes = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/grading" element={<StepperForm />} />
         <Route path="/result" element={<ResultPage />} />
+        <Route path="/progress" element={<ProgressPage />} />
         <Route path="/how-to-use" element={<HowToUsePage />} />
       </Route>
 

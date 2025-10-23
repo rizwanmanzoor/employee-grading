@@ -1,5 +1,8 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
 import { Button } from "../ui/button";
+import { Link } from "react-router-dom";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   FileText,
   ArrowRight,
@@ -10,6 +13,8 @@ import {
 } from "lucide-react";
 
 const Home = () => {
+  const [isChecked, setIsChecked] = useState(false);
+
   const features = [
     {
       icon: <Award className="w-7 h-7" />,
@@ -153,6 +158,24 @@ const Home = () => {
                 action. By using this system, you acknowledge and accept these
                 terms.
               </p>
+
+              <div className="flex items-center gap-3 mt-3">
+                <Checkbox
+                  id="terms"
+                  checked={isChecked}
+                  onCheckedChange={(checked) => setIsChecked(checked)}
+                />
+                <Label
+                  htmlFor="terms"
+                  className="text-sm"
+                >
+                  I have read and accept the terms and conditions stated above
+                </Label>
+              </div>
+
+              <Button disabled={!isChecked} className="mt-5 cursor-pointer">
+                <Link to="/grading">Start Grading</Link>
+              </Button>
             </div>
           </div>
         </div>
