@@ -1,6 +1,63 @@
 import { Briefcase } from "lucide-react";
 import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import SelectOptionGroup from "../selectOptionGroup/SelectOptionGroup";
+
+const experiences = [
+  {
+    experience: "0",
+    grade: "0",
+  },
+  {
+    experience: "1",
+    grade: "0.5",
+  },
+  {
+    experience: "2",
+    grade: "1",
+  },
+  {
+    experience: "3",
+    grade: "1.5",
+  },
+  {
+    experience: "4",
+    grade: "2",
+  },
+  {
+    experience: "5",
+    grade: "2.5",
+  },
+  {
+    experience: "6",
+    grade: "3",
+  },
+  {
+    experience: "7",
+    grade: "3.5",
+  },
+  {
+    experience: "8",
+    grade: "4",
+  },
+  {
+    experience: "9",
+    grade: "4.5",
+  },
+  {
+    experience: "10",
+    grade: "5",
+  },
+];
 
 const Step3 = () => {
   return (
@@ -26,26 +83,41 @@ const Step3 = () => {
         </p>
       </div>
 
-      <div className="mt-5 mb-7"></div>
+      <div className="mt-5 mb-7">
+        <RadioGroup defaultValue="0" className="w-full">
+          <Table className="relative">
+            <TableHeader className="sticky top-0">
+              <TableRow>
+                <TableHead>Experience (Years)</TableHead>
+                <TableHead>Grade</TableHead>
+                <TableHead className="text-right">Select</TableHead>
+              </TableRow>
+            </TableHeader>
 
-      <div className="flex flex-wrap gap-6">
-        <div className="flex items-center gap-3">
-          <Checkbox id="verified" />
-          <Label htmlFor="verified">Verified</Label>
-        </div>
-        <div className="flex items-center gap-3">
-          <Checkbox id="unverified" />
-          <Label htmlFor="unverified">Unverified</Label>
-        </div>
-        <div className="flex items-center gap-3">
-          <Checkbox id="relevant" />
-          <Label htmlFor="relevant">Relevant</Label>
-        </div>
-        <div className="flex items-center gap-3">
-          <Checkbox id="irrelevant" />
-          <Label htmlFor="irrelevant">Irrelevant</Label>
-        </div>
+            <TableBody>
+              {experiences.map((experience) => (
+                <TableRow key={experience.experience}>
+                  <TableCell className="font-medium">
+                    {experience.experience}
+                  </TableCell>
+                  <TableCell>{experience.grade}</TableCell>
+                  <TableCell className="text-right">
+                    <div className="radio-field inline-flex">
+                      <RadioGroupItem
+                        value={experience.experience}
+                        id={`exp-${experience.experience}`}
+                      />
+                      <Label htmlFor={`exp-${experience.experience}`}></Label>
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </RadioGroup>
       </div>
+
+      <SelectOptionGroup />
     </>
   );
 };

@@ -1,8 +1,9 @@
+import { toast } from "sonner";
 import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
 import { steps } from "../components/steps/Steps";
 import Stepper from "@/components/stepper/Stepper";
-import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const ButtonLabels = {
   BACK: "Back",
@@ -34,9 +35,11 @@ const StepperForm = () => {
       <Stepper steps={steps} currentStep={currentStep} />
 
       {/* Step Content */}
-      <div className="p-6 my-4 border rounded-2xl shadow-sm">
-        {steps[currentStep].content}
-      </div>
+      <ScrollArea className="w-full overflow-hidden">
+        <div className="p-6 my-4 border rounded-2xl shadow-sm md:h-[calc(100vh-42vh)] overflow-y-auto custom-scroll">
+          {steps[currentStep].content}
+        </div>
+      </ScrollArea>
 
       {/* Navigation Buttons */}
       <div className="flex items-center justify-end gap-4">

@@ -1,7 +1,7 @@
 import { AwardIcon } from 'lucide-react';
 import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import SelectOptionGroup from '../selectOptionGroup/SelectOptionGroup';
 
 const Step2 = () => {
   return (
@@ -120,24 +120,7 @@ const Step2 = () => {
         </div>
       </div>
 
-      <div className="flex flex-wrap gap-6">
-        <div className="flex items-center gap-3">
-          <Checkbox id="verified" />
-          <Label htmlFor="verified">Verified</Label>
-        </div>
-        <div className="flex items-center gap-3">
-          <Checkbox id="unverified" />
-          <Label htmlFor="unverified">Unverified</Label>
-        </div>
-        <div className="flex items-center gap-3">
-          <Checkbox id="relevant" />
-          <Label htmlFor="relevant">Relevant</Label>
-        </div>
-        <div className="flex items-center gap-3">
-          <Checkbox id="irrelevant" />
-          <Label htmlFor="irrelevant">Irrelevant</Label>
-        </div>
-      </div>
+      <SelectOptionGroup />
     </>
   );
 }

@@ -1,7 +1,7 @@
 import { Layers } from "lucide-react";
 import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import SelectOptionGroup from "../selectOptionGroup/SelectOptionGroup";
 
 const Step6 = () => {
   return (
@@ -34,50 +34,40 @@ const Step6 = () => {
           className="grid grid-cols-1 md:grid-cols-2 gap-4"
         >
           <div className="input-field">
-            <RadioGroupItem value="option-none" id="option-none" />
-            <Label htmlFor="option-none">None</Label>
+            <Label htmlFor="option-none">
+              <RadioGroupItem value="option-none" id="option-none" />
+              None
+            </Label>
           </div>
           <div className="input-field">
-            <RadioGroupItem value="option-1year" id="option-1year" />
-            <Label htmlFor="option-1year">1 year</Label>
+            <Label htmlFor="option-1year">
+              <RadioGroupItem value="option-1year" id="option-1year" />1 year
+            </Label>
           </div>
           <div className="input-field">
-            <RadioGroupItem value="option-2year" id="option-2year" />
-            <Label htmlFor="option-2year">2 year</Label>
+            <Label htmlFor="option-2year">
+              <RadioGroupItem value="option-2year" id="option-2year" />2 year
+            </Label>
           </div>
           <div className="input-field">
-            <RadioGroupItem value="option-3year" id="option-3year" />
-            <Label htmlFor="option-3year">3 year</Label>
+            <Label htmlFor="option-3year">
+              <RadioGroupItem value="option-3year" id="option-3year" />3 year
+            </Label>
           </div>
           <div className="input-field">
-            <RadioGroupItem value="option-4year" id="option-4year" />
-            <Label htmlFor="option-4year">4 year</Label>
+            <Label htmlFor="option-4year">
+              <RadioGroupItem value="option-4year" id="option-4year" />4 year
+            </Label>
           </div>
           <div className="input-field">
-            <RadioGroupItem value="option-5year" id="option-5year" />
-            <Label htmlFor="option-5year">5 year</Label>
+            <Label htmlFor="option-5year">
+              <RadioGroupItem value="option-5year" id="option-5year" />5 year
+            </Label>
           </div>
         </RadioGroup>
       </div>
 
-      <div className="flex flex-wrap gap-6">
-        <div className="flex items-center gap-3">
-          <Checkbox id="verified" />
-          <Label htmlFor="verified">Verified</Label>
-        </div>
-        <div className="flex items-center gap-3">
-          <Checkbox id="unverified" />
-          <Label htmlFor="unverified">Unverified</Label>
-        </div>
-        <div className="flex items-center gap-3">
-          <Checkbox id="relevant" />
-          <Label htmlFor="relevant">Relevant</Label>
-        </div>
-        <div className="flex items-center gap-3">
-          <Checkbox id="irrelevant" />
-          <Label htmlFor="irrelevant">Irrelevant</Label>
-        </div>
-      </div>
+      <SelectOptionGroup />
     </>
   );
 };
