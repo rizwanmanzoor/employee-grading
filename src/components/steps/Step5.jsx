@@ -1,7 +1,6 @@
 import { Globe } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import SelectVerifiedGroup from "../selectVerifiedGroup/SelectVerifiedGroup";
 
 const Step5 = () => {
   return (
@@ -55,8 +54,6 @@ const Step5 = () => {
           </div>
         </RadioGroup>
       </div>
-
-      <SelectVerifiedGroup />
     </>
   );
 };
