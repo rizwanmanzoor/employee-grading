@@ -1,7 +1,8 @@
 import { BookOpen } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import SelectOptionGroup from "../selectOptionGroup/SelectOptionGroup";
+import SelectVerifiedGroup from "../selectVerifiedGroup/SelectVerifiedGroup";
+import SelectRelevantGroup from "../selectRelevantGroup/SelectRelevantGroup";
 
 const Step1 = () => {
   return (
@@ -56,7 +57,10 @@ const Step1 = () => {
         </RadioGroup>
       </div>
 
-      <SelectOptionGroup />
+      <div className="flex gap-6 flex-wrap">
+        <SelectVerifiedGroup />
+        <SelectRelevantGroup />
+      </div>
     </>
   );
 };

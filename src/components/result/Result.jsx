@@ -8,11 +8,11 @@ const Result = () => {
   const items = [
     "Education",
     "Certifications",
-    "External Exp",
-    "External Mgmt",
+    "External Experience",
+    "External Management",
     "English",
-    "Internal Exp",
-    "Internal Mgmt",
+    "Internal Experience",
+    "Internal Management",
   ];
 
   const colors = [
@@ -145,7 +145,7 @@ const Result = () => {
               <div key={title} className="p-3 bg-accent rounded-lg">
                 <p className="text-xs text-(--text-muted) mb-2">{title}</p>
                 <div className="flex gap-1">
-                  {["✗ Ver", "✗ Rel"].map((tag) => (
+                  {["Verified", "Relevant"].map((tag) => (
                     <div
                       key={tag}
                       // className="inline-flex items-center rounded-full border px-2.5 py-0.5 font-semibold text-xs bg-(--bg-card) text-(--text-muted)"

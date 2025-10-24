@@ -1,7 +1,7 @@
 import { Layers } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import SelectOptionGroup from "../selectOptionGroup/SelectOptionGroup";
+import SelectVerifiedGroup from "../selectVerifiedGroup/SelectVerifiedGroup";
 
 const Step6 = () => {
   return (
@@ -64,10 +64,25 @@ const Step6 = () => {
               <RadioGroupItem value="option-5year" id="option-5year" />5 year
             </Label>
           </div>
+          <div className="input-field">
+            <Label htmlFor="option-6year">
+              <RadioGroupItem value="option-6year" id="option-6year" />6 year
+            </Label>
+          </div>
+          <div className="input-field">
+            <Label htmlFor="option-7year">
+              <RadioGroupItem value="option-7year" id="option-7year" />7 year
+            </Label>
+          </div>
+          <div className="input-field">
+            <Label htmlFor="option-8year">
+              <RadioGroupItem value="option-8year" id="option-8year" />8 year
+            </Label>
+          </div>
         </RadioGroup>
       </div>
 
-      <SelectOptionGroup />
+      <SelectVerifiedGroup />
     </>
   );
 };

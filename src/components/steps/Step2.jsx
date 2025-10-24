@@ -1,7 +1,8 @@
 import { AwardIcon } from 'lucide-react';
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import SelectOptionGroup from '../selectOptionGroup/SelectOptionGroup';
+import SelectVerifiedGroup from '../selectVerifiedGroup/SelectVerifiedGroup';
+import SelectRelevantGroup from '../selectRelevantGroup/SelectRelevantGroup';
 
 const Step2 = () => {
   return (
@@ -120,7 +121,10 @@ const Step2 = () => {
         </div>
       </div>
 
-      <SelectOptionGroup />
+      <div className="flex gap-6 flex-wrap">
+        <SelectVerifiedGroup />
+        <SelectRelevantGroup />
+      </div>
     </>
   );
 }

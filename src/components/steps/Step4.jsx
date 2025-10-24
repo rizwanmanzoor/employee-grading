@@ -1,6 +1,8 @@
 import { UserCheck } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import SelectVerifiedGroup from "../selectVerifiedGroup/SelectVerifiedGroup";
+import SelectRelevantGroup from "../selectRelevantGroup/SelectRelevantGroup";
 import {
   Table,
   TableBody,
@@ -10,53 +12,24 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import SelectOptionGroup from "../selectOptionGroup/SelectOptionGroup";
 
 const experiences = [
-  {
-    experience: "0",
-    grade: "1.34",
-  },
-  {
-    experience: "1",
-    grade: "2.68",
-  },
-  {
-    experience: "2",
-    grade: "4.02",
-  },
-  {
-    experience: "3",
-    grade: "5.36",
-  },
-  {
-    experience: "4",
-    grade: "6.7",
-  },
-  {
-    experience: "5",
-    grade: "8.04",
-  },
-  {
-    experience: "6",
-    grade: "9.38",
-  },
-  {
-    experience: "7",
-    grade: "10.72",
-  },
-  {
-    experience: "8",
-    grade: "12.06",
-  },
-  {
-    experience: "9",
-    grade: "13.4",
-  },
-  {
-    experience: "10",
-    grade: "14.74",
-  },
+  { experience: "None", grade: "0" },
+  { experience: "1", grade: "1.34" },
+  { experience: "2", grade: "2.68" },
+  { experience: "3", grade: "4.02" },
+  { experience: "4", grade: "5.36" },
+  { experience: "5", grade: "6.7" },
+  { experience: "6", grade: "8.04" },
+  { experience: "7", grade: "9.38" },
+  { experience: "8", grade: "10.72" },
+  { experience: "9", grade: "12.06" },
+  { experience: "10", grade: "13.4" },
+  { experience: "11", grade: "14.74" },
+  { experience: "12", grade: "16.08" },
+  { experience: "13", grade: "17.42" },
+  { experience: "14", grade: "18.76" },
+  { experience: "15", grade: "20" },
 ];
 
 const Step4 = () => {
@@ -115,7 +88,10 @@ const Step4 = () => {
         </RadioGroup>
       </div>
 
-      <SelectOptionGroup />
+      <div className="flex gap-6 flex-wrap">
+        <SelectVerifiedGroup />
+        <SelectRelevantGroup />
+      </div>
     </>
   );
 };
