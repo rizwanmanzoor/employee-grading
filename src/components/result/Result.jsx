@@ -90,7 +90,7 @@ const Result = () => {
         <div className="p-8 flex flex-col md:flex-row items-center justify-between gap-8">
           <div className="text-center md:text-left">
             <p className="text-(--text-muted) mb-2">Your Final Grade</p>
-            <div className="inline-block px-8 py-4 rounded-2xl text-6xl font-bold text-white shadow-lg bg-(--primary-red)">
+            <div className="inline-block px-8 py-4 rounded-2xl text-6xl font-bold text-muted shadow-lg bg-destructive">
               F
             </div>
             <p className="text-2xl font-bold mt-4 text-(--primary-navy)">
@@ -117,7 +117,7 @@ const Result = () => {
             <div className="p-4 rounded-xl border">
               {/* <div className="bg-(--bg-muted) p-4 rounded-xl border border-(--primary-amber)"> */}
               <div className="flex items-center gap-2 mb-1">
-                <Target className="w-4 h-4 text-(--primary-amber)" />
+                <Target className="w-4 h-4 text-destructive" />
                 <p className="text-sm font-medium text-(--primary-amber)">
                   Recommended Designation
                 </p>
