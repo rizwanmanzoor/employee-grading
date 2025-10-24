@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ModeToggle } from "../mode-toggle";
 import { Link } from "react-router-dom";
+import { Button } from "../ui/button";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -63,6 +64,12 @@ const Navbar = () => {
           <div className="flex items-center gap-2 md:gap-8">
             {/* Theme toggle (always visible) */}
             <ModeToggle />
+
+            <Link to={"/"} className="hidden md:block">
+              <Button className="cursor-pointer">
+                <span>Logout</span>
+              </Button>
+            </Link>
 
             {/* Mobile menu toggle button */}
             <button
