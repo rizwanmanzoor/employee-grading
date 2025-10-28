@@ -1,10 +1,10 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Eye, EyeOff, User } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Eye, EyeOff, User } from "lucide-react";
+import loginImage from "@/assets/login-bg.webp";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -15,22 +15,36 @@ const Login = () => {
 
   return (
     <div
-      className="min-h-screen flex items-center justify-center px-4"
+      className="md:min-h-screen flex items-center justify-center p-4"
       style={{ backgroundColor: "var(--background)" }}
     >
-      <div className="w-full max-w-md">
-        <Card className="rounded-2xl shadow-md border border-border bg-card">
-          <CardHeader>
-            <CardTitle
-              className="text-center text-3xl font-semibold"
-              style={{ color: "var(--foreground)" }}
+      <div className="w-full max-w-[950px] text-card-foreground rounded-2xl shadow-md border border-border bg-card overflow-hidden">
+        <div className="flex items-center max-md:flex-col w-full gap-y-4">
+          {/* === LEFT IMAGE SECTION === */}
+          <div className="md:max-w-[570px] w-full h-full">
+            <div
+              // className="md:aspect-7/10 bg-card relative before:absolute before:inset-0 before:bg-black/40 overflow-hidden w-full h-full"
+              className="md:aspect-7/10 bg-card relative overflow-hidden w-full h-full"
             >
-              Sign in
-            </CardTitle>
-          </CardHeader>
+              <img
+                // src="https://readymadeui.com/team-image.webp"
+                src={loginImage}
+                // className="w-full h-full object-cover"
+                className="w-full h-full object-contain"
+                alt="login img"
+              />
+            </div>
+          </div>
 
-          <CardContent>
-            <form className="space-y-6 mt-6">
+          {/* === RIGHT FORM SECTION === */}
+          <div className="w-full h-full px-8 lg:px-10 py-8 max-md:-order-1">
+            <div className="flex flex-col items-center gap-1 text-center">
+              <h1 className="text-2xl font-bold">Login to your account</h1>
+              <p className="text-muted-foreground text-sm text-balance">
+                Enter your credentials to login to your account
+              </p>
+            </div>
+            <form className="space-y-6 mt-7 md:max-w-md w-full mx-auto">
               <div>
                 <Label
                   htmlFor="username"
@@ -98,40 +112,24 @@ const Login = () => {
               </div>
 
               <Link to={"/home"}>
-                <Button
-                  type="submit"
-                  className="w-full mt-2 cursor-pointer"
-                  // style={{
-                  //   backgroundColor: "var(--primary)",
-                  //   color: "var(--primary-foreground)",
-                  // }}
-                >
+                <Button type="submit" className="w-full mt-2 cursor-pointer">
                   Sign in
                 </Button>
               </Link>
 
               <div className="mt-5">
-                <h4
-                  className="font-bold mb-2"
-                  style={{ color: "hsl(var(--primary))" }}
-                >
-                  Disclaimer:
-                </h4>
-                <p
-                  className="text-xs leading-relaxed"
-                  style={{ color: "hsl(var(--muted-foreground))" }}
-                >
+                <h3 className="text-lg mb-1 font-semibold">Disclaimer:</h3>
+                <p className="text-sm">
                   I acknowledge the confidentiality of the information and
                   undertake full responsibility for the accuracy of the
-                  information provided. <br />
-                  In case of false / tempered / modified / forged information
-                  strict action will be taken including the termination and / or
-                  suspension of the employees.
+                  information provided. In case of false / tempered / modified /
+                  forged information strict action will be taken including the
+                  termination and / or suspension of the employees.
                 </p>
               </div>
             </form>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </div>
     </div>
   );
