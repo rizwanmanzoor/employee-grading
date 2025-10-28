@@ -5,6 +5,9 @@ import { Button } from "../ui/button";
 import { ModeToggle } from "../mode-toggle";
 import LanguageToggle from "../languageToggle/LanguageToggle";
 
+import logo from "@/assets/logo.webp";
+import whiteLogo from "@/assets/nox-white.webp";
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -13,7 +16,18 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto flex items-center justify-between p-4">
         {/* logo */}
         <Link to={"/home"} className="flex items-center gap-3">
-          <img src="./logo.webp" className="h-4" alt="NOX Group" />
+          <img
+            src={logo}
+            alt="logo"
+            width={"180"}
+            className="h-4 block dark:hidden"
+          />
+          <img
+            src={whiteLogo}
+            alt="logo"
+            width={"180"}
+            className="h-4 hidden dark:block"
+          />
         </Link>
 
         <div className="md:flex md:items-center md:justify-between md:gap-12">
