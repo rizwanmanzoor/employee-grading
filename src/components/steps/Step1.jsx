@@ -1,5 +1,4 @@
-import { useState } from "react"
-;
+import { useState } from "react";
 import { Input } from "../ui/input";
 import { Label } from "@/components/ui/label";
 import { BookOpen, Paperclip } from "lucide-react";
@@ -68,7 +67,7 @@ const Step1 = () => {
         </RadioGroup>
 
         <div
-          className="input-field inline-flex items-center p-1 min-w-xl w-max overflow-hidden my-5"
+          className="input-field inline-flex items-center p-1 w-full md:min-w-xl md:w-max overflow-hidden my-5"
           style={{
             backgroundColor: "var(--card)",
             color: "var(--foreground)",
