@@ -264,7 +264,7 @@
   }
 
   .input-field:hover {
-    @apply bg-accent/70;
+    @apply bg-card/80;
   }
 
   .input-field-selected {

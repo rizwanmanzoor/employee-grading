@@ -2,7 +2,7 @@ import { CheckIcon } from "lucide-react";
 
 const Stepper = ({ steps, currentStep }) => {
   return (
-    <div className="md:sticky top-0 z-10 flex overflow-x-auto items-start justify-between gap-4 px-4 py-6 border rounded-2xl bg-card text-card-foreground">
+    <div className="md:sticky top-0 z-10 flex overflow-x-auto items-start justify-between gap-3 px-2 py-4 border rounded-2xl bg-card text-card-foreground">
       {steps.map((step, index) => {
         const isCompleted = index < currentStep;
         const isActive = index === currentStep;
@@ -22,25 +22,22 @@ const Stepper = ({ steps, currentStep }) => {
                   : "border-border text-muted-foreground group-hover:border-primary/60"
               }`}
             >
-              {/* without icon */}
-              {/* {isCompleted ? <CheckIcon size={18} /> : index + 1} */}
-              {/* with icon */}
-              { isCompleted ? 
-                <CheckIcon size={18} /> :
-                <span>{step.icon}</span>
-              }
-              {/* <span>{step.icon}</span> */}
+              {isCompleted ? <CheckIcon size={18} /> : <span>{step.icon}</span>}
             </div>
 
-            <span
-              className={`mt-2 text-sm font-medium transition-colors duration-300 ${
+            <p
+              className={`mt-2 text-sm text-center font-medium transition-colors duration-300 ${
                 isActive
                   ? "text-primary"
                   : "text-muted-foreground group-hover:text-primary/80"
               }`}
             >
-              {step.label}
-            </span>
+              <span className="block text-lg text-primary">
+                <strrong>{step.weight}</strrong>
+                <small className="pl-1">%</small>
+              </span>
+              <span className="block">{step.label}</span>
+            </p>
           </div>
         );
       })}

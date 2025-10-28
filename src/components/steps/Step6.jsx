@@ -19,7 +19,7 @@ const Step6 = () => {
         </div>
       </div>
 
-      <div className="mt-5 bg-accent/70 p-4 rounded-lg border border-primary/20">
+      <div className="mt-5 max-w-3xl bg-accent/70 p-4 rounded-lg border border-primary/20">
         <p className="text-sm text-primary">
           <span className="font-medium">Note:</span> Internal experience
           contributes to external experience calculations at 0.5 years per year
@@ -30,7 +30,7 @@ const Step6 = () => {
       <div className="mt-5 mb-7">
         <RadioGroup
           defaultValue="option-none"
-          className="grid grid-cols-1 md:grid-cols-2 gap-4"
+          className="grid grid-cols-1 gap-4 md:max-w-xl"
         >
           <div className="input-field">
             <Label htmlFor="option-none">

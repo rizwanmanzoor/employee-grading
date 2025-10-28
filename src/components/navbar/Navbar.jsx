@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { ModeToggle } from "../mode-toggle";
 import { Link } from "react-router-dom";
+
 import { Button } from "../ui/button";
+import { ModeToggle } from "../mode-toggle";
+import LanguageToggle from "../languageToggle/LanguageToggle";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -11,14 +13,7 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto flex items-center justify-between p-4">
         {/* logo */}
         <Link to={"/home"} className="flex items-center gap-3">
-          {/* <img
-            src="./favicon.svg"
-            className="h-8"
-            alt="Employee Grading Logo"
-          /> */}
-          <span className="text-lg md:text-2xl font-bold">
-            Employee Grading
-          </span>
+          <img src="./logo.webp" className="h-4" alt="NOX Group" />
         </Link>
 
         <div className="md:flex md:items-center md:justify-between md:gap-12">
@@ -62,8 +57,10 @@ const Navbar = () => {
 
           {/* right side theme toggle */}
           <div className="flex items-center gap-2 md:gap-8">
-            {/* Theme toggle (always visible) */}
-            <ModeToggle />
+            <div className="flex gap-1">
+              <ModeToggle />
+              <LanguageToggle />
+            </div>
 
             <Link to={"/"} className="hidden md:block">
               <Button className="cursor-pointer">
@@ -117,7 +114,7 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile menu (full width dropdown) */}
+      {/* Mobile menu */}
       <div
         className={`md:hidden absolute left-0 w-full bg-background border-t border-border transition-all duration-300 ease-in-out 
           ${

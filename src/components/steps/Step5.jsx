@@ -20,7 +20,7 @@ const Step5 = () => {
       <div className="mt-5 mb-7">
         <RadioGroup
           defaultValue="option-none"
-          className="grid grid-cols-1 md:grid-cols-2 gap-4"
+          className="grid grid-cols-1 gap-4 md:max-w-xl"
         >
           <div className="input-field">
             <Label htmlFor="option-none">

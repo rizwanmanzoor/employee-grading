@@ -22,7 +22,7 @@ const Step1 = () => {
       <div className="mt-5 mb-7">
         <RadioGroup
           defaultValue="option-basic"
-          className="grid grid-cols-1 md:grid-cols-2 gap-4"
+          className="grid grid-cols-1 gap-4 md:max-w-xl"
         >
           <div className="input-field">
             <label htmlFor="option-basic">
@@ -57,7 +57,7 @@ const Step1 = () => {
         </RadioGroup>
       </div>
 
-      <div className="flex gap-6 flex-wrap">
+      <div className="flex flex-col items-end gap-4 flex-wrap">
         <SelectVerifiedGroup />
         <SelectRelevantGroup />
       </div>

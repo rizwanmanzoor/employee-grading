@@ -1,8 +1,8 @@
-import { AwardIcon } from 'lucide-react';
+import { AwardIcon } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import SelectVerifiedGroup from '../selectVerifiedGroup/SelectVerifiedGroup';
-import SelectRelevantGroup from '../selectRelevantGroup/SelectRelevantGroup';
+import SelectVerifiedGroup from "../selectVerifiedGroup/SelectVerifiedGroup";
+import SelectRelevantGroup from "../selectRelevantGroup/SelectRelevantGroup";
 
 const Step2 = () => {
   return (
@@ -20,11 +20,14 @@ const Step2 = () => {
       </div>
 
       <div className="mt-5 mb-7">
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4">
+        <div
+          // className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4"
+          className="grid grid-cols-1 md:grid-cols-1 gap-4 md:max-w-xl"
+        >
           <div className="border-2 rounded-xl p-5">
             <div className="flex flex-col gap-2 mb-3">
               <h3 className="text-xl font-bold">Low</h3>
-              <p className="text-sm text-gray-600">
+              <p className="text-lg text-gray-600">
                 Short courses (1 day - 2 weeks) <br />
                 <small>Examples: Excel, PowerPoint, Word, PBI</small>
               </p>
@@ -56,7 +59,7 @@ const Step2 = () => {
           <div className="border-2 rounded-xl p-5">
             <div className="flex flex-col gap-2 mb-3">
               <h3 className="text-xl font-bold">Medium</h3>
-              <p className="text-sm text-gray-600">
+              <p className="text-lg text-gray-600">
                 Certificates (2 weeks - 6 months) <br />
                 <small>
                   Examples: Digital marketing, Project management, Cybersecurity
@@ -90,7 +93,7 @@ const Step2 = () => {
           <div className="border-2 rounded-xl p-5">
             <div className="flex flex-col gap-2 mb-3">
               <h3 className="text-xl font-bold">High</h3>
-              <p className="text-sm text-gray-600">
+              <p className="text-lg text-gray-600">
                 Long-term certifications <br />
                 <small>Examples: CPA, CA, CFA</small>
               </p>
@@ -121,12 +124,12 @@ const Step2 = () => {
         </div>
       </div>
 
-      <div className="flex gap-6 flex-wrap">
+      <div className="flex flex-col items-end gap-4 flex-wrap">
         <SelectVerifiedGroup />
         <SelectRelevantGroup />
       </div>
     </>
   );
-}
+};
 
-export default Step2
+export default Step2;

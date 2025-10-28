@@ -6,15 +6,15 @@ const SelectVerifiedGroup = () => {
   const [verifiedSelected, setVerifiedSelected] = useState("");
 
   const optionsVerified = [
-    { id: "verified", label: "Verified" },
-    { id: "unverified", label: "Unverified" },
+    { id: "verified", label: "Verified", weight: "100%" },
+    { id: "unverified", label: "Unverified", weight: "25%" },
   ];
 
   const handleVerifiedSelect = (id) => {
     setVerifiedSelected(id);
   };
   return (
-    <div className="border rounded-2xl shadow-sm inline-flex flex-wrap gap-6 py-2 px-4">
+    <div className="border-2 rounded-xl inline-flex flex-wrap gap-10 py-4 px-8">
       {optionsVerified.map((option) => (
         <div key={option.id} className="flex items-center gap-3">
           <Checkbox
@@ -24,7 +24,10 @@ const SelectVerifiedGroup = () => {
               if (checked) handleVerifiedSelect(option.id);
             }}
           />
-          <Label htmlFor={option.id}>{option.label}</Label>
+          <Label htmlFor={option.id}>
+            <span>{option.label}</span>
+            <small className="ml-[-7px]">({option.weight})</small>
+          </Label>
         </div>
       ))}
     </div>

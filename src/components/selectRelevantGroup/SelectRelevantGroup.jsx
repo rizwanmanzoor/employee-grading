@@ -6,8 +6,8 @@ const SelectRelevantGroup = () => {
   const [relevantSelected, setRelevantSelected] = useState("");
 
   const optionsRelevant = [
-    { id: "relevant", label: "Relevant" },
-    { id: "irrelevant", label: "Irrelevant" },
+    { id: "relevant", label: "Relevant", weight: "100%" },
+    { id: "irrelevant", label: "Irrelevant", weight: "20%" },
   ];
 
   const handleRelevantSelect = (id) => {
@@ -15,7 +15,7 @@ const SelectRelevantGroup = () => {
   };
 
   return (
-    <div className="border rounded-2xl shadow-sm inline-flex flex-wrap gap-6 py-2 px-4">
+    <div className="border-2 rounded-xl inline-flex flex-wrap gap-10 py-4 px-8">
       {optionsRelevant.map((option) => (
         <div key={option.id} className="flex items-center gap-3">
           <Checkbox
@@ -25,7 +25,10 @@ const SelectRelevantGroup = () => {
               if (checked) handleRelevantSelect(option.id);
             }}
           />
-          <Label htmlFor={option.id}>{option.label}</Label>
+          <Label htmlFor={option.id}>
+            <span>{option.label}</span>
+            <small className="ml-[-7px]">({option.weight})</small>
+          </Label>
         </div>
       ))}
     </div>

@@ -46,7 +46,7 @@ const StepperForm = () => {
 
       {/* Step Content */}
       <ScrollArea className="w-full overflow-hidden">
-        <div className="p-6 my-4 border rounded-2xl shadow-sm md:h-[calc(100vh-42vh)] overflow-y-auto custom-scroll">
+        <div className="p-6 my-4 border rounded-2xl shadow-sm md:h-[calc(100vh-45vh)] overflow-y-auto custom-scroll">
           {steps[currentStep].content}
         </div>
       </ScrollArea>
@@ -64,13 +64,10 @@ const StepperForm = () => {
 
         {isLastStep ? (
           <Button className={"px-6 py-2"} onClick={handleNext}>
-            <span>{ButtonLabels.NEXT}</span>
+            <span>{ButtonLabels.SUBMIT}</span>
           </Button>
         ) : (
-          <Button
-            className={"px-6 py-2"}
-            onClick={handleSubmit}
-          >
+          <Button className={"px-6 py-2"} onClick={handleSubmit}>
             <span>{ButtonLabels.SUBMIT}</span>
           </Button>
         )}

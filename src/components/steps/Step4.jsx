@@ -57,15 +57,15 @@ const Step4 = () => {
       <div className="mt-5 mb-7">
         <RadioGroup defaultValue="0" className="w-full">
           <Table className="relative">
-            <TableHeader className="sticky top-0">
+            <TableHeader className="text-lg">
               <TableRow>
-                <TableHead>Management Experience (Years)</TableHead>
+                <TableHead>Management Experience <br />(Years)</TableHead>
                 <TableHead>Grade</TableHead>
-                <TableHead className="text-right">Select</TableHead>
+                <TableHead className="text-right pr-5">Select</TableHead>
               </TableRow>
             </TableHeader>
 
-            <TableBody>
+            <TableBody className="text-md">
               {experiences.map((experience) => (
                 <TableRow key={experience.experience}>
                   <TableCell className="font-medium">
@@ -73,12 +73,13 @@ const Step4 = () => {
                   </TableCell>
                   <TableCell>{experience.grade}</TableCell>
                   <TableCell className="text-right">
-                    <div className="radio-field inline-flex">
+                    <div className="radio-field p-2 border-0 pr-5 inline-flex justify-center text-center">
                       <RadioGroupItem
+                        className="m-0"
                         value={experience.experience}
                         id={`exp-${experience.experience}`}
                       />
-                      <Label htmlFor={`exp-${experience.experience}`}></Label>
+                      <Label className="p-0" htmlFor={`exp-${experience.experience}`}></Label>
                     </div>
                   </TableCell>
                 </TableRow>
@@ -88,7 +89,7 @@ const Step4 = () => {
         </RadioGroup>
       </div>
 
-      <div className="flex gap-6 flex-wrap">
+      <div className="flex flex-col items-end gap-4 flex-wrap">
         <SelectVerifiedGroup />
         <SelectRelevantGroup />
       </div>

@@ -1,12 +1,15 @@
-import RootLayout from "@/layouts/RootLayout";
-import HomePage from "@/pages/HomePage";
-import HowToUsePage from "@/pages/HowToUsePage";
-import LoginPage from "@/pages/LoginPage";
-import NotFound from "@/pages/NotFound";
-import ProgressPage from "@/pages/ProgressPage";
-import ResultPage from "@/pages/ResultPage";
-import StepperForm from "@/pages/StepperForm";
 import { Route, Routes } from "react-router-dom";
+
+import RootLayout from "@/layouts/RootLayout";
+
+import HomePage from "@/pages/HomePage";
+import NotFound from "@/pages/NotFound";
+import LoginPage from "@/pages/LoginPage";
+import ResultPage from "@/pages/ResultPage";
+import ComingSoon from "@/pages/ComingSoon";
+import StepperForm from "@/pages/StepperForm";
+import ProgressPage from "@/pages/ProgressPage";
+import HowToUsePage from "@/pages/HowToUsePage";
 
 const AppRoutes = () => {
   return (
@@ -22,6 +25,7 @@ const AppRoutes = () => {
       </Route>
 
       <Route path="*" element={<NotFound />} />
+      <Route path="/comingsoon" element={<ComingSoon />} />
     </Routes>
   );
 };
