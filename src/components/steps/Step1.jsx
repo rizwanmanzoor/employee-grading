@@ -106,7 +106,7 @@ const Step1 = () => {
         </div>
       </div>
 
-      <div className="flex flex-col items-end gap-4 flex-wrap">
+      <div className="max-w-xl flex flex-col gap-4">
         <SelectVerifiedGroup />
         <SelectRelevantGroup />
       </div>

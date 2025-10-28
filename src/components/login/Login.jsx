@@ -4,7 +4,8 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Eye, EyeOff, User } from "lucide-react";
-import loginImage from "@/assets/login-bg.webp";
+import loginImage from "@/assets/employee-performance.webp";
+import logo from "@/assets/logo.webp";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -24,13 +25,13 @@ const Login = () => {
           <div className="md:max-w-[570px] w-full h-full">
             <div
               // className="md:aspect-7/10 bg-card relative before:absolute before:inset-0 before:bg-black/40 overflow-hidden w-full h-full"
-              className="md:aspect-7/10 bg-card relative overflow-hidden w-full h-full"
+              className="md:aspect-square bg-card relative overflow-hidden w-full h-full"
             >
               <img
                 // src="https://readymadeui.com/team-image.webp"
                 src={loginImage}
                 // className="w-full h-full object-cover"
-                className="w-full h-full object-contain"
+                className="w-full h-full object-contain object-center mt-7"
                 alt="login img"
               />
             </div>
@@ -39,6 +40,7 @@ const Login = () => {
           {/* === RIGHT FORM SECTION === */}
           <div className="w-full h-full px-8 lg:px-10 py-8 max-md:-order-1">
             <div className="flex flex-col items-center gap-1 text-center">
+              <img src={logo} alt="logo" width={"180"} className="mb-3" />
               <h1 className="text-2xl font-bold">Login to your account</h1>
               <p className="text-muted-foreground text-sm text-balance">
                 Enter your credentials to login to your account
@@ -116,17 +118,6 @@ const Login = () => {
                   Sign in
                 </Button>
               </Link>
-
-              <div className="mt-5">
-                <h3 className="text-lg mb-1 font-semibold">Disclaimer:</h3>
-                <p className="text-sm">
-                  I acknowledge the confidentiality of the information and
-                  undertake full responsibility for the accuracy of the
-                  information provided. In case of false / tempered / modified /
-                  forged information strict action will be taken including the
-                  termination and / or suspension of the employees.
-                </p>
-              </div>
             </form>
           </div>
         </div>

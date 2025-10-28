@@ -16,41 +16,39 @@ import Step6 from "./Step6";
 import Step7 from "./Step7";
 
 export const steps = [
-  { label: "Education", icon: <BookOpen />, weight: "20", content: <Step1 /> },
+  { label: "Education", icon: <BookOpen />, weight: "20%", content: <Step1 /> },
   {
     label: "Certification",
     icon: <AwardIcon />,
-    weight: "20",
+    weight: "20%",
     content: <Step2 />,
   },
   {
     label: "External Experience - Excl Management",
     icon: <Briefcase />,
-    weight: "20",
+    weight: "20%",
     content: <Step3 />,
   },
   {
     label: "External Experience - Management",
     icon: <UserCheck />,
-    weight: "25",
+    weight: "25%",
     content: <Step4 />,
   },
   {
     label: "English",
     icon: <Globe />,
-    weight: "15",
+    weight: "15%",
     content: <Step5 />,
   },
   {
     label: "Internal Experience - Excl Management",
     icon: <Layers />,
-    weight: "0",
     content: <Step6 />,
   },
   {
     label: "Internal Experience - Management",
     icon: <Users />,
-    weight: "0",
     content: <Step7 />,
   },
 ];

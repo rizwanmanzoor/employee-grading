@@ -32,9 +32,11 @@ const Stepper = ({ steps, currentStep }) => {
                   : "text-muted-foreground group-hover:text-primary/80"
               }`}
             >
-              <span className="block text-lg text-primary">
-                <strrong>{step.weight}</strrong>
-                <small className="pl-1">%</small>
+              <span className="block text-lg text-primary min-h-6">
+                <strong>
+                  {step.weight}
+                </strong>
+                {/* <small className="pl-1"></small> */}
               </span>
               <span className="block">{step.label}</span>
             </p>

@@ -13,37 +13,37 @@ import {
 import SelectVerifiedGroup from "../selectVerifiedGroup/SelectVerifiedGroup";
 
 const experiences = [
-  { experience: "None", grade: "0" },
-  { experience: "1", grade: "0.5" },
-  { experience: "2", grade: "1" },
-  { experience: "3", grade: "1.5" },
-  { experience: "4", grade: "2" },
-  { experience: "5", grade: "2.5" },
-  { experience: "6", grade: "3" },
-  { experience: "7", grade: "3.5" },
-  { experience: "8", grade: "4" },
-  { experience: "9", grade: "4.5" },
-  { experience: "10", grade: "5" },
-  { experience: "11", grade: "5.5" },
-  { experience: "12", grade: "6" },
-  { experience: "13", grade: "6.5" },
-  { experience: "14", grade: "7" },
-  { experience: "15", grade: "7.5" },
-  { experience: "16", grade: "8" },
-  { experience: "17", grade: "8.5" },
-  { experience: "18", grade: "9" },
-  { experience: "19", grade: "9.5" },
-  { experience: "20", grade: "10" },
-  { experience: "21", grade: "10.5" },
-  { experience: "22", grade: "11" },
-  { experience: "23", grade: "11.5" },
-  { experience: "24", grade: "12" },
-  { experience: "25", grade: "12.5" },
-  { experience: "26", grade: "13" },
-  { experience: "27", grade: "13.5" },
-  { experience: "28", grade: "14" },
-  { experience: "29", grade: "14.5" },
-  { experience: "30", grade: "15" },
+  { experience: "None"},
+  { experience: "1"},
+  { experience: "2"},
+  { experience: "3"},
+  { experience: "4"},
+  { experience: "5"},
+  { experience: "6"},
+  { experience: "7"},
+  { experience: "8"},
+  { experience: "9"},
+  { experience: "10"},
+  { experience: "11"},
+  { experience: "12"},
+  { experience: "13"},
+  { experience: "14"},
+  { experience: "15"},
+  { experience: "16"},
+  { experience: "17"},
+  { experience: "18"},
+  { experience: "19"},
+  { experience: "20"},
+  { experience: "21"},
+  { experience: "22"},
+  { experience: "23"},
+  { experience: "24"},
+  { experience: "25"},
+  { experience: "26"},
+  { experience: "27"},
+  { experience: "28"},
+  { experience: "29"},
+  { experience: "30"},
 ];
 
 const Step3 = () => {
@@ -77,8 +77,7 @@ const Step3 = () => {
             <TableHeader className="text-lg">
               <TableRow>
                 <TableHead>Experience (Years)</TableHead>
-                <TableHead>Grade</TableHead>
-                <TableHead className="text-right pr-5">Select</TableHead>
+                <TableHead className="text-right pr-10">Select</TableHead>
               </TableRow>
             </TableHeader>
 
@@ -88,15 +87,17 @@ const Step3 = () => {
                   <TableCell className="font-medium">
                     {experience.experience}
                   </TableCell>
-                  <TableCell>{experience.grade}</TableCell>
                   <TableCell className="text-right">
-                    <div className="radio-field p-2 border-0 pr-5 inline-flex justify-center text-center">
+                    <div className="radio-field p-2 border-0 pr-10 inline-flex justify-center text-center">
                       <RadioGroupItem
                         className="m-0"
                         value={experience.experience}
                         id={`exp-${experience.experience}`}
                       />
-                      <Label className="p-0" htmlFor={`exp-${experience.experience}`}></Label>
+                      <Label
+                        className="p-0"
+                        htmlFor={`exp-${experience.experience}`}
+                      ></Label>
                     </div>
                   </TableCell>
                 </TableRow>
@@ -106,7 +107,7 @@ const Step3 = () => {
         </RadioGroup>
       </div>
 
-      <div className="flex flex-col items-end gap-4 flex-wrap">
+      <div className="max-w-xl flex flex-col gap-4">
         <SelectVerifiedGroup />
       </div>
     </>

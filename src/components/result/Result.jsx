@@ -73,8 +73,16 @@ const Result = () => {
         <div className="p-8 flex flex-col md:flex-row items-center md:items-baseline justify-between gap-8">
           <div className="flex flex-col items-center space-y-1.5 p-6">
             <h3 className="font-semibold tracking-tight flex items-center gap-2 text-xl mb-5">
-              <Trophy className="w-5 h-5" />
-              Final Grades
+              {/* <Trophy className="w-5 h-5" /> */}
+              Grades
+            </h3>
+            <div className="inline-block max-w-max px-8 py-4 rounded-2xl shadow-lg bg-card">
+              <h2 className="text-4xl font-bold text-primary">4.0</h2>
+            </div>
+
+            <h3 className="font-semibold tracking-tight flex items-center gap-2 text-xl mt-7 mb-5">
+              {/* <Trophy className="w-5 h-5" /> */}
+              Score
             </h3>
             <div className="inline-block max-w-max px-8 py-4 rounded-2xl shadow-lg bg-card">
               <h2 className="text-4xl font-bold text-primary">4.0</h2>
@@ -137,7 +145,10 @@ const Result = () => {
 
       <div className="flex flex-col sm:flex-row gap-4">
         <Link to={"/grading"}>
-          <Button size="lg" className="w-full sm:w-auto cursor-pointer text-primary-foreground">
+          <Button
+            size="lg"
+            className="w-full sm:w-auto cursor-pointer text-primary-foreground"
+          >
             <Repeat className="w-5 h-5" />
             Try Again
           </Button>
