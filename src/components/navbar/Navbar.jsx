@@ -19,14 +19,12 @@ const Navbar = () => {
           <img
             src={logo}
             alt="logo"
-            width={"180"}
-            className="h-4 block dark:hidden"
+            className="h-4 max-w-max block dark:hidden"
           />
           <img
             src={whiteLogo}
             alt="logo"
-            width={"180"}
-            className="h-4 hidden dark:block"
+            className="h-4 max-w-max hidden dark:block"
           />
         </Link>
 
@@ -34,14 +32,6 @@ const Navbar = () => {
           {/* Desktop Menu */}
           <div className="hidden md:block">
             <ul className="flex items-center gap-8 font-medium">
-              <li>
-                <Link
-                  to="/grading"
-                  className="text-primary hover:text-primary/80 transition-colors"
-                >
-                  Start Grading
-                </Link>
-              </li>
               <li>
                 <Link
                   to="/result"
