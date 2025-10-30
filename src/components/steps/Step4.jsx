@@ -49,8 +49,10 @@ const Step4 = () => {
 
       <div className="mt-5 bg-accent/70 p-4 rounded-lg border border-primary/20">
         <p className="text-sm text-primary">
-          <span className="font-medium">Note:</span> Internal experience
-          contributes to external experience at 0.5 years per year of service.
+          <span className="font-bold">Note: </span>
+          For external experience gained within the Kingdom of Saudi Arabia,
+          please attach the Mudad Wa Ujoor Certificate issued by the General
+          Organization for Social Insurance (GOSI).
         </p>
       </div>
 

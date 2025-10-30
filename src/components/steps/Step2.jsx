@@ -115,10 +115,6 @@ const Step2 = () => {
                 <RadioGroupItem value="option-2" id="option-2" />
                 <Label htmlFor="option-2">2</Label>
               </div>
-              <div className="radio-field">
-                <RadioGroupItem value="option-3" id="option-3" />
-                <Label htmlFor="option-3">3</Label>
-              </div>
             </RadioGroup>
           </div>
         </div>

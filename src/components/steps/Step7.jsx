@@ -20,7 +20,7 @@ const Step7 = () => {
 
       <div className="mt-5 max-w-3xl bg-accent/70 p-4 rounded-lg border border-primary/20">
         <p className="text-sm text-primary">
-          <span className="font-medium">Note:</span> Internal management
+          <span className="font-bold">Note:</span> Internal management
           experience is weighted at 25% of your total score.
         </p>
       </div>
