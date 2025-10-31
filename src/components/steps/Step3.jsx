@@ -11,6 +11,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import SelectVerifiedGroup from "../selectVerifiedGroup/SelectVerifiedGroup";
+import UploadFile from "../uploadFile/UploadFile";
 
 const experiences = [
   { experience: "None"},
@@ -83,7 +84,7 @@ const Step3 = () => {
               </TableRow>
             </TableHeader>
 
-            <TableBody className="text-md">
+            <TableBody className="text-md border">
               {experiences.map((experience) => (
                 <TableRow key={experience.experience}>
                   <TableCell className="font-medium">
@@ -109,7 +110,9 @@ const Step3 = () => {
         </RadioGroup>
       </div>
 
-      <div className="max-w-xl flex flex-col gap-4">
+      <UploadFile />
+
+      <div className="max-w-xl flex flex-col gap-4 mt-5">
         <SelectVerifiedGroup />
       </div>
     </>

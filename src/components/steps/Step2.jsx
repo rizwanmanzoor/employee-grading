@@ -3,6 +3,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import SelectVerifiedGroup from "../selectVerifiedGroup/SelectVerifiedGroup";
 import SelectRelevantGroup from "../selectRelevantGroup/SelectRelevantGroup";
+import UploadFile from "../uploadFile/UploadFile";
 
 const Step2 = () => {
   return (
@@ -120,7 +121,9 @@ const Step2 = () => {
         </div>
       </div>
 
-      <div className="max-w-xl flex flex-col gap-4">
+      <UploadFile />
+
+      <div className="max-w-xl flex flex-col gap-4 mt-5">
         <SelectVerifiedGroup />
         <SelectRelevantGroup />
       </div>
