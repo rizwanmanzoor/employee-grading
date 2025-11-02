@@ -35,13 +35,9 @@ const Step2 = () => {
             </div>
 
             <RadioGroup
-              defaultValue="option-0"
+              defaultValue="option-1"
               className="grid grid-cols-[repeat(auto-fit,minmax(auto,50px))] gap-4"
             >
-              <div className="radio-field">
-                <RadioGroupItem value="option-0" id="option-0" />
-                <Label htmlFor="option-0">0</Label>
-              </div>
               <div className="radio-field">
                 <RadioGroupItem value="option-1" id="option-1" />
                 <Label htmlFor="option-1">1</Label>
@@ -69,13 +65,9 @@ const Step2 = () => {
             </div>
 
             <RadioGroup
-              defaultValue="option-0"
+              defaultValue="option-2"
               className="grid grid-cols-[repeat(auto-fit,minmax(auto,50px))] gap-4"
             >
-              <div className="radio-field">
-                <RadioGroupItem value="option-0" id="option-0" />
-                <Label htmlFor="option-0">0</Label>
-              </div>
               <div className="radio-field">
                 <RadioGroupItem value="option-1" id="option-1" />
                 <Label htmlFor="option-1">1</Label>
@@ -101,13 +93,9 @@ const Step2 = () => {
             </div>
 
             <RadioGroup
-              defaultValue="option-0"
+              defaultValue="option-1"
               className="grid grid-cols-[repeat(auto-fit,minmax(auto,50px))] gap-4"
             >
-              <div className="radio-field">
-                <RadioGroupItem value="option-0" id="option-0" />
-                <Label htmlFor="option-0">0</Label>
-              </div>
               <div className="radio-field">
                 <RadioGroupItem value="option-1" id="option-1" />
                 <Label htmlFor="option-1">1</Label>
