@@ -145,7 +145,7 @@ class EmployeeController extends Controller
             ], 404);
         }
 
-        // latest activity using created_at or id
+
         $latestActivity = $employee->activities()->orderBy('id', 'DESC')->first();
 
         if (!$latestActivity) {
@@ -160,7 +160,7 @@ class EmployeeController extends Controller
             ]);
         }
 
-        // now fetch documents that belong to that activity id
+
         $documents = EmployeeDocument::where('employee_activity_id', $latestActivity->id)
             ->orderBy('id', 'DESC')
             ->get()
@@ -176,5 +176,20 @@ class EmployeeController extends Controller
             'data' => $data,
             'message' => 'Record found'
         ]);
+    }
+
+    // ✅ 5. Admin - employee history list
+    public function history() // for admin
+    {
+        $history = Employee::select('id', 'name', 'designation')
+            ->withCount('activities') // ← counts employee_activities
+            ->orderBy('id', 'DESC')
+            ->get();
+
+        return response()->json([
+            'success' => true,
+            'data' => $history,
+            'message' => 'Record found'
+        ], 200);
     }
 }
