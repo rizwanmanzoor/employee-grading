@@ -31,7 +31,7 @@ const Login = () => {
               <img
                 src={loginImage}
                 // src={loginImage}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover "
                 // className="w-full h-full object-contain object-center mt-7"
                 alt="login img"
               />
