@@ -163,13 +163,13 @@ class EmployeeController extends Controller
         // now fetch documents that belong to that activity id
         $documents = EmployeeDocument::where('employee_activity_id', $latestActivity->id)
             ->orderBy('id', 'DESC')
-            ->get();
-        $groupedDocuments = $documents->groupBy('submission_type');
+            ->get()
+            ->groupBy('submission_type');
 
         $data = [
             'employee' => $employee,
             // 'latest_activity_id' => $latestActivity->id,
-            'documents' => $groupedDocuments
+            'documents' => $documents
         ];
         return response()->json([
             'success' => true,
