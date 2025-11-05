@@ -1,4 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { loginUser } from "@/features/auth/authSlice";
 import { Link } from "react-router-dom";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -10,10 +13,27 @@ import whiteLogo from "@/assets/nox-white.webp";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { loading, error, token } = useSelector((state) => state.auth);
 
   const togglePassword = () => {
     setShowPassword((prev) => !prev);
   };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(loginUser({ username, password }));
+  };
+
+  useEffect(() => {
+    if (token) {
+      navigate("/home");
+    }
+  }, [token, navigate]);
 
   return (
     <div
@@ -58,7 +78,7 @@ const Login = () => {
                 Enter your credentials to login to your account
               </p>
             </div>
-            <form className="space-y-6 mt-7 md:max-w-md w-full mx-auto">
+            <form  onSubmit={handleSubmit} className="space-y-6 mt-7 md:max-w-md w-full mx-auto">
               <div>
                 <Label
                   htmlFor="username"
@@ -80,6 +100,8 @@ const Login = () => {
                       borderColor: "var(--border)",
                       color: "var(--foreground)",
                     }}
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
                   />
                   <User
                     className="w-4 h-4 absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground"
@@ -109,6 +131,8 @@ const Login = () => {
                       borderColor: "var(--border)",
                       color: "var(--foreground)",
                     }}
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
 
                   <button
@@ -124,12 +148,18 @@ const Login = () => {
                   </button>
                 </div>
               </div>
-
-              <Link to={"/home"}>
-                <Button type="submit" className="w-full mt-2 cursor-pointer">
-                  Sign in
-                </Button>
-              </Link>
+                {/* ERROR */}
+              {error && (
+                <p className="text-red-500 text-sm text-center">{error}</p>
+              )}
+              {/* SUBMIT */}
+              <Button
+                type="submit"
+                disabled={loading}
+                className="w-full mt-2 cursor-pointer"
+              >
+                {loading ? "Signing in..." : "Sign in"}
+              </Button>
             </form>
           </div>
         </div>

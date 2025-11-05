@@ -10,22 +10,28 @@ import ComingSoon from "@/pages/ComingSoon";
 import StepperForm from "@/pages/StepperForm";
 import ProgressPage from "@/pages/ProgressPage";
 import HowToUsePage from "@/pages/HowToUsePage";
+import ProtectedRoute from "@/routes/ProtectedRoute";
 
 const AppRoutes = () => {
   return (
     <Routes>
+      {/* Public Routes */}
       <Route path="/" element={<LoginPage />} />
+      <Route path="/comingsoon" element={<ComingSoon />} />
 
-      <Route element={<RootLayout />}>
-        <Route path="/home" element={<HomePage />} />
-        <Route path="/grading" element={<StepperForm />} />
-        <Route path="/result" element={<ResultPage />} />
-        <Route path="/progress" element={<ProgressPage />} />
-        <Route path="/how-to-use" element={<HowToUsePage />} />
+      {/* Protected Routes */}
+      <Route element={<ProtectedRoute />}>
+        <Route element={<RootLayout />}>
+          <Route path="/home" element={<HomePage />} />
+          <Route path="/grading" element={<StepperForm />} />
+          <Route path="/result" element={<ResultPage />} />
+          <Route path="/progress" element={<ProgressPage />} />
+          <Route path="/how-to-use" element={<HowToUsePage />} />
+        </Route>
       </Route>
 
+      {/* Fallback */}
       <Route path="*" element={<NotFound />} />
-      <Route path="/comingsoon" element={<ComingSoon />} />
     </Routes>
   );
 };

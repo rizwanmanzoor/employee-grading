@@ -11,11 +11,15 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'email'    => 'required|email',
+            'username'    => 'required',
             'password' => 'required'
         ]);
 
-        if (!Auth::attempt($request->only('email', 'password'))) {
+        // Check if input is email or username
+        $loginType = filter_var($request->username, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+
+
+        if (!Auth::attempt([$loginType => $request->username, 'password' => $request->password])) {
             return response()->json([
                 'status' => false,
                 'message' => 'Invalid credentials'
