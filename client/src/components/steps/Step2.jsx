@@ -1,3 +1,6 @@
+import React, { useState,useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { saveStepData } from "@/features/stepper/stepperSlice";
 import { AwardIcon } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -6,6 +9,24 @@ import SelectRelevantGroup from "../selectRelevantGroup/SelectRelevantGroup";
 import UploadFile from "../uploadFile/UploadFile";
 
 const Step2 = () => {
+  const dispatch = useDispatch();
+  // ✅ Store selected values for each category
+  const [certLevels, setCertLevels] = useState({
+    low: "1",
+    medium: "1",
+    high: "1",
+  });
+
+  const handleChange = (category, value) => {
+    const updated = { ...certLevels, [category]: value };
+    setCertLevels(updated);
+    dispatch(saveStepData({ step: "step2", data: updated }));
+  };
+
+  useEffect(() => {
+      dispatch(saveStepData({ step: "step2", data: certLevels }));
+    }, []);
+
   return (
     <>
       <div className="flex items-center gap-3 pb-4 border-b">
@@ -35,21 +56,17 @@ const Step2 = () => {
             </div>
 
             <RadioGroup
+              value={certLevels.low}
+              onValueChange={(val) => handleChange("low", val)}
               defaultValue="option-1"
               className="grid grid-cols-[repeat(auto-fit,minmax(auto,50px))] gap-4"
             >
-              <div className="radio-field">
-                <RadioGroupItem value="option-1" id="option-1" />
-                <Label htmlFor="option-1">1</Label>
-              </div>
-              <div className="radio-field">
-                <RadioGroupItem value="option-2" id="option-2" />
-                <Label htmlFor="option-2">2</Label>
-              </div>
-              <div className="radio-field">
-                <RadioGroupItem value="option-3" id="option-3" />
-                <Label htmlFor="option-3">3</Label>
-              </div>
+              {["1", "2", "3"].map((val, i) => (
+                <div key={val} className="radio-field">
+                  <RadioGroupItem value={val} id={`low-${val}`} />
+                  <Label htmlFor={`low-${val}`}>{val}</Label>
+                </div>
+              ))}
             </RadioGroup>
           </div>
 
@@ -65,21 +82,16 @@ const Step2 = () => {
             </div>
 
             <RadioGroup
-              defaultValue="option-2"
+              value={certLevels.medium}
+              onValueChange={(val) => handleChange("medium", val)}
               className="grid grid-cols-[repeat(auto-fit,minmax(auto,50px))] gap-4"
             >
-              <div className="radio-field">
-                <RadioGroupItem value="option-1" id="option-1" />
-                <Label htmlFor="option-1">1</Label>
-              </div>
-              <div className="radio-field">
-                <RadioGroupItem value="option-2" id="option-2" />
-                <Label htmlFor="option-2">2</Label>
-              </div>
-              <div className="radio-field">
-                <RadioGroupItem value="option-3" id="option-3" />
-                <Label htmlFor="option-3">3</Label>
-              </div>
+              {["1", "2", "3"].map((val, i) => (
+                <div key={val} className="radio-field">
+                  <RadioGroupItem value={val} id={`medium-${val}`} />
+                  <Label htmlFor={`medium-${val}`}>{val}</Label>
+                </div>
+              ))}
             </RadioGroup>
           </div>
 
@@ -93,27 +105,26 @@ const Step2 = () => {
             </div>
 
             <RadioGroup
-              defaultValue="option-1"
+              value={certLevels.high}
+              onValueChange={(val) => handleChange("high", val)}
               className="grid grid-cols-[repeat(auto-fit,minmax(auto,50px))] gap-4"
             >
-              <div className="radio-field">
-                <RadioGroupItem value="option-1" id="option-1" />
-                <Label htmlFor="option-1">1</Label>
-              </div>
-              <div className="radio-field">
-                <RadioGroupItem value="option-2" id="option-2" />
-                <Label htmlFor="option-2">2</Label>
-              </div>
+              {["1", "2"].map((val, i) => (
+                <div key={val} className="radio-field">
+                  <RadioGroupItem value={val} id={`high-${val}`} />
+                  <Label htmlFor={`high-${val}`}>{val}</Label>
+                </div>
+              ))}
             </RadioGroup>
           </div>
         </div>
       </div>
 
-      <UploadFile />
+      <UploadFile step="step2" />
 
       <div className="max-w-xl flex flex-col gap-4 mt-5">
-        <SelectVerifiedGroup />
-        <SelectRelevantGroup />
+        <SelectVerifiedGroup step="step2" />
+        <SelectRelevantGroup step="step2" />
       </div>
     </>
   );

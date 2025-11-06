@@ -1,11 +1,31 @@
+import React, { useState,useEffect } from "react";
+import { useDispatch,useSelector } from "react-redux";
 import { BookOpen } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import UploadFile from "../uploadFile/UploadFile";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import SelectVerifiedGroup from "../selectVerifiedGroup/SelectVerifiedGroup";
 import SelectRelevantGroup from "../selectRelevantGroup/SelectRelevantGroup";
+import { saveStepData } from "@/features/stepper/stepperSlice";
 
 const Step1 = () => {
+  const dispatch = useDispatch();
+
+  const savedEducation = useSelector((state) => state.stepper.stepData.step1?.education);
+
+  const [education, setEducation] = useState(savedEducation || "Basic");
+
+  const handleChange = (value) => {
+    setEducation(value);
+    dispatch(saveStepData({ step: "step1", data: { education: value } }));
+  };
+
+  // ✅ Save default value on first render
+  useEffect(() => {
+    dispatch(saveStepData({ step: "step1", data: { education: "Basic" } }));
+  }, []);
+
+
   return (
     <>
       <div className="flex items-center gap-3 pb-4 border-b">
@@ -22,47 +42,25 @@ const Step1 = () => {
 
       <div className="my-5">
         <RadioGroup
-          defaultValue="option-basic"
+          value={education}
+          onValueChange={handleChange}
           className="grid grid-cols-1 gap-4 md:max-w-xl"
         >
-          <div className="input-field">
-            <label htmlFor="option-basic">
-              <RadioGroupItem value="option-basic" id="option-basic" />
-              Basic
-            </label>
-          </div>
-          <div className="input-field">
-            <Label htmlFor="option-diploma">
-              <RadioGroupItem value="option-diploma" id="option-diploma" />
-              Diploma
-            </Label>
-          </div>
-          <div className="input-field">
-            <Label htmlFor="option-bachelors">
-              <RadioGroupItem value="option-bachelors" id="option-bachelors" />
-              Bachelors
-            </Label>
-          </div>
-          <div className="input-field">
-            <Label htmlFor="option-masters">
-              <RadioGroupItem value="option-masters" id="option-masters" />
-              Masters
-            </Label>
-          </div>
-          <div className="input-field">
-            <Label htmlFor="option-phd">
-              <RadioGroupItem value="option-phd" id="option-phd" />
-              Phd
-            </Label>
-          </div>
+           {["Basic", "Diploma", "Bachelors", "Masters", "Phd"].map((opt) => (
+            <div key={opt} className="input-field">
+              <Label>
+                <RadioGroupItem value={opt} /> {opt}
+              </Label>
+            </div>
+          ))}
         </RadioGroup>
       </div>
 
-      <UploadFile />
+      <UploadFile step="step1" />
 
       <div className="max-w-xl flex flex-col gap-4 mt-5">
-        <SelectVerifiedGroup />
-        <SelectRelevantGroup />
+        <SelectVerifiedGroup step="step1" />
+        <SelectRelevantGroup step="step1" />
       </div>
     </>
   );

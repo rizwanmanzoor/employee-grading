@@ -4,6 +4,9 @@ import { Button } from "@/components/ui/button";
 import { steps } from "../components/steps/Steps";
 import Stepper from "@/components/stepper/Stepper";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useDispatch, useSelector } from "react-redux";
+import { setCurrentStep, submitFinalForm } from "@/features/stepper/stepperSlice";
+
 import { useNavigate } from "react-router-dom";
 
 const ButtonLabels = {
@@ -13,31 +16,32 @@ const ButtonLabels = {
 };
 
 const StepperForm = () => {
-  const [currentStep, setCurrentStep] = useState(0);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
+
+  const { currentStep, stepData, loading } = useSelector((state) => state.stepper);
+
   const isFirstStep = currentStep === 0;
-  const isLastStep = currentStep < steps.length - 1;
+  const isLastStep = currentStep >= steps.length - 1;
 
   const handleNext = () => {
-    if (currentStep < steps.length) {
-      setCurrentStep(currentStep + 1);
-    }
+    dispatch(setCurrentStep(currentStep + 1));
   };
 
   const handleBack = () => {
-    if (currentStep > 0) {
-      setCurrentStep(currentStep - 1);
-    }
+    dispatch(setCurrentStep(currentStep - 1));
   };
 
-  const handleSubmit = () => {
-    toast.success("Form Submitted Successfully!");
-
-    setTimeout(() => {
+  const handleSubmit = async () => {
+    try {
+      await dispatch(submitFinalForm(stepData)).unwrap();
+      toast.success("Form Submitted Successfully!");
       navigate("/result");
-    }, 1000);
-  }
+    } catch (error) {
+      toast.error(error || "Submission failed!");
+    }
+  };
 
   return (
     <>
@@ -63,12 +67,16 @@ const StepperForm = () => {
         </Button>
 
         {isLastStep ? (
-          <Button className={"px-6 py-2"} onClick={handleNext}>
-            <span>{ButtonLabels.SUBMIT}</span>
+          <Button
+            className={"px-6 py-2"}
+            disabled={loading}
+            onClick={handleSubmit}
+          >
+            {loading ? "Submitting..." : ButtonLabels.SUBMIT}
           </Button>
         ) : (
-          <Button className={"px-6 py-2"} onClick={handleSubmit}>
-            <span>{ButtonLabels.SUBMIT}</span>
+          <Button className={"px-6 py-2"} onClick={handleNext}>
+            {ButtonLabels.SUBMIT}
           </Button>
         )}
       </div>

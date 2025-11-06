@@ -8,8 +8,26 @@ import LanguageToggle from "../languageToggle/LanguageToggle";
 import logo from "@/assets/logo.webp";
 import whiteLogo from "@/assets/nox-white.webp";
 
+import { useDispatch, useSelector } from "react-redux";
+
+import { useNavigate } from "react-router-dom";
+import { logoutUser } from "@/features/auth/authSlice";
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { loading } = useSelector((state) => state.auth);
+
+  const handleLogout = async () => {
+    try {
+      await dispatch(logoutUser()).unwrap(); // waits for thunk
+      navigate("/"); // redirect to login page
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
 
   return (
     <nav className="border-b border-border bg-background text-foreground transition-colors duration-300">
@@ -67,8 +85,8 @@ const Navbar = () => {
             </div>
 
             <Link to={"/"} className="hidden md:block">
-              <Button className="cursor-pointer">
-                <span>Logout</span>
+              <Button className="cursor-pointer" onClick={handleLogout} disabled={loading}>
+                 {loading ? <span>"Logging out..."</span> : <span>Logout</span>}
               </Button>
             </Link>
 

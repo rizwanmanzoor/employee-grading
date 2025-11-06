@@ -1,24 +1,49 @@
-import { useRef, useState } from "react";
+import { useRef, useState,useEffect  } from "react";
 import { Input } from "@/components/ui/input";
 import { UploadCloud, X } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { saveStepData } from "@/features/stepper/stepperSlice";
 
-const UploadFile = () => {
-  const [files, setFiles] = useState([]);
+const UploadFile = ({ step }) => {
+
+  const dispatch = useDispatch();
   const inputRef = useRef(null);
+
+
+  // Load existing files from Redux if present
+  const stepFiles = useSelector((state) => state.stepper[step]?.files || []);
+  const [files, setFiles] = useState(stepFiles);
+
+
+
+//   useEffect(() => {
+//   // Only update if stepFiles actually changed
+//   setFiles((prevFiles) => {
+//     if (JSON.stringify(prevFiles) !== JSON.stringify(stepFiles)) {
+//       return stepFiles;
+//     }
+//     return prevFiles;
+//   });
+// }, [stepFiles]);
+
 
   // === Handle file selection or drop ===
   const handleFiles = (selectedFiles) => {
-    const newFiles = Array.from(selectedFiles).map((file) => ({
-      file,
-      progress: 0,
-    }));
+  const newFiles = Array.from(selectedFiles).map((file) => ({
+    name: file.name,
+    size: file.size,
+    type: file.type,
+    progress: 0,
+  }));
 
-    setFiles((prev) => [...prev, ...newFiles]);
+  const updatedFiles = [...files, ...newFiles];
+  setFiles(updatedFiles);
 
-    // Simulate upload progress for each file
-    newFiles.forEach((fileObj) => simulateUpload(fileObj.file.name));
-  };
-
+  dispatch(saveStepData({ step, data: { files: updatedFiles } }));
+  
+  // Optional: simulateUpload ko local files array se handle karo
+  newFiles.forEach((fileObj) => simulateUpload(fileObj.name));
+};
   // === File input change ===
   const handleFileChange = (e) => {
     if (e.target.files.length > 0) {
@@ -51,19 +76,26 @@ const UploadFile = () => {
 
   // === Simulate file upload ===
   const simulateUpload = (fileName) => {
-    let progress = 0;
-    const interval = setInterval(() => {
-      progress += Math.floor(Math.random() * 10) + 5;
-      setFiles((prev) =>
-        prev.map((f) =>
-          f.file.name === fileName
-            ? { ...f, progress: Math.min(progress, 100) }
-            : f
-        )
-      );
+  let progress = 0;
+  const interval = setInterval(() => {
+    progress += Math.floor(Math.random() * 10) + 5;
 
-      if (progress >= 100) clearInterval(interval);
-    }, 400);
+    setFiles((prev) =>
+      prev.map((f) =>
+        f.name === fileName
+          ? { ...f, progress: Math.min(progress, 100) }
+          : f
+      )
+    );
+
+    if (progress >= 100) clearInterval(interval);
+  }, 400);
+};
+
+  const handleRemoveFile = (index) => {
+    const updatedFiles = files.filter((_, i) => i !== index);
+    setFiles(updatedFiles);
+    dispatch(saveStepData({ step, data: { files: updatedFiles } }));
   };
 
   return (
@@ -110,13 +142,13 @@ const UploadFile = () => {
           <Input
             ref={inputRef}
             type="file"
-            id="fileInput"
+            id={`fileInput-${step}`}
             multiple
             className="hidden"
             onChange={handleFileChange}
           />
           <label
-            htmlFor="fileInput"
+            htmlFor={`fileInput-${step}`}
             className="block px-6 py-2.5 rounded-md text-sm tracking-wider cursor-pointer font-semibold border-none outline-none transition-colors"
             style={{
               backgroundColor: "var(--muted)",
@@ -155,7 +187,7 @@ const UploadFile = () => {
                 className="text-sm font-medium truncate pr-3 flex-1"
                 style={{ color: "var(--muted-foreground)" }}
               >
-                {fileObj.file.name}
+                {fileObj.name}
               </p>
 
               <div className="flex gap-2 items-center">
@@ -174,9 +206,7 @@ const UploadFile = () => {
                     size={12}
                     className="cursor-pointer transition-colors"
                     style={{ color: "var(--muted-foreground)" }}
-                    onClick={() =>
-                      setFiles((prev) => prev.filter((_, i) => i !== index))
-                    }
+                    onClick={() => handleRemoveFile(index)}
                     onMouseEnter={(e) =>
                       (e.currentTarget.style.color = "var(--destructive)")
                     }
