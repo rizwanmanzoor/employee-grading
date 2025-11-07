@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector  } from "react-redux";
 import { saveStepData } from "@/features/stepper/stepperSlice";
 import { AwardIcon } from "lucide-react";
 import { Label } from "@/components/ui/label";
@@ -10,12 +10,15 @@ import UploadFile from "../uploadFile/UploadFile";
 
 const Step2 = () => {
   const dispatch = useDispatch();
-  // ✅ Store selected values for each category
-  const [certLevels, setCertLevels] = useState({
-    low: "1",
-    medium: "1",
-    high: "1",
-  });
+    // Fetch previously saved data from Redux
+  const savedCertLevels = useSelector((state) => state.stepper.stepData.step2);
+
+  // Initialize with saved data if exists, otherwise default
+  const [certLevels, setCertLevels] = useState(
+    savedCertLevels && Object.keys(savedCertLevels).length > 0
+      ? savedCertLevels
+      : { low: "1", medium: "1", high: "1" }
+  );
 
   const handleChange = (category, value) => {
     const updated = { ...certLevels, [category]: value };
@@ -23,9 +26,19 @@ const Step2 = () => {
     dispatch(saveStepData({ step: "step2", data: updated }));
   };
 
+   // Keep local state in sync if Redux updates (for example, on back navigation)
   useEffect(() => {
+    if (savedCertLevels && Object.keys(savedCertLevels).length > 0) {
+      setCertLevels(savedCertLevels);
+    }
+  }, [savedCertLevels]);
+
+  // Save default data only once (first mount)
+  useEffect(() => {
+    if (!savedCertLevels || Object.keys(savedCertLevels).length === 0) {
       dispatch(saveStepData({ step: "step2", data: certLevels }));
-    }, []);
+    }
+  }, []);
 
   return (
     <>

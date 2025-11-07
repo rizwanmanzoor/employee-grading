@@ -1,3 +1,6 @@
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { saveStepData } from "@/features/stepper/stepperSlice";
 import { UserCheck } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
@@ -34,6 +37,36 @@ const experiences = [
 ];
 
 const Step4 = () => {
+
+  const dispatch = useDispatch();
+
+  // Get saved data from Redux store
+  const savedExperience = useSelector((state) => state.stepper.stepData.step4);
+
+  // Initialize local state (default "None" if nothing saved)
+  const [experience, setExperience] = useState(
+    savedExperience && savedExperience.value ? savedExperience.value : "None"
+  );
+
+  // Handle experience change
+  const handleExperienceChange = (value) => {
+    setExperience(value);
+    dispatch(saveStepData({ step: "step4", data: { value } }));
+  };
+
+  // Keep local state synced with Redux (for back navigation)
+  useEffect(() => {
+    if (savedExperience && savedExperience.value) {
+      setExperience(savedExperience.value);
+    }
+  }, [savedExperience]);
+
+  // Save default data only once on first mount
+  useEffect(() => {
+    if (!savedExperience || !savedExperience.value) {
+      dispatch(saveStepData({ step: "step4", data: { value: experience } }));
+    }
+  }, []);
   return (
     <>
       <div className="flex items-center gap-3 pb-4 border-b">
@@ -58,7 +91,11 @@ const Step4 = () => {
       </div>
 
       <div className="mt-5 mb-7">
-        <RadioGroup defaultValue="0" className="w-full">
+        <RadioGroup  
+          value={experience}
+          onValueChange={handleExperienceChange}  
+          className="w-full"
+          >
           <Table className="relative">
             <TableHeader className="text-lg">
               <TableRow>
@@ -96,11 +133,11 @@ const Step4 = () => {
         </RadioGroup>
       </div>
 
-      <UploadFile />
+      <UploadFile step="step4" />
 
       <div className="max-w-xl flex flex-col gap-4 mt-5">
-        <SelectVerifiedGroup />
-        <SelectRelevantGroup />
+        <SelectVerifiedGroup step="step4" />
+        <SelectRelevantGroup step="step4" />
       </div>
     </>
   );

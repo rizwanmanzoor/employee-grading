@@ -1,14 +1,18 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-
+import { API_BASE_URL } from "@/constants/ApiConstant";
 // ✅ Final API call (mock example)
 export const submitFinalForm = createAsyncThunk(
   "stepper/submitFinalForm",
   async (formData, { rejectWithValue }) => {
     console.log(formData);
     try {
-      const res = await fetch("http://localhost:8000/api/submit-form", {
+      const res = await fetch(`${API_BASE_URL}/employee/submit`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { 
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+         },
         body: JSON.stringify(formData),
       });
       if (!res.ok) throw new Error("Failed to submit form");
@@ -26,7 +30,11 @@ const stepperSlice = createSlice({
     stepData: {
       step1: {},
       step2: {},
-      // step3, step4, ... later add
+      step3: {},
+      step4: {},
+      step5: {},
+      step6: {},
+      step7: {},
     },
     loading: false,
     error: null,

@@ -1,8 +1,53 @@
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { saveStepData } from "@/features/stepper/stepperSlice";
 import { Layers } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+const internalExperienceOptions = [
+  { label: "None", value: "none" },
+  { label: "1 year", value: "1year" },
+  { label: "2 years", value: "2year" },
+  { label: "3 years", value: "3year" },
+  { label: "4 years", value: "4year" },
+  { label: "5 years", value: "5year" },
+  { label: "6 years", value: "6year" },
+  { label: "7 years", value: "7year" },
+  { label: "8 years", value: "8year" },
+];
 
 const Step6 = () => {
+
+  const dispatch = useDispatch();
+
+  // Get saved data from Redux
+  const savedExperience = useSelector((state) => state.stepper.stepData.step6);
+
+  // Initialize local state (default to "none")
+  const [experience, setExperience] = useState(
+    savedExperience && savedExperience.value ? savedExperience.value : "none"
+  );
+
+  // ✅ Handle change
+  const handleExperienceChange = (value) => {
+    setExperience(value);
+    dispatch(saveStepData({ step: "step6", data: { value } }));
+  };
+
+  // Sync local state if Redux updates (back navigation)
+  useEffect(() => {
+    if (savedExperience && savedExperience.value) {
+      setExperience(savedExperience.value);
+    }
+  }, [savedExperience]);
+
+  // Save default once (first mount)
+  useEffect(() => {
+    if (!savedExperience || !savedExperience.value) {
+      dispatch(saveStepData({ step: "step6", data: { value: experience } }));
+    }
+  }, []);
+
   return (
     <>
       <div className="flex items-center gap-3 pb-4 border-b">
@@ -29,55 +74,21 @@ const Step6 = () => {
 
       <div className="mt-5 mb-7">
         <RadioGroup
-          defaultValue="option-none"
+          value={experience}
+          onValueChange={handleExperienceChange}
           className="grid grid-cols-1 gap-4 md:max-w-xl"
         >
-          <div className="input-field">
-            <Label htmlFor="option-none">
-              <RadioGroupItem value="option-none" id="option-none" />
-              None
-            </Label>
-          </div>
-          <div className="input-field">
-            <Label htmlFor="option-1year">
-              <RadioGroupItem value="option-1year" id="option-1year" />1 year
-            </Label>
-          </div>
-          <div className="input-field">
-            <Label htmlFor="option-2year">
-              <RadioGroupItem value="option-2year" id="option-2year" />2 year
-            </Label>
-          </div>
-          <div className="input-field">
-            <Label htmlFor="option-3year">
-              <RadioGroupItem value="option-3year" id="option-3year" />3 year
-            </Label>
-          </div>
-          <div className="input-field">
-            <Label htmlFor="option-4year">
-              <RadioGroupItem value="option-4year" id="option-4year" />4 year
-            </Label>
-          </div>
-          <div className="input-field">
-            <Label htmlFor="option-5year">
-              <RadioGroupItem value="option-5year" id="option-5year" />5 year
-            </Label>
-          </div>
-          <div className="input-field">
-            <Label htmlFor="option-6year">
-              <RadioGroupItem value="option-6year" id="option-6year" />6 year
-            </Label>
-          </div>
-          <div className="input-field">
-            <Label htmlFor="option-7year">
-              <RadioGroupItem value="option-7year" id="option-7year" />7 year
-            </Label>
-          </div>
-          <div className="input-field">
-            <Label htmlFor="option-8year">
-              <RadioGroupItem value="option-8year" id="option-8year" />8 year
-            </Label>
-          </div>
+          {internalExperienceOptions.map((option) => (
+            <div key={option.value} className="input-field">
+              <Label htmlFor={`option-${option.value}`} className="flex items-center gap-2">
+                <RadioGroupItem
+                  value={option.value}
+                  id={`option-${option.value}`}
+                />
+                {option.label}
+              </Label>
+            </div>
+          ))}
         </RadioGroup>
       </div>
     </>

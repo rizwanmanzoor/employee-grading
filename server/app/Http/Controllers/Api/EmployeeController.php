@@ -7,12 +7,15 @@ use Illuminate\Http\Request;
 use App\Models\EmployeeActivity;
 use App\Models\EmployeeDocument;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 
 class EmployeeController extends Controller
 {
     public function submit(Request $request)
     {
+        Log::info($request->all());
+        // dd($request->all());
         $request->validate([
             'name'                        => 'required|string',
             'designation'                 => 'nullable|string',
