@@ -15,32 +15,58 @@ return new class extends Migration
             $table->id();
             // Basic Info
             $table->integer('employee_id');
-            $table->string('name');
+            $table->string('employee_no')->nullable();
+            $table->string('name')->nullable();
             $table->string('designation')->nullable();
 
             // Education
             $table->string('education')->nullable();
             $table->decimal('education_score', 5, 2)->nullable();
 
-            // Tech Certificate
-            $table->string('tech_certificate')->nullable();
-            $table->decimal('tech_certificate_score', 5, 2)->nullable();
+            // High Certificate
+            $table->string('education_verified')->nullable();
+            $table->string('education_relevant')->nullable();
 
-            // Online Certificate
-            $table->string('online_certificate')->nullable();
-            $table->decimal('online_certificate_score', 5, 2)->nullable();
+            // Low Certificate
+            $table->string('certificate_low')->nullable();
+            $table->decimal('certificate_low_score', 5, 2)->nullable();
+
+            // Medium Certificate
+            $table->string('certificate_medium')->nullable();
+            $table->decimal('certificate_medium_score', 5, 2)->nullable();
+
+            // High Certificate
+            $table->string('certificate_high')->nullable();
+            $table->decimal('certificate_high_score', 5, 2)->nullable();
+
+            // High Certificate
+            $table->string('certificate_verified')->nullable();
+            $table->string('certificate_relevant')->nullable();
 
             // Experience - External
             $table->string('experience_external')->nullable();
             $table->decimal('experience_external_score', 5, 2)->nullable();
 
+
+            $table->string('experience_external_verified')->nullable();
+
+
             // Experience - Management
             $table->string('experience_management')->nullable();
             $table->decimal('experience_management_score', 5, 2)->nullable();
 
-            // Experience - Internal
+            $table->string('experience_management_verified')->nullable();
+            $table->string('experience_management_relevant')->nullable();
+
+            // Experience - Internal -excl management
             $table->string('experience_internal')->nullable();
             $table->decimal('experience_internal_score', 5, 2)->nullable();
+
+            // Experience - Internal -management
+            $table->string('experience_internal_management')->nullable();
+            $table->decimal('experience_internal_management_score', 5, 2)->nullable();
+
+            $table->string('experience_internal_management_verified')->nullable();
 
             // English
             $table->string('english')->nullable();
