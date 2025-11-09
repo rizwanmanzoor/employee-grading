@@ -106,6 +106,65 @@ return [
     ],
 
 
+    'INSURANCE_BRACKETS' => [
+        'Basic'     => 27,
+        'Standard'  => 36,
+        'Enhanced'  => 45,
+        'Premium'   => 72,
+    ],
+
+    'BONUS_BRACKETS' => [
+        'Not Eligible'        => 27,   // < 27
+        'Basic Bonus'         => 27,   // > 27
+        'Performance Based'   => 48,
+        'Executive Bonus'     => 75,
+    ],
+
+    'DAYSOFF_BRACKETS' => [
+        'Not Eligible' => 66,  // < 66
+        '1 Day'        => 66,  // > 66
+        '2 Days'       => 72,
+        '3 Days'       => 81,
+    ],
+
+    'DESIGNATIONS' => [
+        81 => ['main' => 'Chief',        'sub' => 'C1', 'grade' => '1'],
+        78 => ['main' => 'Chief',        'sub' => 'C2', 'grade' => '2'],
+        75 => ['main' => 'Chief',        'sub' => 'C3', 'grade' => '3'],
+
+        72 => ['main' => 'GM',           'sub' => 'G1', 'grade' => '4'],
+        69 => ['main' => 'GM',           'sub' => 'G2', 'grade' => '5'],
+        66 => ['main' => 'GM',           'sub' => 'G3', 'grade' => '6'],
+
+        63 => ['main' => 'Director',     'sub' => 'D1', 'grade' => '7'],
+        60 => ['main' => 'Director',     'sub' => 'D2', 'grade' => '8'],
+        57 => ['main' => 'Director',     'sub' => 'D3', 'grade' => '9'],
+
+        54 => ['main' => 'Head',         'sub' => 'H1', 'grade' => '10'],
+        51 => ['main' => 'Head',         'sub' => 'H2', 'grade' => '11'],
+        48 => ['main' => 'Head',         'sub' => 'H3', 'grade' => '12'],
+
+        45 => ['main' => 'Manager',      'sub' => 'M1', 'grade' => '13'],
+        42 => ['main' => 'Manager',      'sub' => 'M2', 'grade' => '14'],
+        39 => ['main' => 'Manager',      'sub' => 'M3', 'grade' => '15'],
+
+        36 => ['main' => 'Team Leader',  'sub' => 'T1', 'grade' => '16'],
+        33 => ['main' => 'Team Leader',  'sub' => 'T2', 'grade' => '17'],
+        30 => ['main' => 'Team Leader',  'sub' => 'T3', 'grade' => '18'],
+
+        27 => ['main' => 'Specialist',   'sub' => 'S1', 'grade' => '19'],
+        24 => ['main' => 'Specialist',   'sub' => 'S2', 'grade' => '20'],
+        21 => ['main' => 'Specialist',   'sub' => 'S3', 'grade' => '21'],
+
+        18 => ['main' => 'Junior',       'sub' => 'J1', 'grade' => '22'],
+        15 => ['main' => 'Junior',       'sub' => 'J2', 'grade' => '23'],
+        12 => ['main' => 'Junior',       'sub' => 'J3', 'grade' => '24'],
+
+        9  => ['main' => 'Foreman',      'sub' => null, 'grade' => '25'],
+        6  => ['main' => 'Worker',       'sub' => null, 'grade' => '26'],
+        3  => ['main' => 'Labour',       'sub' => null, 'grade' => '27'],
+    ],
+
 
 
 ];

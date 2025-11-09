@@ -11,28 +11,51 @@ import StepperForm from "@/pages/StepperForm";
 import ProgressPage from "@/pages/ProgressPage";
 import HowToUsePage from "@/pages/HowToUsePage";
 import ProtectedRoute from "@/routes/ProtectedRoute";
+// admin home page
+import AdminHomePage from "@/pages/AdminHomePage";
+import EmployeeList from "@/components/admin/employeeList";
+
+
+// employee pages
+const employeePages = (
+  <Route element={<ProtectedRoute allowedRoles={["employee"]} />}>
+    <Route element={<RootLayout />}>
+    <Route path="/home" element={<HomePage />} />
+    <Route path="/grading" element={<StepperForm />} />
+    <Route path="/result" element={<ResultPage />} />
+    <Route path="/progress" element={<ProgressPage />} />
+    <Route path="/how-to-use" element={<HowToUsePage />} />
+    </Route>
+  </Route>
+);
+
+// admin pages
+const adminPages = (
+  <Route element={<RootLayout />}>
+  <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
+    <Route path="/admin" element={<AdminHomePage />} />
+    <Route path="/employees" element={<EmployeeList />} />
+  </Route>
+  </Route>
+);
 
 const AppRoutes = () => {
   return (
     <Routes>
-      {/* Public Routes */}
-      <Route path="/" element={<LoginPage />} />
-      <Route path="/comingsoon" element={<ComingSoon />} />
+    {/* Public Routes */}
+    <Route path="/" element={<LoginPage />} />
+    <Route path="/comingsoon" element={<ComingSoon />} />
 
-      {/* Protected Routes */}
-      <Route element={<ProtectedRoute />}>
-        <Route element={<RootLayout />}>
-          <Route path="/home" element={<HomePage />} />
-          <Route path="/grading" element={<StepperForm />} />
-          <Route path="/result" element={<ResultPage />} />
-          <Route path="/progress" element={<ProgressPage />} />
-          <Route path="/how-to-use" element={<HowToUsePage />} />
-        </Route>
-      </Route>
+    {/* Protected Routes */}
+    {employeePages}
+    {adminPages}
 
-      {/* Fallback */}
-      <Route path="*" element={<NotFound />} />
-    </Routes>
+    {/* Unauthorized page */}
+    <Route path="/unauthorized" element={<NotFound />} />
+
+    {/* Fallback */}
+    <Route path="*" element={<NotFound />} />
+  </Routes>
   );
 };
 

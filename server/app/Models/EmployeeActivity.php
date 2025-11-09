@@ -14,4 +14,8 @@ class EmployeeActivity extends Model
     {
         return $this->hasMany(EmployeeDocument::class);
     }
+    public function employee()
+    {
+        return $this->belongsTo(Employee::class);
+    }
 }

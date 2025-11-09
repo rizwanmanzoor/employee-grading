@@ -1,20 +1,35 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { API_BASE_URL } from "@/constants/ApiConstant";
-// ✅ Final API call (mock example)
+
+// ✅ Final API call using FormData
 export const submitFinalForm = createAsyncThunk(
   "stepper/submitFinalForm",
-  async (formData, { rejectWithValue }) => {
-    console.log(formData);
+  async (stepData, { rejectWithValue }) => {
     try {
+      const formData = new FormData();
+
+      // Loop through all steps and append fields
+      Object.keys(stepData).forEach((step) => {
+        Object.keys(stepData[step]).forEach((key) => {
+          if (key === "files") {
+            // Append files individually
+            stepData[step][key].forEach((fileObj, index) => {
+              formData.append(`${step}[files][]`, fileObj.file); // fileObj.file is actual File
+            });
+          } else {
+            formData.append(`${step}[${key}]`, stepData[step][key]);
+          }
+        });
+      });
+
       const res = await fetch(`${API_BASE_URL}/employee/submit`, {
         method: "POST",
-        headers: { 
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`
-         },
-        body: JSON.stringify(formData),
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: formData,
       });
+
       if (!res.ok) throw new Error("Failed to submit form");
       return await res.json();
     } catch (err) {
@@ -50,7 +65,15 @@ const stepperSlice = createSlice({
     },
     resetStepper: (state) => {
       state.currentStep = 0;
-      state.stepData = { step1: {}, step2: {} };
+      state.stepData = {
+        step1: {},
+        step2: {},
+        step3: {},
+        step4: {},
+        step5: {},
+        step6: {},
+        step7: {},
+      };
       state.success = false;
     },
   },

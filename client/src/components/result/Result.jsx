@@ -1,47 +1,72 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchEmployeeScores } from "@/features/scores/scoreSlice";
 import { Button } from "../ui/button";
 import { Repeat, Trophy } from "lucide-react";
 import { Link } from "react-router-dom";
 import { ChartNoAxesCombined, Target } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Result = () => {
-  const employeeInfo = [
-    { label: "Employee ID", value: "—" },
-    { label: "Name", value: "—" },
-    { label: "Current Designation", value: "Not specified" },
-  ];
+  const navigate = useNavigate();
 
-  const colors = [
-    {
-      color: "bg-blue-500",
-      label: "Education",
-      percent: "60%",
-      score: "3.0",
-    },
-    {
-      color: "bg-violet-500",
-      label: "Certifications",
-      percent: "65%",
-      score: "7.2",
-    },
-    {
-      color: "bg-purple-500",
-      label: "External Experience",
-      percent: "15%",
-      score: "6.5",
-    },
-    {
-      color: "bg-pink-500",
-      label: "Management",
-      percent: "45%",
-      score: "5.0",
-    },
-    {
-      color: "bg-amber-500",
-      label: "English",
-      percent: "65%",
-      score: "4.0",
-    },
-  ];
+  const dispatch = useDispatch();
+  const { employee, calculateScores, loading, error } = useSelector(
+    (state) => state.scores
+  );
+
+  useEffect(() => {
+    dispatch(fetchEmployeeScores());
+  }, [dispatch]);
+
+
+  // ✅ Loader
+  if (loading)
+    return (
+      <div className="flex justify-center items-center mt-20">
+        <p className="text-lg font-bold">Loading Result...</p>
+      </div>
+    );
+
+  // ✅ Error
+  if (error)
+    return (
+      <div className="flex justify-center items-center mt-20">
+        <p className="text-red-500 font-bold">{error}</p>
+      </div>
+    );
+
+  // ✅ Data Formatting
+  const employeeInfo = employee
+    ? [
+        { label: "Employee ID", value: employee.employee_no },
+        { label: "Name", value: employee.name },
+        { label: "Current Designation", value: employee.designation },
+      ]
+    : [];
+
+  const colorMap = {
+    education: "bg-blue-500",
+    certifications: "bg-violet-500",
+    external_experience: "bg-purple-500",
+    management: "bg-pink-500",
+    english: "bg-amber-500",
+  };
+
+  const scoreBreakdown = calculateScores
+    ? Object.entries(calculateScores).filter(([key]) => key !== "total")
+    : [];
+
+  const totalGrade = calculateScores?.total?.grade || 0;
+  const totalScore = calculateScores?.total?.score || 0;
+  const recommededDesignation = calculateScores?.recommended_designation?.main || "";
+
+
+
+  const handleTryAgain = () => {
+    navigate("/grading");
+    window.location.reload(); // state reset
+  };
 
   return (
     <div className="flex flex-col justify-center items-center gap-3 mt-5 text-foreground">
@@ -77,7 +102,7 @@ const Result = () => {
               Grades
             </h3>
             <div className="inline-block max-w-max px-8 py-4 rounded-2xl shadow-lg bg-card">
-              <h2 className="text-4xl font-bold text-primary">4.0</h2>
+              <h2 className="text-4xl font-bold text-primary">{totalGrade}</h2>
             </div>
 
             <h3 className="font-semibold tracking-tight flex items-center gap-2 text-xl mt-7 mb-5">
@@ -85,7 +110,7 @@ const Result = () => {
               Score
             </h3>
             <div className="inline-block max-w-max px-8 py-4 rounded-2xl shadow-lg bg-card">
-              <h2 className="text-4xl font-bold text-primary">4.0</h2>
+              <h2 className="text-4xl font-bold text-primary">{totalScore}</h2>
             </div>
           </div>
 
@@ -104,7 +129,7 @@ const Result = () => {
                   Recommended Designation
                 </p>
               </div>
-              <p className="font-bold text-(--primary-amber)">Entry Level</p>
+              <p className="font-bold text-(--primary-amber)">{recommededDesignation}</p>
             </div>
           </div>
         </div>
@@ -119,24 +144,32 @@ const Result = () => {
         </div>
 
         <div className="p-6 pt-0 space-y-4">
-          {colors.map((item, i) => (
+          
+
+          {scoreBreakdown.slice(0, 5).map(([key, item], i) => (
             <div key={i} className="space-y-2">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className={`w-3 h-3 rounded-full ${item.color}`} />
-                  <span className="font-medium">{item.label}</span>
-                  <div className="inline-flex items-center rounded-full border px-2.5 py-0.5 font-semibold text-xs text-primary bg-accent">
-                    {item.percent}
+                  <div className={`w-3 h-3 rounded-full ${colorMap[key]}`} />
+                  <span className="font-medium">
+                    {
+                      key.replace(/_/g, " ")
+                      .replace(/\b\w/g, (char) => char.toUpperCase())
+                    }
+                  </span>
+                  <div className="border px-2 py-0.5 text-xs bg-accent rounded-full">
+                    {item.grade}%
                   </div>
                 </div>
                 <span className="font-bold text-lg">{item.score}</span>
               </div>
+
               {/* Progress bar */}
               <div className="h-3 bg-accent rounded-full overflow-hidden">
                 <div
-                  className={`h-full ${item.color} rounded-full transition-all duration-500`}
-                  style={{ width: item.percent }}
-                />
+                  className={`h-full ${colorMap[key]} rounded-full`}
+                  style={{ width: `${item.grade}%` }}
+                ></div>
               </div>
             </div>
           ))}
@@ -144,15 +177,14 @@ const Result = () => {
       </div>
 
       <div className="flex flex-col sm:flex-row gap-4">
-        <Link to={"/grading"}>
-          <Button
-            size="lg"
-            className="w-full sm:w-auto cursor-pointer text-primary-foreground"
-          >
-            <Repeat className="w-5 h-5" />
-            Try Again
-          </Button>
-        </Link>
+         <Button
+      size="lg"
+      className="w-full sm:w-auto cursor-pointer text-primary-foreground"
+      onClick={handleTryAgain}
+    >
+      <Repeat className="w-5 h-5" />
+      Try Again
+    </Button>
       </div>
     </div>
   );

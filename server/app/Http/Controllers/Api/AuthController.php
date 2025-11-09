@@ -26,7 +26,7 @@ class AuthController extends Controller
             ], 401);
         }
 
-        $user = Auth::user()->load('employee');
+        $user = Auth::user()->load('employee', 'roles');
 
         $token = $user->createToken('api_token')->plainTextToken;
 

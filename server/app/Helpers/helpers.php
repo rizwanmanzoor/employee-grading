@@ -266,8 +266,9 @@ if (!function_exists('CalculateScores')) {
 
             $certificateLowStep = calculateCertificateScore('low', $employee->certificate_low, $employee->certificate_verified, $employee->certificate_relevant);
             $certificateMediumStep = calculateCertificateScore('medium', $employee->certificate_low, $employee->certificate_verified, $employee->certificate_relevant);
-            $certificateHighStep = calculateCertificateScore('high', $employee->certificate_low, $employee->certificate_verified, $employee->certificate_relevant);
+            $certificateHighStep = calculateCertificateScore('high', $employee->certificate_high, $employee->certificate_verified, $employee->certificate_relevant);
 
+            // Log::info($certificateLowStep);
             $sumCertificates = $certificateLowStep['score'] + $certificateMediumStep['score'] + $certificateHighStep['score'];
 
             $certificateVerified = normalizeInput($employee->certificate_verified);
@@ -276,9 +277,13 @@ if (!function_exists('CalculateScores')) {
             $verificationFactor = $percentage[$certificateVerified] ?? 0;
             $relevantFactor = $percentage[$certificateRelevant] ?? 0;
 
-            $result['certificate'] = [
+            $result['certifications'] = [
                 'grade'     => $certificateLowStep['grade'] + $certificateMediumStep['grade'] + $certificateHighStep['grade'],
-                'score' => round($sumCertificates * $verificationFactor * $relevantFactor, 2)
+                'score' => round($sumCertificates * $verificationFactor * $relevantFactor, 2),
+
+                'low' => $certificateLowStep['score'],
+                'medium' => $certificateMediumStep['score'],
+                'high' => $certificateHighStep['score']
             ];
 
             // Log::info("certificateLowStep: $certificateLowStep, certificateMediumStep: $certificateMediumStep, certificateHighStep: $certificateHighStep");
@@ -338,7 +343,7 @@ if (!function_exists('CalculateScores')) {
             $experienceVerified = normalizeInput($employee->experience_external_verified);
             $verificationFactor = $percentage[$experienceVerified] ?? 0;
 
-            $result['external_experience_management'] = [
+            $result['management'] = [
                 'grade'     => $experienceExternalManagement['grade'],
                 'score' => round($experienceExternalManagement['score'] * $verificationFactor, 2)
             ];
@@ -375,9 +380,100 @@ if (!function_exists('CalculateScores')) {
             'score' => round($totalScore, 2)
         ];
 
+        $grade = round($totalScore, 2);
+
+        $result['rewards'] = [
+            'insurance' => getInsuranceBracket($grade),
+            'bonus'     => getBonusCategory($grade),
+            'days_off'  => getDaysOff($grade),
+        ];
+
+        $result['recommended_designation'] = getRecommendedDesignation($result['total']['score']);
+
 
         // Log::info($result);
 
         return $result;
+    }
+}
+if (!function_exists('getInsuranceBracket')) {
+
+    function getInsuranceBracket($grade)
+    {
+        $levels = config('constants.INSURANCE_BRACKETS');
+
+        $result = 'No Insurance';
+
+        foreach ($levels as $name => $minGrade) {
+            if ($grade >= $minGrade) {
+                $result = $name;
+            }
+        }
+
+        return $result;
+    }
+}
+if (!function_exists('getBonusCategory')) {
+
+    function getBonusCategory($grade)
+    {
+        if ($grade < 27) {
+            return 'Not Eligible';
+        }
+
+        $levels = config('constants.BONUS_BRACKETS');
+        $result = 'Not Eligible';
+
+        foreach ($levels as $name => $minGrade) {
+            if ($grade >= $minGrade) {
+                $result = $name;
+            }
+        }
+
+        return $result;
+    }
+}
+if (!function_exists('getDaysOff')) {
+
+    function getDaysOff($grade)
+    {
+        if ($grade < 66) {
+            return 'Not Eligible';
+        }
+
+        $levels = config('constants.DAYSOFF_BRACKETS');
+        $result = 'Not Eligible';
+
+        foreach ($levels as $name => $minGrade) {
+            if ($grade >= $minGrade) {
+                $result = $name;
+            }
+        }
+
+        return $result;
+    }
+}
+if (!function_exists('getRecommendedDesignation')) {
+
+    function getRecommendedDesignation($score)
+    {
+        $map = config('constants.DESIGNATIONS');
+
+        // Sort keys descending, so highest match picked first
+        krsort($map);
+
+        foreach ($map as $minScore => $designation) {
+            if ($score >= $minScore) {
+                return [
+                    'main' => $designation['main'],
+                    'sub'  => $designation['sub']
+                ];
+            }
+        }
+
+        return [
+            'main' => 'Not Eligible',
+            'sub'  => null
+        ];
     }
 }

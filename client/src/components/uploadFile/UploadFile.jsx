@@ -8,13 +8,13 @@ const UploadFile = ({ step }) => {
 
   const dispatch = useDispatch();
   const inputRef = useRef(null);
-
-
-  // Load existing files from Redux if present
+  // Load existing files from Redux (initial only)
   const stepFiles = useSelector((state) => state.stepper[step]?.files || []);
-  const [files, setFiles] = useState(stepFiles);
+  const [filesWithProgress, setFilesWithProgress] = useState(
+    stepFiles.map(f => ({ ...f, progress: 100 })) // already uploaded files
+  );
 
-
+  const uploadIntervals = useRef({});
 
 //   useEffect(() => {
 //   // Only update if stepFiles actually changed
@@ -28,22 +28,25 @@ const UploadFile = ({ step }) => {
 
 
   // === Handle file selection or drop ===
-  const handleFiles = (selectedFiles) => {
-  const newFiles = Array.from(selectedFiles).map((file) => ({
-    name: file.name,
-    size: file.size,
-    type: file.type,
-    progress: 0,
-  }));
+const handleFiles = (selectedFiles) => {
+    const newFiles = Array.from(selectedFiles).map((file) => ({
+      file,
+      name: file.name,
+      size: file.size,
+      type: file.type,
+      progress: 0,
+    }));
 
-  const updatedFiles = [...files, ...newFiles];
-  setFiles(updatedFiles);
+    setFilesWithProgress((prev) => {
+      const updated = [...prev, ...newFiles];
+      // Save only file info (without progress) to Redux
+      dispatch(saveStepData({ step, data: { files: updated.map(f => ({ name: f.name, size: f.size, type: f.type, file: f.file })) } }));
+      return updated;
+    });
 
-  dispatch(saveStepData({ step, data: { files: updatedFiles } }));
-  
-  // Optional: simulateUpload ko local files array se handle karo
-  newFiles.forEach((fileObj) => simulateUpload(fileObj.name));
-};
+    newFiles.forEach((fileObj) => simulateUpload(fileObj));
+  };
+
   // === File input change ===
   const handleFileChange = (e) => {
     if (e.target.files.length > 0) {
@@ -75,29 +78,43 @@ const UploadFile = ({ step }) => {
   };
 
   // === Simulate file upload ===
-  const simulateUpload = (fileName) => {
-  let progress = 0;
-  const interval = setInterval(() => {
-    progress += Math.floor(Math.random() * 10) + 5;
+  const simulateUpload = (fileObj) => {
+    if (uploadIntervals.current[fileObj.name]) return; // already uploading
 
-    setFiles((prev) =>
-      prev.map((f) =>
-        f.name === fileName
-          ? { ...f, progress: Math.min(progress, 100) }
-          : f
-      )
-    );
+    let progress = 0;
+    const interval = setInterval(() => {
+      progress += Math.floor(Math.random() * 15) + 5;
 
-    if (progress >= 100) clearInterval(interval);
-  }, 400);
-};
+      setFilesWithProgress((prev) =>
+        prev.map((f) =>
+          f.name === fileObj.name
+            ? { ...f, progress: Math.min(progress, 100) }
+            : f
+        )
+      );
 
-  const handleRemoveFile = (index) => {
-    const updatedFiles = files.filter((_, i) => i !== index);
-    setFiles(updatedFiles);
-    dispatch(saveStepData({ step, data: { files: updatedFiles } }));
+      if (progress >= 100) {
+        clearInterval(interval);
+        delete uploadIntervals.current[fileObj.name];
+      }
+    }, 300);
+
+    uploadIntervals.current[fileObj.name] = interval;
   };
 
+  const handleRemoveFile = (index) => {
+    const removedFile = filesWithProgress[index];
+    if (uploadIntervals.current[removedFile.name]) {
+      clearInterval(uploadIntervals.current[removedFile.name]);
+      delete uploadIntervals.current[removedFile.name];
+    }
+
+    setFilesWithProgress((prev) => {
+      const updated = prev.filter((_, i) => i !== index);
+      dispatch(saveStepData({ step, data: { files: updated.map(f => ({ name: f.name, size: f.size, type: f.type, file: f.file })) } }));
+      return updated;
+    });
+  };
   return (
     <div
       className="grid sm:grid-cols-[minmax(0,20rem)_auto] gap-6 md:grid-cols-[36rem_auto]"
@@ -111,14 +128,14 @@ const UploadFile = ({ step }) => {
         style={{
           borderColor: "var(--border)",
         }}
-        onClick={(e) => {
-          if (e.target === e.currentTarget) {
-            inputRef.current?.click();
-          }
+        onClick={(e) => e.target === e.currentTarget && inputRef.current?.click()}
+        onDrop={(e) => {
+          e.preventDefault(); e.stopPropagation();
+          if (e.dataTransfer.files.length) handleFiles(e.dataTransfer.files);
         }}
-        onDrop={handleDrop}
-        onDragOver={handleDragOver}
-        onDragLeave={handleDragLeave}
+        onDragOver={(e) => { e.preventDefault(); e.stopPropagation(); e.currentTarget.style.borderColor = "var(--primary)"; }}
+        onDragLeave={(e) => { e.preventDefault(); e.stopPropagation(); e.currentTarget.style.borderColor = "var(--border)"; }}
+      
       >
         <div className="py-6 flex flex-col items-center justify-center">
           <UploadCloud
@@ -174,77 +191,19 @@ const UploadFile = ({ step }) => {
 
       {/* === Upload Progress Section === */}
       <div className="space-y-6 overflow-y-auto md:max-h-80 custom-scroll">
-        {files.map((fileObj, index) => (
-          <div
-            key={index}
-            className="flex flex-col mb-4 bg-muted p-3 overflow-hidden rounded-xl"
-            style={{
-              backgroundColor: "var(--muted)",
-            }}
-          >
+        {filesWithProgress.map((fileObj, index) => (
+          <div key={index} className="flex flex-col mb-4 bg-muted p-3 overflow-hidden rounded-xl">
             <div className="flex mb-2 justify-between items-center">
-              <p
-                className="text-sm font-medium truncate pr-3 flex-1"
-                style={{ color: "var(--muted-foreground)" }}
-              >
-                {fileObj.name}
-              </p>
-
-              <div className="flex gap-2 items-center">
-                {/* <p
-                      className="text-sm font-medium"
-                      style={{ color: "var(--muted-foreground)" }}
-                    >
-                      ({(fileObj.file.size / 1024 / 1024).toFixed(2)} MB)
-                    </p> */}
-
-                <span
-                  className="p-0.5 border rounded-full transition-colors"
-                  style={{ borderColor: "var(--muted-foreground)" }}
-                >
-                  <X
-                    size={12}
-                    className="cursor-pointer transition-colors"
-                    style={{ color: "var(--muted-foreground)" }}
-                    onClick={() => handleRemoveFile(index)}
-                    onMouseEnter={(e) =>
-                      (e.currentTarget.style.color = "var(--destructive)")
-                    }
-                    onMouseLeave={(e) =>
-                      (e.currentTarget.style.color = "var(--muted-foreground)")
-                    }
-                  />
-                </span>
-              </div>
+              <p className="text-sm font-medium truncate pr-3 flex-1" style={{ color: "var(--muted-foreground)" }}>{fileObj.name}</p>
+              <span className="p-0.5 border rounded-full transition-colors" style={{ borderColor: "var(--muted-foreground)" }}>
+                <X size={12} className="cursor-pointer transition-colors" style={{ color: "var(--muted-foreground)" }} onClick={() => handleRemoveFile(index)}
+                  onMouseEnter={(e) => e.currentTarget.style.color = "var(--destructive)"}
+                  onMouseLeave={(e) => e.currentTarget.style.color = "var(--muted-foreground)"} />
+              </span>
             </div>
-
-            {/* === Progress Bar === */}
-            <div
-              className="rounded-full w-full h-2.5 overflow-hidden"
-              style={{ backgroundColor: "var(--border)" }}
-            >
-              <div
-                className="h-full rounded-full transition-all duration-500 relative"
-                style={{
-                  width: `${fileObj.progress}%`,
-                  backgroundColor: "var(--primary)",
-                }}
-              >
-                <span
-                  className="absolute text-xs right-0.5 w-2 h-2 rounded-full"
-                  style={{
-                    backgroundColor: "var(--primary-foreground)",
-                  }}
-                ></span>
-              </div>
+            <div className="rounded-full w-full h-2.5 overflow-hidden" style={{ backgroundColor: "var(--border)" }}>
+              <div className="h-full rounded-full transition-all duration-500 relative" style={{ width: `${fileObj.progress}%`, backgroundColor: "var(--primary)" }}></div>
             </div>
-
-            {/* <p
-                  className="text-sm font-medium mt-2"
-                  style={{ color: "var(--muted-foreground)" }}
-                >
-                  {fileObj.progress}% done
-                </p> */}
           </div>
         ))}
       </div>

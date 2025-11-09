@@ -24,7 +24,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('employee')->group(function () {
         Route::post('/submit', [EmployeeController::class, 'submit']);
         Route::get('/latest', [EmployeeController::class, 'latest']);
-        Route::get('/history', [EmployeeController::class, 'history']);
+        Route::post('/history', [EmployeeController::class, 'history']);
         Route::post('/scores', [EmployeeController::class, 'scores']);
+
+        Route::get('/export', [EmployeeController::class, 'export']);
     });
 });

@@ -18,7 +18,7 @@ const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { loading, error, token } = useSelector((state) => state.auth);
+  const { loading, error, token,role } = useSelector((state) => state.auth);
 
   const togglePassword = () => {
     setShowPassword((prev) => !prev);
@@ -31,9 +31,13 @@ const Login = () => {
 
   useEffect(() => {
     if (token) {
+      if (role === "admin") {
+      navigate("/admin");
+    } else if (role === "employee") {
       navigate("/home");
     }
-  }, [token, navigate]);
+    }
+  }, [token,role, navigate]);
 
   return (
     <div

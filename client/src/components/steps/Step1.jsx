@@ -13,7 +13,7 @@ const Step1 = () => {
 
   const savedEducation = useSelector((state) => state.stepper.stepData.step1?.education);
 
-  const [education, setEducation] = useState(savedEducation || "Basic");
+  const [education, setEducation] = useState(savedEducation || "Basics");
 
   const handleChange = (value) => {
     setEducation(value);
@@ -22,7 +22,7 @@ const Step1 = () => {
 
   // ✅ Save default value on first render
   useEffect(() => {
-    dispatch(saveStepData({ step: "step1", data: { education: "Basic" } }));
+    dispatch(saveStepData({ step: "step1", data: { education: "Basics" } }));
   }, []);
 
 
@@ -46,7 +46,7 @@ const Step1 = () => {
           onValueChange={handleChange}
           className="grid grid-cols-1 gap-4 md:max-w-xl"
         >
-           {["Basic", "Diploma", "Bachelors", "Masters", "Phd"].map((opt) => (
+           {["Basics", "Diploma", "Bachelors", "Masters", "Phd"].map((opt) => (
             <div key={opt} className="input-field">
               <Label>
                 <RadioGroupItem value={opt} /> {opt}

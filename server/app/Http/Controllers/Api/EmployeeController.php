@@ -10,6 +10,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 
+use App\Exports\EmployeesExport;
+use Maatwebsite\Excel\Facades\Excel;
+
 class EmployeeController extends Controller
 {
     public function submit(Request $request)
@@ -101,72 +104,72 @@ class EmployeeController extends Controller
             $employee->save();
 
             // Log activity history
-            // $activity = EmployeeActivity::create([
-            //     'employee_id' => $employee->id,
-            //     'name'        => $employee->name,
-            //     // 'designation' => $employee->designation,
+            $activity = EmployeeActivity::create([
+                'employee_id' => $employee->id,
+                'name'        => $employee->name,
+                'employee_no'        => $employee->employee_no,
+                'designation' => $employee->designation,
 
-            //     'education'                   => $employee->education,
-            //     'education_verified'          => $employee->education_verified,
-            //     'education_relevant'          => $employee->education_relevant,
+                'education'                   => $employee->education,
+                'education_verified'          => $employee->education_verified,
+                'education_relevant'          => $employee->education_relevant,
 
-            //     'certificate_low'        => $employee->tech_certificate_low,
-            //     'certificate_medium'     => $employee->tech_certificate_medium,
-            //     'certificate_high'       => $employee->tech_certificate_high,
-            //     'certificate_verified'   => $employee->tech_certificate_verified,
-            //     'certificate_relevant'   => $employee->tech_certificate_relevant,
+                'certificate_low'        => $employee->certificate_low,
+                'certificate_medium'     => $employee->certificate_medium,
+                'certificate_high'       => $employee->certificate_high,
+                'certificate_verified'   => $employee->certificate_verified,
+                'certificate_relevant'   => $employee->certificate_relevant,
 
-            //     'experience_external'   => $employee->experience_external,
-            //     'experience_external_verified' => $employee->experience_external_verified,
+                'experience_external'   => $employee->experience_external,
+                'experience_external_verified' => $employee->experience_external_verified,
 
-            //     'experience_management' => $employee->experience_management,
-            //     'experience_management_verified' => $employee->experience_management_verified,
-            //     'experience_management_relevant' => $employee->experience_management_relevant,
+                'experience_management' => $employee->experience_management,
+                'experience_management_verified' => $employee->experience_management_verified,
+                'experience_management_relevant' => $employee->experience_management_relevant,
 
-            //     'english'               => $employee->english,
-            //     'experience_internal'   => $employee->experience_internal,
-            //     'experience_internal_management' => $employee->experience_internal_management,
-            //     'experience_internal_management_verified' => $employee->experience_internal_management_verified,
-            // ]);
+                'english'               => $employee->english,
+                'experience_internal'   => $employee->experience_internal,
+                'experience_internal_management' => $employee->experience_internal_management,
+                'experience_internal_management_verified' => $employee->experience_internal_management_verified,
+            ]);
 
-            // // Map steps to document types for file uploads
-            // $categories = [
-            //     'step1' => 'education',
-            //     'step2' => 'certificate',
-            //     'step3' => 'experience_external',
-            //     'step4' => 'experience_management',
-            //     'step6' => 'experience_internal',
-            //     'step7' => 'experience_internal_management',
-            // ];
+            // Map steps to document types for file uploads
+            $categories = [
+                'step1' => 'education',
+                'step2' => 'certificate',
+                'step3' => 'experience_external',
+                'step4' => 'experience_management',
+                'step6' => 'experience_internal',
+                'step7' => 'experience_internal_management',
+            ];
 
-            // // Loop through steps
-            // foreach ($steps as $stepKey => $stepData) {
+            // Loop through steps
+            foreach ($steps as $stepKey => $stepData) {
 
-            //     // Save non-file data to DB or activity (optional)
-            //     foreach ($stepData as $field => $value) {
-            //         if ($field !== 'files') {
+                // Save non-file data to DB or activity (optional)
+                foreach ($stepData as $field => $value) {
+                    if ($field !== 'files') {
+                    }
+                }
 
-            //         }
-            //     }
+                // Handle files if step is in categories
+                if (isset($categories[$stepKey]) && isset($stepData['files']) && is_array($stepData['files'])) {
+                    $type = $categories[$stepKey];
+                    $files = $stepData['files']; // UploadedFile objects from FormData
 
-            //     // Handle files if step is in categories
-            //     if (isset($categories[$stepKey]) && isset($stepData['files']) && is_array($stepData['files'])) {
-            //         $type = $categories[$stepKey];
-            //         $files = $stepData['files']; // UploadedFile objects from FormData
+                    $uploadedFiles = uploadEmployeeFiles($files, $employee->id, $type);
 
-            //         $uploadedFiles = uploadEmployeeFiles($files, $employee->id, $type);
-
-            //         // Save uploaded files to DB
-            //         foreach ($uploadedFiles as $fileInfo) {
-            //             EmployeeDocument::create([
-            //                 'employee_activity_id' => $activity->id,
-            //                 'submission_type'      => $type,
-            //                 'file_path'            => $fileInfo['file_path'],      // stored path
-            //                 'file_type'            => $fileInfo['file_extension'], // extension
-            //             ]);
-            //         }
-            //     }
-            // }
+                    // Save uploaded files to DB
+                    foreach ($uploadedFiles as $fileInfo) {
+                        EmployeeDocument::create([
+                            'employee_activity_id' => $activity->id,
+                            'submission_type'      => $type,
+                            'file_path'            => $fileInfo['file_path'],      // stored path
+                            'file_type'            => $fileInfo['file_extension'], // extension
+                        ]);
+                    }
+                }
+            }
 
 
             DB::commit();
@@ -357,14 +360,15 @@ class EmployeeController extends Controller
     // ✅ 5. Admin - employee history list
     public function history() // for admin
     {
-        $history = Employee::select('id', 'name', 'designation')
+        $history = Employee::select('id', 'name', 'designation', 'user_id')
+            ->with(['user:id,username,email'])
             ->withCount('activities') // ← counts employee_activities
-            ->orderBy('id', 'DESC')
+            ->orderBy('name', 'ASC')
             ->get();
 
         return response()->json([
             'success' => true,
-            'data' => $history,
+            'data'    => $history,
             'message' => 'Record found'
         ], 200);
     }
@@ -374,16 +378,29 @@ class EmployeeController extends Controller
         try {
             $employee = Employee::where('user_id', auth()->id())->first();
             $calculateScores = CalculateScores($employee);
+
+            $data = [
+                'employee' => $employee,
+                'calculateScores' => $calculateScores
+            ];
             return response()->json([
                 'success' => true,
-                'data' => $calculateScores,
+                'data'    => $data,
                 'message' => 'Record found'
             ], 200);
         } catch (\Exception $e) {
+            Log::info($e);
             return response()->json([
                 'success' => false,
                 'message' => $e->getMessage()
             ], 400);
         }
+    }
+    public function export(Request $request)
+    {
+        // Optional: add auth checks here if needed, e.g. $this->authorize('export', EmployeeActivity::class);
+
+        // Filename can be dynamic if you like
+        return Excel::download(new EmployeesExport, 'employees.xlsx');
     }
 }
