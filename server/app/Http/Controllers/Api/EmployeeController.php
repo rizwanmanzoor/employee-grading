@@ -21,7 +21,7 @@ class EmployeeController extends Controller
         DB::beginTransaction();
 
         try {
-            // 🟢 Extract data from steps safely
+            // Extract data from steps safely
             $educationStep = $steps['step1'] ?? [];
             $certificateStep = $steps['step2'] ?? [];
             $externalStep = $steps['step3'] ?? [];
@@ -30,7 +30,7 @@ class EmployeeController extends Controller
             $internalStep = $steps['step6'] ?? [];
             $internalManagementStep = $steps['step7'] ?? [];
 
-            // 🟢 Create or update employee record
+            // Create or update employee record
             $employee = Employee::updateOrCreate(
                 ['user_id' => auth()->id()],
                 [
@@ -39,25 +39,25 @@ class EmployeeController extends Controller
 
                     // Education
                     'education'                   => $educationStep['education'] ?? null,
-                    'education_verified'          => $educationStep['verifiedSelected'] ?? null,
-                    'education_relevant'          => $educationStep['relevantSelected'] ?? null,
+                    'education_verified'          => $educationStep['verifiedSelected'] ?? "unverified",
+                    'education_relevant'          => $educationStep['relevantSelected'] ?? "irrelevant",
 
                     // Certification
                     'certificate_low'        => $certificateStep['low'] ?? null,
                     'certificate_medium'     => $certificateStep['medium'] ?? null,
                     'certificate_high'       => $certificateStep['high'] ?? null,
 
-                    'certificate_verified'   => $certificateStep['verifiedSelected'] ?? null,
-                    'certificate_relevant'   => $certificateStep['relevantSelected'] ?? null,
+                    'certificate_verified'   => $certificateStep['verifiedSelected'] ?? "unverified",
+                    'certificate_relevant'   => $certificateStep['relevantSelected'] ?? "irrelevant",
 
                     // Experience - External (Excl Management)
                     'experience_external'   => $externalStep['value'] ?? null,
-                    'experience_external_verified' => $externalStep['verifiedSelected'] ?? null,
+                    'experience_external_verified' => $externalStep['verifiedSelected'] ?? "unverified",
 
                     // Experience external   - Management
                     'experience_management' => $managementStep['value'] ?? null,
-                    'experience_management_verified' => $managementStep['verifiedSelected'] ?? null,
-                    'experience_management_relevant' => $managementStep['relevantSelected'] ?? null,
+                    'experience_management_verified' => $managementStep['verifiedSelected'] ?? "unverified",
+                    'experience_management_relevant' => $managementStep['relevantSelected'] ?? "irrelevant",
 
 
                     // English
@@ -68,82 +68,105 @@ class EmployeeController extends Controller
 
                     // Experience - Internal Management
                     'experience_internal_management' => $internalManagementStep['experience'] ?? null,
-                    'experience_internal_management_verified' => $internalManagementStep['verifiedSelected'] ?? null,
+                    'experience_internal_management_verified' => $internalManagementStep['verifiedSelected'] ?? "unverified",
                 ]
             );
 
-            // 🟢 Log activity history
-            $activity = EmployeeActivity::create([
-                'employee_id' => $employee->id,
-                'name'        => $employee->name,
-                // 'designation' => $employee->designation,
+            // education score calculation
 
-                'education'                   => $employee->education,
-                'education_verified'          => $employee->education_verified,
-                'education_relevant'          => $employee->education_relevant,
+            $EducationScore = calculateEducationScore($employee->education, $employee->education_verified, $employee->education_relevant);
 
-                'certificate_low'        => $employee->tech_certificate_low,
-                'certificate_medium'     => $employee->tech_certificate_medium,
-                'certificate_high'       => $employee->tech_certificate_high,
-                'certificate_verified'   => $employee->tech_certificate_verified,
-                'certificate_relevant'   => $employee->tech_certificate_relevant,
+            $certificateLowScore       = calculateCertificateScore('low', $employee->certificate_low, $employee->certificate_verified, $employee->certificate_relevant);
+            $certificateMediumScore    = calculateCertificateScore('medium', $employee->certificate_medium, $employee->certificate_verified, $employee->certificate_relevant);
+            $certificateHighScore      = calculateCertificateScore('high', $employee->certificate_high, $employee->certificate_verified, $employee->certificate_relevant);
 
-                'experience_external'   => $employee->experience_external,
-                'experience_external_verified' => $employee->experience_external_verified,
+            $externalExperienceScore   = calculateExternalExperienceScore($employee->experience_external);
 
-                'experience_management' => $employee->experience_management,
-                'experience_management_verified' => $employee->experience_management_verified,
-                'experience_management_relevant' => $employee->experience_management_relevant,
+            $managementExperienceScore = calculateManagementExperienceScore($employee->experience_management);
 
-                'english'               => $employee->english,
-                'experience_internal'   => $employee->experience_internal,
-                'experience_internal_management' => $employee->experience_internal_management,
-                'experience_internal_management_verified' => $employee->experience_internal_management_verified,
-            ]);
+            $englishScore              = calculateEnglishScore($employee->english);
 
-            // Map steps to document types for file uploads
-            $categories = [
-                'step1' => 'education',
-                'step2' => 'certificate',
-                'step3' => 'experience_external',
-                'step4' => 'experience_management',
-                'step6' => 'experience_internal',
-                'step7' => 'experience_internal_management',
-            ];
 
-            // Loop through steps
-            foreach ($steps as $stepKey => $stepData) {
+            $employee->education_score = $EducationScore['score'];
+            $employee->certificate_low_score = $certificateLowScore['score'];
+            $employee->certificate_medium_score = $certificateMediumScore['score'];
+            $employee->certificate_high_score = $certificateHighScore['score'];
 
-                // 1️⃣ Save non-file data to DB or activity (optional)
-                foreach ($stepData as $field => $value) {
-                    if ($field !== 'files') {
-                        // Example: save in a step_values table or activity JSON column
-                        // $activity->step_values()->create([
-                        //     'step' => $stepKey,
-                        //     'field' => $field,
-                        //     'value' => $value,
-                        // ]);
-                    }
-                }
+            $employee->experience_external_score = $externalExperienceScore['score'];
+            $employee->experience_management_score = $managementExperienceScore['score'];
 
-                // 2️⃣ Handle files if step is in categories
-                if (isset($categories[$stepKey]) && isset($stepData['files']) && is_array($stepData['files'])) {
-                    $type = $categories[$stepKey];
-                    $files = $stepData['files']; // UploadedFile objects from FormData
+            $employee->english_score = $englishScore['score'];
 
-                    $uploadedFiles = uploadEmployeeFiles($files, $employee->id, $type);
 
-                    // Save uploaded files to DB
-                    foreach ($uploadedFiles as $fileInfo) {
-                        EmployeeDocument::create([
-                            'employee_activity_id' => $activity->id,
-                            'submission_type'      => $type,
-                            'file_path'            => $fileInfo['file_path'],      // stored path
-                            'file_type'            => $fileInfo['file_extension'], // extension
-                        ]);
-                    }
-                }
-            }
+            $employee->save();
+
+            // Log activity history
+            // $activity = EmployeeActivity::create([
+            //     'employee_id' => $employee->id,
+            //     'name'        => $employee->name,
+            //     // 'designation' => $employee->designation,
+
+            //     'education'                   => $employee->education,
+            //     'education_verified'          => $employee->education_verified,
+            //     'education_relevant'          => $employee->education_relevant,
+
+            //     'certificate_low'        => $employee->tech_certificate_low,
+            //     'certificate_medium'     => $employee->tech_certificate_medium,
+            //     'certificate_high'       => $employee->tech_certificate_high,
+            //     'certificate_verified'   => $employee->tech_certificate_verified,
+            //     'certificate_relevant'   => $employee->tech_certificate_relevant,
+
+            //     'experience_external'   => $employee->experience_external,
+            //     'experience_external_verified' => $employee->experience_external_verified,
+
+            //     'experience_management' => $employee->experience_management,
+            //     'experience_management_verified' => $employee->experience_management_verified,
+            //     'experience_management_relevant' => $employee->experience_management_relevant,
+
+            //     'english'               => $employee->english,
+            //     'experience_internal'   => $employee->experience_internal,
+            //     'experience_internal_management' => $employee->experience_internal_management,
+            //     'experience_internal_management_verified' => $employee->experience_internal_management_verified,
+            // ]);
+
+            // // Map steps to document types for file uploads
+            // $categories = [
+            //     'step1' => 'education',
+            //     'step2' => 'certificate',
+            //     'step3' => 'experience_external',
+            //     'step4' => 'experience_management',
+            //     'step6' => 'experience_internal',
+            //     'step7' => 'experience_internal_management',
+            // ];
+
+            // // Loop through steps
+            // foreach ($steps as $stepKey => $stepData) {
+
+            //     // Save non-file data to DB or activity (optional)
+            //     foreach ($stepData as $field => $value) {
+            //         if ($field !== 'files') {
+
+            //         }
+            //     }
+
+            //     // Handle files if step is in categories
+            //     if (isset($categories[$stepKey]) && isset($stepData['files']) && is_array($stepData['files'])) {
+            //         $type = $categories[$stepKey];
+            //         $files = $stepData['files']; // UploadedFile objects from FormData
+
+            //         $uploadedFiles = uploadEmployeeFiles($files, $employee->id, $type);
+
+            //         // Save uploaded files to DB
+            //         foreach ($uploadedFiles as $fileInfo) {
+            //             EmployeeDocument::create([
+            //                 'employee_activity_id' => $activity->id,
+            //                 'submission_type'      => $type,
+            //                 'file_path'            => $fileInfo['file_path'],      // stored path
+            //                 'file_type'            => $fileInfo['file_extension'], // extension
+            //             ]);
+            //         }
+            //     }
+            // }
 
 
             DB::commit();
@@ -344,5 +367,23 @@ class EmployeeController extends Controller
             'data' => $history,
             'message' => 'Record found'
         ], 200);
+    }
+
+    public function scores(Request $request)
+    {
+        try {
+            $employee = Employee::where('user_id', auth()->id())->first();
+            $calculateScores = CalculateScores($employee);
+            return response()->json([
+                'success' => true,
+                'data' => $calculateScores,
+                'message' => 'Record found'
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage()
+            ], 400);
+        }
     }
 }
