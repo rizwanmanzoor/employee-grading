@@ -88,9 +88,9 @@ const Login = () => {
 
             {/* dialog */}
             <div>
-              <Button variant="outline" onClick={() => setOpen(true)}>
+              {/* <Button variant="outline" onClick={() => setOpen(true)}>
                 Open Dialog
-              </Button>
+              </Button> */}
 
               <CommonDialog
                 open={open}

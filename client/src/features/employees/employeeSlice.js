@@ -99,8 +99,23 @@ const employeeSlice = createSlice({
     exportError: null,
     passwordStatus: "idle",
     passwordMessage: null,
+    isModalOpen: false,
+    selectedEmployee: null,
   },
-  reducers: {},
+  reducers: {
+     openPasswordModal: (state, action) => {
+      state.isModalOpen = true;
+      state.selectedEmployee = action.payload; // employee object
+      state.passwordMessage = null;
+      state.passwordStatus = "idle";
+    },
+    closePasswordModal: (state) => {
+      state.isModalOpen = false;
+      state.selectedEmployee = null;
+      state.passwordMessage = null;
+      state.passwordStatus = "idle";
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchEmployees.pending, (state) => {
@@ -125,6 +140,7 @@ const employeeSlice = createSlice({
         state.exportStatus = "failed";
         state.exportError = action.payload;
       })
+       // Change password
       .addCase(changeEmployeePassword.pending, (state) => {
         state.passwordStatus = "loading";
       })
@@ -138,5 +154,5 @@ const employeeSlice = createSlice({
       });
   },
 });
-
+export const { openPasswordModal, closePasswordModal } = employeeSlice.actions;
 export default employeeSlice.reducer;

@@ -1,6 +1,12 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchEmployees,exportEmployees,changeEmployeePassword  } from "@/features/employees/employeeSlice";
+import { 
+  fetchEmployees,
+  exportEmployees,
+  changeEmployeePassword,
+  openPasswordModal,
+  closePasswordModal
+} from "@/features/employees/employeeSlice";
 
 import {
   Table,
@@ -19,25 +25,23 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import * as Dialog from "@radix-ui/react-dialog";
-import { Label } from "@/components/ui/label";
-
 import { MoreVertical, Search, Download } from "lucide-react";
+import CommonDialog from "@/components/dialog/CommonDialog";
 
 const EmployeeList = () => {
   const dispatch = useDispatch();
-  const { data: employees, status, error,exportStatus  } = useSelector(
+  const { data: employees, status, error,exportStatus, isModalOpen,
+    selectedEmployee,
+    passwordStatus,
+    passwordMessage } = useSelector(
     (state) => state.employees
   );
 
   // 🔍 Search and pagination states
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 8;
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [newPassword, setNewPassword] = useState("");
+  const itemsPerPage = 8;
 
   // 🔁 Fetch employees on mount
   useEffect(() => {
@@ -66,6 +70,21 @@ const EmployeeList = () => {
   // 📤 Export CSV function
   const handleExport = () => {
    dispatch(exportEmployees());
+  };
+
+  const handleSubmitPassword = () => {
+    if (!newPassword.trim()) return;
+    dispatch(
+      changeEmployeePassword({
+        employeeId: selectedEmployee.id,
+        newPassword,
+      })
+    ).then((res) => {
+      if (res.meta.requestStatus === "fulfilled") {
+        setNewPassword("");
+        setTimeout(() => dispatch(closePasswordModal()), 1000);
+      }
+    });
   };
 
   // 🧠 UI Conditions
@@ -146,14 +165,11 @@ const EmployeeList = () => {
                         >
                           View History
                         </DropdownMenuItem> */}
-                        <DropdownMenuItem
-                          onClick={() => {
-                            setSelectedEmployee(emp);
-                            setIsModalOpen(true);
-                          }}
+                         <DropdownMenuItem
+                          onClick={() => dispatch(openPasswordModal(emp))}
                         >
                           Change Password
-                        </DropdownMenuItem>
+                        </DropdownMenuItem> 
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>
@@ -202,22 +218,51 @@ const EmployeeList = () => {
         </div>
       )}
 
-        {/* Modal OUTSIDE the table */}
-<Dialog.Root>
-    <Dialog.Trigger asChild>
-      <button>Open Dialog</button>
-    </Dialog.Trigger>
-    <Dialog.Portal>
-      <Dialog.Overlay />
-      <Dialog.Content>
-        <Dialog.Title>Dialog Title</Dialog.Title>
-        <Dialog.Description>This is a description of the dialog content.</Dialog.Description>
-        <Dialog.Close asChild>
-          <button>Close</button>
-        </Dialog.Close>
-      </Dialog.Content>
-    </Dialog.Portal>
-  </Dialog.Root>
+        {/* Password Change Modal */}
+        <CommonDialog
+          open={isModalOpen}
+          onOpenChange={(open) => {
+            if (!open) {
+              setNewPassword("");
+              dispatch(closePasswordModal());
+            }
+          }}
+          title={`Change Password for ${selectedEmployee?.name || ""}`}
+          description="Enter a new password for this employee."
+          footer={
+            <>
+              <Button variant="outline" onClick={() => dispatch(closePasswordModal())}>
+                Cancel
+              </Button>
+              <Button
+                onClick={handleSubmitPassword}
+                disabled={passwordStatus === "loading"}
+              >
+                {passwordStatus === "loading" ? "Saving..." : "Change Password"}
+              </Button>
+            </>
+          }
+        >
+          <div className="space-y-2">
+            <label className="block text-sm font-medium">New Password</label>
+            <input
+              type="text"
+              className="w-full border p-2 rounded-md"
+              placeholder="Enter new password"
+              value={newPassword}
+              onChange={(e) => setNewPassword(e.target.value)}
+            />
+            {passwordMessage && (
+              <p
+                className={`text-sm ${
+                  passwordStatus === "failed" ? "text-red-500" : "text-green-600"
+                }`}
+              >
+                {passwordMessage}
+              </p>
+            )}
+          </div>
+        </CommonDialog>
     </div>
   );
 };

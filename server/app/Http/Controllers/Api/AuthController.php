@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Employee;
 use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
@@ -45,4 +47,47 @@ class AuthController extends Controller
             'message' => 'Successfully logged out'
         ]);
     }
+
+    public function changePassword(Request $request)
+    {
+        try {
+            // 🔹 Validate input
+            $validated = $request->validate([
+                'id' => 'required|integer|exists:employees,id',
+                'password' => 'required|string|min:6',
+            ]);
+
+            // 🔹 Find the employee
+            $employee = Employee::find($validated['id']);
+
+            // 🔹 If employee has a user record (common in setups with user table)
+            if (!$employee || !$employee->user) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'User account not found for this employee.',
+                ], 404);
+            }
+
+            // 🔹 Update the password
+            $employee->user->password = bcrypt($validated['password']);
+            $employee->user->save();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Password changed successfully.',
+            ]);
+
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->errors(),
+            ], 422);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Something went wrong: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+
 }

@@ -28,5 +28,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/scores', [EmployeeController::class, 'scores']);
 
         Route::get('/export', [EmployeeController::class, 'export']);
+
+        Route::post('/change-password', [AuthController::class, 'changePassword']);
     });
 });
