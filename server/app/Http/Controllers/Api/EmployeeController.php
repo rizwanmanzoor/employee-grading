@@ -33,6 +33,40 @@ class EmployeeController extends Controller
             $internalStep = $steps['step6'] ?? [];
             $internalManagementStep = $steps['step7'] ?? [];
 
+            Log::info([
+                'education'                   => $educationStep['education'] ?? null,
+                'education_verified'          => $educationStep['verifiedSelected'] ?? "unverified",
+                'education_relevant'          => $educationStep['relevantSelected'] ?? "irrelevant",
+
+                // Certification
+                'certificate_low'        => $certificateStep['low'] ?? null,
+                'certificate_medium'     => $certificateStep['medium'] ?? null,
+                'certificate_high'       => $certificateStep['high'] ?? null,
+
+                'certificate_verified'   => $certificateStep['verifiedSelected'] ?? "unverified",
+                'certificate_relevant'   => $certificateStep['relevantSelected'] ?? "irrelevant",
+
+                // Experience - External (Excl Management)
+                'experience_external'   => $externalStep['value'] ?? null,
+                'experience_external_verified' => $externalStep['verifiedSelected'] ?? "unverified",
+
+                // Experience external   - Management
+                'experience_management' => $managementStep['value'] ?? null,
+                'experience_management_verified' => $managementStep['verifiedSelected'] ?? "unverified",
+                'experience_management_relevant' => $managementStep['relevantSelected'] ?? "irrelevant",
+
+
+                // English
+                'english'               => $englishStep['value'] ?? null,
+
+                // Experience - Internal (Excl Management)
+                'experience_internal'   => $internalStep['value'] ?? null,
+
+                // Experience - Internal Management
+                'experience_internal_management' => $internalManagementStep['experience'] ?? null,
+                'experience_internal_management_verified' => $internalManagementStep['verifiedSelected'] ?? "unverified",
+            ]);
+
             // Create or update employee record
             $employee = Employee::updateOrCreate(
                 ['user_id' => auth()->id()],

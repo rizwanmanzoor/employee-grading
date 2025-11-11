@@ -38,7 +38,7 @@ const SelectRelevantGroup = ({step}) => {
           />
           <Label htmlFor={`${option.id}-${step}`}>
             <span>{option.label}</span>
-            <small className="ml-[-7px]">({option.weight})</small>
+            {/* <small className="ml-[-7px]">({option.weight})</small> */}
           </Label>
         </div>
       ))}

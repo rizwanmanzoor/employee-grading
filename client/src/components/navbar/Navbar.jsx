@@ -45,9 +45,9 @@ const Navbar = () => {
                 <li>
                   <Link to="/result" className="text-primary hover:text-primary/80 transition-colors">Result</Link>
                 </li>
-                <li>
+                {/* <li>
                   <Link to="/progress" className="text-primary hover:text-primary/80 transition-colors">Progress</Link>
-                </li>
+                </li> */}
                 <li>
                   <Link to="/how-to-use" className="text-primary hover:text-primary/80 transition-colors">How to Use</Link>
                 </li>

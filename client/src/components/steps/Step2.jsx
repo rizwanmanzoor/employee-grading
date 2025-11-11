@@ -17,7 +17,7 @@ const Step2 = () => {
   const [certLevels, setCertLevels] = useState(
     savedCertLevels && Object.keys(savedCertLevels).length > 0
       ? savedCertLevels
-      : { low: "1", medium: "1", high: "1" }
+      : { low: "0", medium: "0", high: "0" }
   );
 
   const handleChange = (category, value) => {
@@ -74,7 +74,7 @@ const Step2 = () => {
               defaultValue="option-1"
               className="grid grid-cols-[repeat(auto-fit,minmax(auto,50px))] gap-4"
             >
-              {["1", "2", "3"].map((val, i) => (
+              {["0","1", "2", "3"].map((val, i) => (
                 <div key={val} className="radio-field">
                   <RadioGroupItem value={val} id={`low-${val}`} />
                   <Label htmlFor={`low-${val}`}>{val}</Label>
@@ -99,7 +99,7 @@ const Step2 = () => {
               onValueChange={(val) => handleChange("medium", val)}
               className="grid grid-cols-[repeat(auto-fit,minmax(auto,50px))] gap-4"
             >
-              {["1", "2", "3"].map((val, i) => (
+              {["0","1", "2", "3"].map((val, i) => (
                 <div key={val} className="radio-field">
                   <RadioGroupItem value={val} id={`medium-${val}`} />
                   <Label htmlFor={`medium-${val}`}>{val}</Label>
@@ -122,7 +122,7 @@ const Step2 = () => {
               onValueChange={(val) => handleChange("high", val)}
               className="grid grid-cols-[repeat(auto-fit,minmax(auto,50px))] gap-4"
             >
-              {["1", "2"].map((val, i) => (
+              {["0","1", "2"].map((val, i) => (
                 <div key={val} className="radio-field">
                   <RadioGroupItem value={val} id={`high-${val}`} />
                   <Label htmlFor={`high-${val}`}>{val}</Label>

@@ -154,6 +154,8 @@ if (!function_exists('calculateExternalExperienceScore')) {
 
         // Maximum possible grade is highest value in array (15)
         $maxGrade = max($gradeMap);
+        Log::info("external");
+        Log::info("selectedGrade: $selectedGrade, maxGrade: $maxGrade, weightage: $weightage");
 
         $score = ($selectedGrade / $maxGrade) * $weightage * 100;
 
@@ -298,10 +300,10 @@ if (!function_exists('CalculateScores')) {
 
             $count = 0;
             $years = $employee->experience_external;
-            if ($employee->experience_internal != null && $employee->experience_internal != 'None') {
+            if ($employee->experience_internal != null && $employee->experience_internal != 'none') {
                 $count++;
             }
-            if ($years == 'None') {
+            if ($years == 'none') {
                 $years = 0;
             }
 
@@ -329,10 +331,10 @@ if (!function_exists('CalculateScores')) {
             // Log::info($employee->experience_management);
             $count = 0;
             $years = $employee->experience_management;
-            if ($employee->experience_internal_management != null && $employee->experience_internal_management != 'None') {
+            if ($employee->experience_internal_management != null && $employee->experience_internal_management != 'none') {
                 $count++;
             }
-            if ($years == 'None') {
+            if ($years == 'none') {
                 $years = 0;
             }
 
