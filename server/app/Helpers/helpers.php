@@ -468,14 +468,16 @@ if (!function_exists('getRecommendedDesignation')) {
             if ($score >= $minScore) {
                 return [
                     'main' => $designation['main'],
-                    'sub'  => $designation['sub']
+                    'sub'  => $designation['sub'],
+                    'grade' => $designation['grade']
                 ];
             }
         }
 
         return [
             'main' => 'Not Eligible',
-            'sub'  => null
+            'sub'  => null,
+            'grade' => null
         ];
     }
 }

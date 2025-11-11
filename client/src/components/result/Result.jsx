@@ -60,6 +60,7 @@ const Result = () => {
   const totalGrade = calculateScores?.total?.grade || 0;
   const totalScore = calculateScores?.total?.score || 0;
   const recommededDesignation = calculateScores?.recommended_designation?.main || "";
+  const recommededGrade = calculateScores?.recommended_designation?.sub || "";
 
 
 
@@ -102,7 +103,7 @@ const Result = () => {
               Grades
             </h3>
             <div className="inline-block max-w-max px-8 py-4 rounded-2xl shadow-lg bg-card">
-              <h2 className="text-4xl font-bold text-primary">{totalGrade}</h2>
+              <h2 className="text-4xl font-bold text-primary">{recommededGrade}</h2>
             </div>
 
             <h3 className="font-semibold tracking-tight flex items-center gap-2 text-xl mt-7 mb-5">
@@ -122,15 +123,26 @@ const Result = () => {
               </div>
             ))}
 
-            <div className="p-4 rounded-xl border">
+            <div className="p-4 rounded-xl border"> 
               <div className="flex items-center gap-2 mb-1">
                 <Target className="w-4 h-4 text-destructive" />
                 <p className="text-sm font-medium text-(--primary-amber)">
                   Recommended Designation
                 </p>
+
               </div>
-              <p className="font-bold text-(--primary-amber)">{recommededDesignation}</p>
+
+              <span className="font-bold px-2 py-0.5 text-(--primary-amber)">
+                {recommededDesignation}
+              </span>
+              {/* D3 Label Here */}
+                {recommededGrade && (
+                  <span className="border px-2 py-0.5 text-xs bg-accent rounded-full">
+                    {recommededGrade}
+                  </span>
+                )}
             </div>
+
           </div>
         </div>
       </div>
