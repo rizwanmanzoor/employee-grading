@@ -10,8 +10,11 @@ import { Eye, EyeOff, User } from "lucide-react";
 import loginImage from "@/assets/login-img.webp";
 import logo from "@/assets/logo.webp";
 import whiteLogo from "@/assets/nox-white.webp";
+import CommonDialog from "../dialog/CommonDialog";
 
 const Login = () => {
+  // dialog state
+  const [open, setOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -82,7 +85,43 @@ const Login = () => {
                 Enter your credentials to login to your account
               </p>
             </div>
-            <form  onSubmit={handleSubmit} className="space-y-6 mt-7 md:max-w-md w-full mx-auto">
+
+            {/* dialog */}
+            <div>
+              {/* <Button variant="outline" onClick={() => setOpen(true)}>
+                Open Dialog
+              </Button> */}
+
+              <CommonDialog
+                open={open}
+                onOpenChange={setOpen}
+                title="Edit Profile"
+                description="Make changes to your profile here."
+                footer={
+                  <>
+                    <Button variant="outline" onClick={() => setOpen(false)}>
+                      Cancel
+                    </Button>
+                    <Button onClick={() => setOpen(false)}>Save Changes</Button>
+                  </>
+                }
+              >
+                {/* Dialog Body */}
+                <div className="space-y-2">
+                  <label className="block text-sm font-medium">Name</label>
+                  <input
+                    type="text"
+                    className="w-full border p-2 rounded-md"
+                    placeholder="Enter name"
+                  />
+                </div>
+              </CommonDialog>
+            </div>
+
+            <form
+              onSubmit={handleSubmit}
+              className="space-y-6 mt-7 md:max-w-md w-full mx-auto"
+            >
               <div>
                 <Label
                   htmlFor="username"
@@ -152,7 +191,7 @@ const Login = () => {
                   </button>
                 </div>
               </div>
-                {/* ERROR */}
+              {/* ERROR */}
               {error && (
                 <p className="text-red-500 text-sm text-center">{error}</p>
               )}
