@@ -60,7 +60,8 @@ const Result = () => {
   const totalGrade = calculateScores?.total?.grade || 0;
   const totalScore = calculateScores?.total?.score || 0;
   const recommededDesignation = calculateScores?.recommended_designation?.main || "";
-  const recommededGrade = calculateScores?.recommended_designation?.sub || "";
+  const subCategoryGrade = calculateScores?.recommended_designation?.sub || "";
+  const recommededGrade = calculateScores?.recommended_designation?.grade || "";
 
 
 
@@ -136,9 +137,9 @@ const Result = () => {
                 {recommededDesignation}
               </span>
               {/* D3 Label Here */}
-                {recommededGrade && (
+                {subCategoryGrade && (
                   <span className="border px-2 py-0.5 text-xs bg-accent rounded-full">
-                    {recommededGrade}
+                    {subCategoryGrade}
                   </span>
                 )}
             </div>
