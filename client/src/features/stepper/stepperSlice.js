@@ -4,7 +4,7 @@ import { API_BASE_URL } from "@/constants/ApiConstant";
 // ✅ Final API call using FormData
 export const submitFinalForm = createAsyncThunk(
   "stepper/submitFinalForm",
-  async (stepData, { rejectWithValue }) => {
+  async ({ stepData, selectedOption }, { rejectWithValue }) => {
     try {
       const formData = new FormData();
 
@@ -21,6 +21,8 @@ export const submitFinalForm = createAsyncThunk(
           }
         });
       });
+
+      formData.append("landing_gateway", selectedOption);
 
       const res = await fetch(`${API_BASE_URL}/employee/submit`, {
         method: "POST",
@@ -43,10 +45,20 @@ const stepperSlice = createSlice({
   initialState: {
     currentStep: 0,
     stepData: {
-      step1: {},
-      step2: {},
-      step3: {},
-      step4: {},
+       step1: {
+        verifiedSelected: "verified",
+        relevantSelected: "relevant",
+      },
+      step2: {
+        verifiedSelected: "verified",
+        relevantSelected: "relevant",
+      },
+      step3: {
+        verifiedSelected: "verified",
+      },
+      step4: {
+        verifiedSelected: "verified",
+      },
       step5: {},
       step6: {},
       step7: {},

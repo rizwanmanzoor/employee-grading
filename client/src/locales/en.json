@@ -32,6 +32,7 @@
   "back": "Back",
   "next": "Next",
   "submit": "Submit",
+  "success_message": "Form Submitted Successfully!",
   "how": {
     "heading": "How to Use the Portal",
     "subheading": "Follow these simple steps to grade yourself and track your professional growth.",
@@ -118,8 +119,9 @@
       "6": "6 years",
       "7": "7 years",
       "8": "8 years"
-    },
-    "step7": {
+    }
+  },
+  "step7": {
       "title": "Internal Management Experience",
       "subtitle": "Select your years of internal management experience",
       "note_title": "Note",
@@ -135,7 +137,6 @@
         "7": "7 years",
         "8": "8 years"
       }
-    }
   },
   "result_page": {
     "loading": "Loading Result...",
@@ -151,6 +152,29 @@
     "recommended_designation": "Recommended Designation",
     "score_breakdown": "Score Breakdown",
     "try_again": "Try Again"
+  },
+  "calculator": "Calculator",
+  "grading": "Grading",
+  "open_calculator": "Open Calculator",
+  "files":{
+    "drag_and_drop": "Drag and Drop Files Here",
+    "or": "or",
+    "browse_file": "Browse Files",
+    "supported_formats": "PNG, JPG, and PDF are allowed."
+  },
+  "login_page": {
+    "title": "Login to your account",
+    "subtitle": "Enter your credentials to login to your account",
+    "username": "User name",
+    "enter_username": "Enter user name",
+    "password": "Password",
+    "enter_password": "Enter password",
+    "sign_in": "Sign in",
+    "signing_in": "Signing in...",
+    "error_invalid": "Invalid username or password",
+    "forgot_password": "Forgot password?",
+    "show_password": "Show password",
+    "hide_password": "Hide password"
   }
 
 }

@@ -45,7 +45,7 @@
 // export default LanguageToggle;
 
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -56,24 +56,32 @@ import {
 import { useTranslation } from "react-i18next";
 
 const LanguageToggle = () => {
-  const [lang, setLang] = useState("english");
   const { i18n } = useTranslation();
 
-  const handleArabic = () => {
-    setLang("arabic");
-    i18n.changeLanguage("ar");
-  };
+  // Initial language from localStorage or default "en"
+  const [lang, setLang] = useState(() => {
+    return localStorage.getItem("appLanguage") || "english";
+  });
 
-  const handleEnglish = () => {
-    setLang("english");
-    i18n.changeLanguage("en");
-  };
+  useEffect(() => {
+    // Update i18n language and localStorage whenever lang changes
+    if (lang === "arabic") {
+      i18n.changeLanguage("ar");
+      localStorage.setItem("appLanguage", "arabic");
+    } else {
+      i18n.changeLanguage("en");
+      localStorage.setItem("appLanguage", "english");
+    }
+  }, [lang, i18n]);
+
+  const handleArabic = () => setLang("arabic");
+  const handleEnglish = () => setLang("english");
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="icon">
-          {i18n.language === "ar" ? "AR" : "EN"}
+          {lang === "arabic" ? "AR" : "EN"}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
@@ -85,3 +93,4 @@ const LanguageToggle = () => {
 };
 
 export default LanguageToggle;
+

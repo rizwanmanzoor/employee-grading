@@ -144,7 +144,7 @@ const Step4 = () => {
 
       <div className="max-w-xl flex flex-col gap-4 mt-5">
         <SelectVerifiedGroup step="step4" />
-        <SelectRelevantGroup step="step4" />
+        {/* <SelectRelevantGroup step="step4" /> */}
       </div>
     </>
   );

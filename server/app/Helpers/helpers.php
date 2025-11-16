@@ -105,6 +105,7 @@ if (!function_exists('calculateCertificateScore')) {
 
     function calculateCertificateScore($type, $number, $verified, $relevant)
     {
+        // Log::info("type: $type, number: $number, verified: $verified, relevant: $relevant");
         $gradeMap  = config('constants.CERTIFICATE_GRADES');
         $weightage = config('constants.WEIGHTAGE')['Certificate']; // 0.20
 
@@ -123,7 +124,7 @@ if (!function_exists('calculateCertificateScore')) {
         // Max value inside that type
         $maxGrade = max($gradeMap['High']);
 
-        // Log::info("selectedGrade: $selectedGrade, maxGrade: $maxGrade, weightage: $weightage");
+        // Log::info("type: $type, number: $number, selectedGrade: $selectedGrade, maxGrade: $maxGrade, weightage: $weightage");
         // Formula:
         // (selected / max) * weightage * 100
         $score = ($selectedGrade / $maxGrade) * $weightage * 100;
@@ -158,6 +159,9 @@ if (!function_exists('calculateExternalExperienceScore')) {
         Log::info("selectedGrade: $selectedGrade, maxGrade: $maxGrade, weightage: $weightage");
 
         $score = ($selectedGrade / $maxGrade) * $weightage * 100;
+
+        Log::info("score: $score");
+        Log::info("grade: $selectedGrade");
 
         return [
             'score' => round($score, 2),
@@ -267,7 +271,7 @@ if (!function_exists('CalculateScores')) {
         if (isset($employee->certificate_low)) {
 
             $certificateLowStep = calculateCertificateScore('low', $employee->certificate_low, $employee->certificate_verified, $employee->certificate_relevant);
-            $certificateMediumStep = calculateCertificateScore('medium', $employee->certificate_low, $employee->certificate_verified, $employee->certificate_relevant);
+            $certificateMediumStep = calculateCertificateScore('medium', $employee->certificate_medium, $employee->certificate_verified, $employee->certificate_relevant);
             $certificateHighStep = calculateCertificateScore('high', $employee->certificate_high, $employee->certificate_verified, $employee->certificate_relevant);
 
             // Log::info($certificateLowStep);
@@ -298,16 +302,35 @@ if (!function_exists('CalculateScores')) {
         // -------------------------
         if (isset($employee->experience_external)) {
 
-            $count = 0;
+            $internalGrades = config('constants.INTERNAL_EXPERIENCE_GRADES');
             $years = $employee->experience_external;
-            if ($employee->experience_internal != null && $employee->experience_internal != 'none') {
-                $count++;
-            }
+            $internal = $employee->experience_internal;
+            // Handle external
             if ($years == 'none') {
                 $years = 0;
             }
-
             $years = (int) $years;
+            // New Logic for Internal Experience
+            $count = 0;
+
+            if ($internal !== null && $internal !== 'none') {
+
+                // Convert internal input to integer key
+                $internalKey = (int) $internal;
+
+                // Check if key exists in INTERNAL_EXPERIENCE_GRADES
+                if (array_key_exists($internalKey, $internalGrades)) {
+
+                    // Get grade mapped value
+                    $gradeValue = $internalGrades[$internalKey];
+
+                    // Log::info("gradeValue: $gradeValue");
+
+                    // Round up if decimal point
+                    // e.g. 1.5 → 2, 2.5 → 3, 3.5 → 4
+                    $count = (int) ceil($gradeValue);
+                }
+            }
 
             $experienceExternal = calculateExternalExperienceScore($years + $count); //if internal is not null then count is 1 add in external years
 
@@ -328,17 +351,36 @@ if (!function_exists('CalculateScores')) {
         // -------------------------
         if (isset($employee->experience_management)) {
 
-            // Log::info($employee->experience_management);
-            $count = 0;
+
+            $internalGrades = config('constants.INTERNAL_EXPERIENCE_GRADES');
             $years = $employee->experience_management;
-            if ($employee->experience_internal_management != null && $employee->experience_internal_management != 'none') {
-                $count++;
-            }
+            $internal = $employee->experience_internal_management;
+            // Handle external
             if ($years == 'none') {
                 $years = 0;
             }
-
             $years = (int) $years;
+            // New Logic for Internal Experience
+            $count = 0;
+
+            if ($internal !== null && $internal !== 'none') {
+
+                // Convert internal input to integer key
+                $internalKey = (int) $internal;
+
+                // Check if key exists in INTERNAL_EXPERIENCE_GRADES
+                if (array_key_exists($internalKey, $internalGrades)) {
+
+                    // Get grade mapped value
+                    $gradeValue = $internalGrades[$internalKey];
+
+                    // Log::info("gradeValue: $gradeValue");
+
+                    // Round up if decimal point
+                    // e.g. 1.5 → 2, 2.5 → 3, 3.5 → 4
+                    $count = (int) ceil($gradeValue);
+                }
+            }
 
             $experienceExternalManagement = calculateManagementExperienceScore($years + $count); //if internal is not null then count is 1 add in external years
 

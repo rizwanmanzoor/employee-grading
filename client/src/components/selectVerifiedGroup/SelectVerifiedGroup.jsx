@@ -10,9 +10,9 @@ const SelectVerifiedGroup = ({ step }) => {
   const { t, i18n } = useTranslation();
 
   const savedVerified = useSelector(
-    (state) => state.stepper.stepData[step]?.verifiedSelected || ""
+    (state) => state.stepper.stepData[step]?.verifiedSelected || "verified"
   );
-  const [verifiedSelected, setVerifiedSelected] = useState(savedVerified || "");
+  const [verifiedSelected, setVerifiedSelected] = useState(savedVerified || "verified");
 
   useEffect(() => {
     setVerifiedSelected(savedVerified);

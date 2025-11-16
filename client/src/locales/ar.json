@@ -37,6 +37,7 @@
   "back": "عودة",
   "next": "التالي",
   "submit": "إرسال",
+  "success_message": "تم تقديم النموذج بنجاح!",
   "how": {
     "heading": "كيفية استخدام البوابة",
     "subheading": "اتبع هذه الخطوات البسيطة لتقييم نفسك وتتبع نموك المهني.",
@@ -156,5 +157,28 @@
     "recommended_designation": "المسمى الوظيفي الموصى به",
     "score_breakdown": "تفصيل النقاط",
     "try_again": "المحاولة مرة أخرى"
+  },
+  "calculator": "آلة حاسبة",
+  "grading": "التقييم",
+  "open_calculator": "افتح الآلة الحاسبة",
+  "files": {
+    "drag_and_drop": "اسحب وأسقط",
+    "or": "أو",
+    "browse_file": "اختر الملفات",
+    "supported_formats": "يُسمح بملفات PNG , JPG , PDF."
+  },
+  "login_page": {
+    "title": "تسجيل الدخول إلى حسابك",
+    "subtitle": "أدخل بيانات الاعتماد الخاصة بك لتسجيل الدخول إلى حسابك",
+    "username": "اسم المستخدم",
+    "enter_username": "ادخل اسم المستخدم",
+    "password": "كلمة المرور",
+    "enter_password": "ادخل كلمة المرور",
+    "sign_in": "تسجيل الدخول",
+    "signing_in": "جاري تسجيل الدخول...",
+    "error_invalid": "اسم المستخدم أو كلمة المرور غير صحيحة",
+    "forgot_password": "نسيت كلمة المرور؟",
+    "show_password": "إظهار كلمة المرور",
+    "hide_password": "إخفاء كلمة المرور"
   }
 }

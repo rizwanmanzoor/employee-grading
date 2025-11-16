@@ -10,9 +10,9 @@ const SelectRelevantGroup = ({ step }) => {
   const { i18n, t } = useTranslation(); // ✅ get i18n for language detection
 
   const savedRelevant = useSelector(
-    (state) => state.stepper.stepData[step]?.relevantSelected || ""
+    (state) => state.stepper.stepData[step]?.relevantSelected || "relevant"
   );
-  const [relevantSelected, setRelevantSelected] = useState(savedRelevant || "");
+  const [relevantSelected, setRelevantSelected] = useState(savedRelevant || "relevant");
 
   useEffect(() => {
     setRelevantSelected(savedRelevant);

@@ -11,6 +11,7 @@ import loginImage from "@/assets/login-img.webp";
 import logo from "@/assets/logo.webp";
 import whiteLogo from "@/assets/nox-white.webp";
 import CommonDialog from "../dialog/CommonDialog";
+import { useTranslation } from "react-i18next";
 
 const Login = () => {
   // dialog state
@@ -20,6 +21,9 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+    const { t, i18n } = useTranslation();
+    const isRTL = i18n.language === "ar";
 
   const { loading, error, token,role } = useSelector((state) => state.auth);
 
@@ -32,19 +36,33 @@ const Login = () => {
     dispatch(loginUser({ username, password }));
   };
 
+  // ⭐ CHECK LANGUAGE FROM LOCALSTORAGE ON PAGE LOAD
+  useEffect(() => {
+    const savedLang = localStorage.getItem("appLanguage");
+    if (savedLang === "arabic") {
+      i18n.changeLanguage("ar");
+      document.body.dir = "rtl";
+    } else {
+      i18n.changeLanguage("english");
+      document.body.dir = "ltr";
+    }
+  }, []);
+
   useEffect(() => {
     if (token) {
       if (role === "admin") {
       navigate("/admin");
     } else if (role === "employee") {
-      navigate("/home");
+      navigate("/gateway");
     }
     }
   }, [token,role, navigate]);
 
   return (
     <div
-      className="md:min-h-screen flex items-center justify-center p-4"
+      className={`min-h-screen flex items-center justify-center p-4 ${
+        isRTL ? "direction-rtl" : "direction-ltr"
+      }`}
       style={{ backgroundColor: "var(--background)" }}
     >
       <div className="w-full max-w-[950px] text-card-foreground rounded-2xl shadow-md border border-border bg-card overflow-hidden">
@@ -80,9 +98,9 @@ const Login = () => {
                 width={"180"}
                 className="mb-3 hidden dark:block"
               />
-              <h1 className="text-2xl font-bold">Login to your account</h1>
+              <h1 className="text-2xl font-bold">{t("login_page.title")}</h1>
               <p className="text-muted-foreground text-sm text-balance">
-                Enter your credentials to login to your account
+              {t("login_page.subtitle")}
               </p>
             </div>
 
@@ -125,10 +143,10 @@ const Login = () => {
               <div>
                 <Label
                   htmlFor="username"
-                  className="text-sm font-medium mb-2 block"
+                  className={`text-sm font-medium mb-2 ${isRTL ? "text-right" : "text-left"}`}
                   style={{ color: "var(--foreground)" }}
                 >
-                  User name
+                  {t("login_page.username")}
                 </Label>
                 <div className="relative">
                   <Input
@@ -136,7 +154,7 @@ const Login = () => {
                     name="username"
                     type="text"
                     required
-                    placeholder="Enter user name"
+                    placeholder={t("login_page.enter_username")}
                     className="pr-9"
                     style={{
                       backgroundColor: "var(--input-bg)",
@@ -156,10 +174,10 @@ const Login = () => {
               <div>
                 <Label
                   htmlFor="password"
-                  className="text-sm font-medium mb-2 block"
+                  className={`text-sm font-medium mb-2 ${isRTL ? "text-right" : "text-left"}`}
                   style={{ color: "var(--foreground)" }}
                 >
-                  Password
+                 {t("login_page.password")}
                 </Label>
                 <div className="relative">
                   <Input
@@ -167,7 +185,7 @@ const Login = () => {
                     name="password"
                     type={showPassword ? "text" : "password"}
                     required
-                    placeholder="Enter password"
+                    placeholder={t("login_page.enter_password")}
                     className="pr-9"
                     style={{
                       backgroundColor: "var(--input-bg)",
@@ -201,7 +219,7 @@ const Login = () => {
                 disabled={loading}
                 className="w-full mt-2 cursor-pointer"
               >
-                {loading ? "Signing in..." : "Sign in"}
+                {loading ? t("login_page.signing_in") : t("login_page.sign_in")}
               </Button>
             </form>
           </div>

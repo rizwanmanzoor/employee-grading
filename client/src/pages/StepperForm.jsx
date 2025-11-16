@@ -1,11 +1,12 @@
 import { toast } from "sonner";
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { steps } from "../components/steps/Steps";
 import Stepper from "@/components/stepper/Stepper";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentStep, submitFinalForm } from "@/features/stepper/stepperSlice";
+import { loadSelectedOption } from "@/features/appFlag/appFlagSlice";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
@@ -21,9 +22,14 @@ const StepperForm = () => {
     SUBMIT: t("submit"),
   };
   const navigate = useNavigate();
-
+useEffect(() => {
+    dispatch(loadSelectedOption());
+  }, [dispatch]);
 
   const { currentStep, stepData, loading } = useSelector((state) => state.stepper);
+  const { selectedOption } = useSelector((state) => state.appFlag);
+
+  // alert(selectedOption);
 
   const isFirstStep = currentStep === 0;
   const isLastStep = currentStep >= steps.length - 1;
@@ -38,8 +44,10 @@ const StepperForm = () => {
 
   const handleSubmit = async () => {
     try {
-      await dispatch(submitFinalForm(stepData)).unwrap();
-      toast.success("Form Submitted Successfully!");
+      // console.log("handle");
+      // console.log(selectedOption);
+      await dispatch(submitFinalForm({ stepData, selectedOption })).unwrap();
+      toast.success(t("success_message"));
       navigate("/result");
     } catch (error) {
       toast.error(error || "Submission failed!");
@@ -75,7 +83,7 @@ const StepperForm = () => {
             disabled={loading}
             onClick={handleSubmit}
           >
-            {loading ? "Submitting..." : ButtonLabels.SUBMIT}
+            {loading ? t("submit") + "..." : ButtonLabels.SUBMIT}
           </Button>
         ) : (
           <Button className={"px-6 py-2"} onClick={handleNext}>

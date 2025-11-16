@@ -17,11 +17,27 @@ class EmployeeController extends Controller
 {
     public function submit(Request $request)
     {
-        Log::info($request->all());
+        // Log::info($request->all());
 
         $steps = $request->all();
 
+        // selectedOption ko alag handle karo
+        $selectedOption = $steps['landing_gateway'] ?? null;
+
+        // Log::info($selectedOption);
+        // remove it from steps before looping
+        unset($steps['landing_gateway']);
+
         DB::beginTransaction();
+
+        $validateEmployee = Employee::where('user_id', auth()->id())
+            ->where('application_gateway', 'grading')->first();
+        if ($validateEmployee) {
+            return response()->json([
+                'success' => false,
+                'error' => "You have already submitted your application. If you want to reapply, please contact HR."
+            ]);
+        }
 
         try {
             // Extract data from steps safely
@@ -106,6 +122,7 @@ class EmployeeController extends Controller
                     // Experience - Internal Management
                     'experience_internal_management' => $internalManagementStep['experience'] ?? null,
                     'experience_internal_management_verified' => $internalManagementStep['verifiedSelected'] ?? "unverified",
+                    'application_gateway' => $selectedOption
                 ]
             );
 
@@ -124,47 +141,48 @@ class EmployeeController extends Controller
             $englishScore              = calculateEnglishScore($employee->english);
 
 
-            $employee->education_score = $EducationScore['score'];
-            $employee->certificate_low_score = $certificateLowScore['score'];
-            $employee->certificate_medium_score = $certificateMediumScore['score'];
-            $employee->certificate_high_score = $certificateHighScore['score'];
+            $employee->education_score             = $EducationScore['score'];
+            $employee->certificate_low_score       = $certificateLowScore['score'];
+            $employee->certificate_medium_score    = $certificateMediumScore['score'];
+            $employee->certificate_high_score      = $certificateHighScore['score'];
 
-            $employee->experience_external_score = $externalExperienceScore['score'];
+            $employee->experience_external_score   = $externalExperienceScore['score'];
             $employee->experience_management_score = $managementExperienceScore['score'];
 
-            $employee->english_score = $englishScore['score'];
+            $employee->english_score                = $englishScore['score'];
 
 
             $employee->save();
 
             // Log activity history
             $activity = EmployeeActivity::create([
-                'employee_id' => $employee->id,
-                'name'        => $employee->name,
-                'employee_no'        => $employee->employee_no,
-                'designation' => $employee->designation,
+                'employee_id'                             => $employee->id,
+                'name'                                    => $employee->name,
+                'employee_no'                             => $employee->employee_no,
+                'designation'                             => $employee->designation,
 
-                'education'                   => $employee->education,
-                'education_verified'          => $employee->education_verified,
-                'education_relevant'          => $employee->education_relevant,
+                'education'                               => $employee->education,
+                'education_verified'                      => $employee->education_verified,
+                'education_relevant'                      => $employee->education_relevant,
 
-                'certificate_low'        => $employee->certificate_low,
-                'certificate_medium'     => $employee->certificate_medium,
-                'certificate_high'       => $employee->certificate_high,
-                'certificate_verified'   => $employee->certificate_verified,
-                'certificate_relevant'   => $employee->certificate_relevant,
+                'certificate_low'                         => $employee->certificate_low,
+                'certificate_medium'                      => $employee->certificate_medium,
+                'certificate_high'                        => $employee->certificate_high,
+                'certificate_verified'                    => $employee->certificate_verified,
+                'certificate_relevant'                    => $employee->certificate_relevant,
 
-                'experience_external'   => $employee->experience_external,
-                'experience_external_verified' => $employee->experience_external_verified,
+                'experience_external'                     => $employee->experience_external,
+                'experience_external_verified'            => $employee->experience_external_verified,
 
-                'experience_management' => $employee->experience_management,
-                'experience_management_verified' => $employee->experience_management_verified,
-                'experience_management_relevant' => $employee->experience_management_relevant,
+                'experience_management'                   => $employee->experience_management,
+                'experience_management_verified'          => $employee->experience_management_verified,
+                'experience_management_relevant'          => $employee->experience_management_relevant,
 
-                'english'               => $employee->english,
-                'experience_internal'   => $employee->experience_internal,
-                'experience_internal_management' => $employee->experience_internal_management,
+                'english'                                 => $employee->english,
+                'experience_internal'                     => $employee->experience_internal,
+                'experience_internal_management'          => $employee->experience_internal_management,
                 'experience_internal_management_verified' => $employee->experience_internal_management_verified,
+                'application_gateway'                     => $selectedOption
             ]);
 
             // Map steps to document types for file uploads

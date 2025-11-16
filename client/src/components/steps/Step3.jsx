@@ -90,9 +90,9 @@ const Step3 = () => {
   return (
     <>
        <div>
-      <div className={`flex items-center gap-3 pb-4 border-b ${
-    isRTL ? "flex-row-reverse text-right" : "flex-row text-left"
-  }`}>
+          <div className={`flex items-center gap-3 pb-4 border-b ${
+            isRTL ? "flex-row-reverse text-right" : "flex-row text-left"
+          }`}>
         <div className="w-12 h-12 rounded-full border-2 border-primary flex items-center justify-center">
           <Briefcase />
         </div>

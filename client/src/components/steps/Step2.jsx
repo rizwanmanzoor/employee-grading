@@ -24,11 +24,12 @@ const Step2 = () => {
       : { low: "0", medium: "0", high: "0" }
   );
 
-  const handleChange = (category, value) => {
-    const updated = { ...certLevels, [category]: value };
-    setCertLevels(updated);
-    dispatch(saveStepData({ step: "step2", data: updated }));
-  };
+const handleChange = (category, value) => {
+  let updated = { low: "0", medium: "0", high: "0" }; // pehle sab 0
+  updated[category] = value; // sirf selected category ko update karo
+  setCertLevels(updated);
+  dispatch(saveStepData({ step: "step2", data: updated }));
+};
 
    // Keep local state in sync if Redux updates (for example, on back navigation)
   useEffect(() => {

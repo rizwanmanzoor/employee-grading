@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import RootLayout from "@/layouts/RootLayout";
 
 import HomePage from "@/pages/HomePage";
+import LandingGateway from "@/pages/LandingGatewayPage";
 import NotFound from "@/pages/NotFound";
 import LoginPage from "@/pages/LoginPage";
 import ResultPage from "@/pages/ResultPage";
@@ -21,6 +22,7 @@ const employeePages = (
   <Route element={<ProtectedRoute allowedRoles={["employee"]} />}>
     <Route element={<RootLayout />}>
     <Route path="/home" element={<HomePage />} />
+    <Route path="/gateway" element={<LandingGateway />} />
     <Route path="/grading" element={<StepperForm />} />
     <Route path="/result" element={<ResultPage />} />
     <Route path="/progress" element={<ProgressPage />} />

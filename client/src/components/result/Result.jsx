@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect,useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchEmployeeScores } from "@/features/scores/scoreSlice";
 import { Button } from "../ui/button";
@@ -19,10 +19,17 @@ const Result = () => {
     (state) => state.scores
   );
 
+  const [applicationGateway, setApplicationGateway] = useState(null);
+
   useEffect(() => {
     dispatch(fetchEmployeeScores());
   }, [dispatch]);
 
+  useEffect(() => {
+    if (employee && employee.application_gateway) {
+      setApplicationGateway(employee.application_gateway); // ✅ gateway value from API
+    }
+  }, [employee]);
 
   // ✅ Loader
   if (loading)
@@ -39,6 +46,41 @@ const Result = () => {
         <p className="text-red-500 font-bold">{error}</p>
       </div>
     );
+
+// ✅ Show thank you if grading
+  if (applicationGateway === "grading") {
+    return (
+      <div className="flex justify-center mt-10 px-4">
+        <div className="p-6 bg-card border rounded-2xl shadow-md max-w-2xl text-center">
+          <h2 className="text-xl font-bold text-primary mb-2">
+            {t(
+              "result_page.thank_you_title",
+              "Thank you for sharing your information."
+            )}
+          </h2>
+          <p className="text-muted-foreground leading-relaxed">
+            {t(
+              "result_page.thank_you_line1",
+              "We received your submission. Our Human Resources department will now verify and evaluate the information provided."
+            )}
+            <br />
+            <br />
+            {t(
+              "result_page.thank_you_line2",
+              "You will receive an update once the review is complete."
+            )}
+            <br />
+            <br />
+            {t(
+              "result_page.thank_you_line3",
+              "We appreciate your time and effort."
+            )}
+          </p>
+        </div>
+      </div>
+    );
+  }
+
 
   // ✅ Data Formatting
   const employeeInfo = employee
@@ -70,7 +112,7 @@ const Result = () => {
 
 
   const handleTryAgain = () => {
-    navigate("/grading");
+    navigate("/gateway");
     window.location.reload(); // state reset
   };
 
@@ -195,13 +237,13 @@ const Result = () => {
 
       <div className="flex flex-col sm:flex-row gap-4">
          <Button
-      size="lg"
-      className="w-full sm:w-auto cursor-pointer text-primary-foreground"
-      onClick={handleTryAgain}
-    >
-      <Repeat className="w-5 h-5" />
-       {t("result_page.try_again")}
-    </Button>
+            size="lg"
+            className="w-full sm:w-auto cursor-pointer text-primary-foreground"
+            onClick={handleTryAgain}
+          >
+            <Repeat className="w-5 h-5" />
+            {t("result_page.try_again")}
+          </Button>
       </div>
     </div>
   );

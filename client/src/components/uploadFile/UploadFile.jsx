@@ -3,10 +3,12 @@ import { Input } from "@/components/ui/input";
 import { UploadCloud, X } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { saveStepData } from "@/features/stepper/stepperSlice";
+import { useTranslation } from "react-i18next";
 
 const UploadFile = ({ step }) => {
 
   const dispatch = useDispatch();
+  const { t, i18n } = useTranslation();
   const inputRef = useRef(null);
   // Load existing files from Redux (initial only)
   const stepFiles = useSelector((state) => state.stepper[step]?.files || []);
@@ -149,7 +151,7 @@ const handleFiles = (selectedFiles) => {
             className="text-base font-semibold"
             style={{ color: "var(--muted-foreground)" }}
           >
-            Drag and drop files here
+            {t("files.drag_and_drop")}
           </h4>
         </div>
 
@@ -178,13 +180,13 @@ const handleFiles = (selectedFiles) => {
               (e.currentTarget.style.backgroundColor = "var(--muted)")
             }
           >
-            Browse Files
+            {t("files.browse_file")}
           </label>
           <p
             className="text-xs mt-4"
             style={{ color: "var(--muted-foreground)" }}
           >
-            PNG, JPG, and PDF are allowed.
+            {t("files.supported_formats")}
           </p>
         </div>
       </div>

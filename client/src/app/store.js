@@ -3,6 +3,8 @@ import authReducer from "@/features/auth/authSlice";
 import stepperReducer from "@/features/stepper/stepperSlice";
 import scoreReducer from "@/features/scores/scoreSlice";
 import employeeReducer from "@/features/employees/employeeSlice";
+import appFlagSliceReducer from "@/features/appFlag/appFlagSlice";
+
 
 // export const store = configureStore({
 //   reducer: {
@@ -19,6 +21,7 @@ export const store = configureStore({
     stepper: stepperReducer,
     scores: scoreReducer,
     employees: employeeReducer,
+    appFlag: appFlagSliceReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
