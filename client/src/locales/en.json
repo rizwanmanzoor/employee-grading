@@ -175,6 +175,43 @@
     "forgot_password": "Forgot password?",
     "show_password": "Show password",
     "hide_password": "Hide password"
+  },
+  "home": {
+    "badge": "Employee Development Portal",
+    "title": "Welcome to NOX Group Admin Portal",
+    "subtitle": "Manage employees, track professional growth, and ensure data-driven insights across the organization.",
+    "employee_list_button": "Employee List"
+  },
+  "employee_list": {
+    "page_title": "Employee List",
+    "search_placeholder": "Search employees...",
+    "export_button": "Export Employees",
+    "exporting": "Exporting...",
+    "table": {
+      "id": "ID",
+      "name": "Name",
+      "username": "Username",
+      "email": "Email",
+      "designation": "Designation",
+      "activity": "Activity Count",
+      "actions": "Actions",
+      "no_employees": "No employees found."
+    },
+    "pagination": {
+      "page": "Page",
+      "of": "of",
+      "previous": "Previous",
+      "next": "Next"
+    },
+    "modal": {
+      "title": "Change Password for",
+      "description": "Enter a new password for this employee.",
+      "new_password": "New Password",
+      "placeholder": "Enter new password",
+      "cancel": "Cancel",
+      "change": "Change Password",
+      "saving": "Saving..."
+    }
   }
 
 }

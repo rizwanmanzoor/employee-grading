@@ -27,9 +27,14 @@ import {
 
 import { MoreVertical, Search, Download } from "lucide-react";
 import CommonDialog from "@/components/dialog/CommonDialog";
+import { useTranslation } from "react-i18next";
 
 const EmployeeList = () => {
   const dispatch = useDispatch();
+
+  const { t, i18n } = useTranslation();
+const isRTL = i18n.language === "ar";
+
   const { data: employees, status, error,exportStatus, isModalOpen,
     selectedEmployee,
     passwordStatus,
@@ -49,6 +54,10 @@ const EmployeeList = () => {
       dispatch(fetchEmployees());
     }
   }, [dispatch, status]);
+
+  useEffect(() => {
+  document.body.dir = isRTL ? "rtl" : "ltr";
+}, [isRTL]);
 
   // 🔍 Filtered employees
   const filteredEmployees = useMemo(() => {
@@ -96,14 +105,14 @@ const EmployeeList = () => {
     <div className="p-8 space-y-6">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <h1 className="text-3xl font-bold">Employee List</h1>
+        <h1 className="text-3xl font-bold">{t("employee_list.page_title")}</h1>
 
         <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto items-stretch sm:items-center justify-end">
           {/* Search Bar */}
           <div className="relative w-full sm:w-72">
             <Search className="absolute left-2 top-2.5 w-4 h-4 text-muted-foreground" />
             <Input
-              placeholder="Search employees..."
+              placeholder={t("employee_list.search_placeholder")}
               className="pl-8"
               value={searchTerm}
               onChange={(e) => {
@@ -120,7 +129,9 @@ const EmployeeList = () => {
             className="flex items-center gap-2"
           >
             <Download className="w-4 h-4" />
-            {exportStatus === "loading" ? "Exporting..." : "Export Employees"}
+            {exportStatus === "loading"
+    ? t("employee_list.exporting")
+    : t("employee_list.export_button")}
           </Button>
         </div>
       </div>
@@ -130,13 +141,15 @@ const EmployeeList = () => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>ID</TableHead>
-              <TableHead>Name</TableHead>
-              <TableHead>Username</TableHead>
-              <TableHead>Email</TableHead>
-              <TableHead>Designation</TableHead>
-              <TableHead>Activity Count</TableHead>
-              <TableHead className="text-right">Actions</TableHead>
+              <TableHead>{t("employee_list.table.id")}</TableHead>
+              <TableHead>{t("employee_list.table.name")}</TableHead>
+              <TableHead>{t("employee_list.table.username")}</TableHead>
+              <TableHead>{t("employee_list.table.email")}</TableHead>
+              <TableHead>{t("employee_list.table.designation")}</TableHead>
+              <TableHead>{t("employee_list.table.activity")}</TableHead>
+              <TableHead className="text-right">
+                {t("employee_list.table.actions")}
+              </TableHead>
             </TableRow>
           </TableHeader>
 
@@ -181,7 +194,7 @@ const EmployeeList = () => {
                   colSpan="7"
                   className="text-center py-6 text-muted-foreground"
                 >
-                  No employees found.
+                {t("employee_list.table.no_employees")}
                 </TableCell>
               </TableRow>
             )}
@@ -195,7 +208,7 @@ const EmployeeList = () => {
       {totalPages > 1 && (
         <div className="flex justify-between items-center pt-4">
           <p className="text-sm text-muted-foreground">
-            Page {currentPage} of {totalPages}
+             {t("employee_list.pagination.page")} {currentPage} {t("employee_list.pagination.of")} {totalPages}
           </p>
           <div className="flex gap-2">
             <Button
@@ -204,7 +217,7 @@ const EmployeeList = () => {
               disabled={currentPage === 1}
               onClick={() => setCurrentPage((p) => p - 1)}
             >
-              Previous
+              {t("employee_list.pagination.previous")}
             </Button>
             <Button
               variant="outline"
@@ -212,7 +225,7 @@ const EmployeeList = () => {
               disabled={currentPage === totalPages}
               onClick={() => setCurrentPage((p) => p + 1)}
             >
-              Next
+              {t("employee_list.pagination.next")}
             </Button>
           </div>
         </div>
@@ -227,28 +240,30 @@ const EmployeeList = () => {
               dispatch(closePasswordModal());
             }
           }}
-          title={`Change Password for ${selectedEmployee?.name || ""}`}
-          description="Enter a new password for this employee."
+          title={`${t("employee_list.modal.title")} ${selectedEmployee?.name || ""}`}
+          description={t("employee_list.modal.description")}
           footer={
             <>
               <Button variant="outline" onClick={() => dispatch(closePasswordModal())}>
-                Cancel
+              {t("employee_list.modal.cancel")}
               </Button>
               <Button
                 onClick={handleSubmitPassword}
                 disabled={passwordStatus === "loading"}
               >
-                {passwordStatus === "loading" ? "Saving..." : "Change Password"}
+                {passwordStatus === "loading"
+                    ? t("employee_list.modal.saving")
+                    : t("employee_list.modal.change")}
               </Button>
             </>
           }
         >
           <div className="space-y-2">
-            <label className="block text-sm font-medium">New Password</label>
+            <label className="block text-sm font-medium">{t("employee_list.modal.new_password")}</label>
             <input
               type="text"
               className="w-full border p-2 rounded-md"
-              placeholder="Enter new password"
+              placeholder={t("employee_list.modal.placeholder")}
               value={newPassword}
               onChange={(e) => setNewPassword(e.target.value)}
             />
