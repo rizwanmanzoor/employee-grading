@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
@@ -5,15 +6,18 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Sparkles, ShieldCheck } from "lucide-react";
 
+
 const Home = () => {
   const [isChecked, setIsChecked] = useState(false);
+  const { t, i18n } = useTranslation();
+
 
   return (
     <div className="flex flex-col justify-between h-full items-center gap-4 py-4 md:py-8 text-foreground">
       <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-card border border-border shadow-sm">
         <Sparkles className="w-4 h-4 text-primary" />
         <span className="text-sm font-medium text-primary">
-          Employee Development Portal
+          {t("employee_development_portal")}
         </span>
       </div>
 
@@ -22,20 +26,19 @@ const Home = () => {
           className="text-2xl md:text-5xl font-bold leading-tight text-center"
           style={{ color: "var(--primary)" }}
         >
-          Welcome to NOX Group Grading Portal
+          {t("welcome_title")}
         </h1>
 
         <p
           className="text-md md:text-xl max-w-3xl mx-auto text-center"
           style={{ color: "var(--muted-foreground)" }}
         >
-          Track your professional growth, identify development opportunities,
-          and advance your career with transparent, data-driven insights.
+          {t("welcome_description")}
         </p>
 
         <Link to="/how-to-use" className="mt-3">
           <Button size={"lg"} className="cursor-pointer">
-            How to Use
+            {t("how_to_use")}
           </Button>
         </Link>
       </div>
@@ -57,17 +60,13 @@ const Home = () => {
                 className="font-bold mb-2"
                 style={{ color: "hsl(var(--primary))" }}
               >
-                Confidentiality Notice
+                {t("confidentiality_notice")}
               </h4>
               <p
                 className="leading-relaxed"
                 style={{ color: "hsl(var(--muted-foreground))" }}
               >
-                All information submitted through this portal is strictly
-                confidential and used solely for professional development
-                purposes. Providing false information may result in disciplinary
-                action. By using this system, you acknowledge and accept these
-                terms.
+                {t("confidentiality_text")}
               </p>
 
               <div className="flex md:items-center gap-3 mt-3">
@@ -77,13 +76,20 @@ const Home = () => {
                   onCheckedChange={(checked) => setIsChecked(checked)}
                 />
                 <Label htmlFor="terms" className="text-md leading-4">
-                  I have read and accept the terms and conditions stated above
+                  {t("accept_terms")}
                 </Label>
               </div>
 
-              <Button disabled={!isChecked} className="mt-5 cursor-pointer">
-                <Link to="/grading">Start Grading</Link>
-              </Button>
+              <div
+  className={`mt-5 flex ${
+    i18n.language === "ar" ? "justify-start" : "justify-start"
+  }`}
+>
+  <Button disabled={!isChecked} className="cursor-pointer">
+    <Link to="/grading">{t("start_grading")}</Link>
+  </Button>
+</div>
+
             </div>
           </div>
         </div>

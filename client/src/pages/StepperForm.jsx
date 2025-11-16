@@ -6,17 +6,20 @@ import Stepper from "@/components/stepper/Stepper";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentStep, submitFinalForm } from "@/features/stepper/stepperSlice";
-
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 
-const ButtonLabels = {
-  BACK: "Back",
-  NEXT: "Next",
-  SUBMIT: "Submit",
-};
+
 
 const StepperForm = () => {
   const dispatch = useDispatch();
+  const { t } = useTranslation();
+  const ButtonLabels = {
+  
+    BACK: t("back"),
+    NEXT: t("next"),
+    SUBMIT: t("submit"),
+  };
   const navigate = useNavigate();
 
 

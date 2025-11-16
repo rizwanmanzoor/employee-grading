@@ -15,46 +15,13 @@ import Step5 from "./Step5";
 import Step6 from "./Step6";
 import Step7 from "./Step7";
 
+// label is now a function: (t) => t("key")
 export const steps = [
-  { label: "Education", icon: <BookOpen />, weight: "20%", content: <Step1 /> },
-  {
-    label: "Certification",
-    icon: <AwardIcon />,
-    weight: "20%",
-    content: <Step2 />,
-  },
-  {
-    label: "External Experience - Excl Management",
-    icon: <Briefcase />,
-    weight: "20%",
-    content: <Step3 />,
-  },
-  {
-    label: "External Experience - Management",
-    icon: <UserCheck />,
-    weight: "25%",
-    content: <Step4 />,
-  },
-  {
-    label: "English",
-    icon: <Globe />,
-    weight: "15%",
-    content: <Step5 />,
-  },
-  {
-    label: "Internal Experience - Excl Management",
-    icon: <Layers />,
-    content: <Step6 />,
-  },
-  {
-    label: "Internal Experience - Management",
-    icon: <Users />,
-    content: <Step7 />,
-  },
+  { label: (t) => t("education"), icon: <BookOpen />, weight: "20%", content: <Step1 /> },
+  { label: (t) => t("certification"), icon: <AwardIcon />, weight: "20%", content: <Step2 /> },
+  { label: (t) => t("external_experience_excl"), icon: <Briefcase />, weight: "20%", content: <Step3 /> },
+  { label: (t) => t("external_experience_mgmt"), icon: <UserCheck />, weight: "25%", content: <Step4 /> },
+  { label: (t) => t("english"), icon: <Globe />, weight: "15%", content: <Step5 /> },
+  { label: (t) => t("internal_experience_excl"), icon: <Layers />, content: <Step6 /> },
+  { label: (t) => t("internal_experience_mgmt"), icon: <Users />, content: <Step7 /> },
 ];
-
-const Steps = () => {
-  return <div>Steps Component Loaded</div>;
-};
-
-export default Steps;

@@ -4,17 +4,21 @@ import { saveStepData } from "@/features/stepper/stepperSlice";
 import { Globe } from "lucide-react";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { useTranslation } from "react-i18next";
 
 const Step5 = () => {
 
-  const proficiencyLevels = [
-    { label: "None", value: "none" },
-    { label: "Basic", value: "basic" },
-    { label: "Average", value: "average" },
-    { label: "Good", value: "good" },
-    { label: "Excellent", value: "excellent" },
-  ];
   const dispatch = useDispatch();
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.language === "ar";
+
+  const proficiencyLevels = [
+    { label: t("english_proficiency_step.none"), value: "none" },
+    { label: t("english_proficiency_step.basic"), value: "basic" },
+    { label: t("english_proficiency_step.average"), value: "average" },
+    { label: t("english_proficiency_step.good"), value: "good" },
+    { label: t("english_proficiency_step.excellent"), value: "excellent" }
+  ];
 
     // Get saved data from Redux store
     const savedProficiency = useSelector((state) => state.stepper.stepData.step5);
@@ -45,14 +49,16 @@ const Step5 = () => {
     }, []);
   return (
     <>
-      <div className="flex items-center gap-3 pb-4 border-b">
+      <div className={`flex items-center gap-3 pb-4 border-b ${
+          isRTL ? "flex-row-reverse text-right" : "flex-row text-left"
+        }`}>
         <div className="w-12 h-12 rounded-full border-2 border-primary flex items-center justify-center">
           <Globe />
         </div>
         <div>
-          <h3 className="text-xl font-bold">English Proficiency</h3>
+          <h3 className="text-xl font-bold">{t("english_proficiency_step.title")}</h3>
           <p className="text-sm text-gray-600">
-            Select your English language proficiency level
+            {t("english_proficiency_step.desc")}
           </p>
         </div>
       </div>
@@ -65,7 +71,9 @@ const Step5 = () => {
         >
           {proficiencyLevels.map((item) => (
             <div key={item.value} className="input-field">
-              <Label htmlFor={`option-${item.value}`} className="flex items-center gap-2">
+              <Label htmlFor={`option-${item.value}`} className={`flex items-center gap-2 ${
+                  isRTL ? "flex-row-reverse" : ""
+                }`}>
                 <RadioGroupItem
                   value={item.value}
                   id={`option-${item.value}`}

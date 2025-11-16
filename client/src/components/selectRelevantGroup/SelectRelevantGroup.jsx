@@ -1,14 +1,17 @@
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { saveStepData } from "@/features/stepper/stepperSlice";
+import { useTranslation } from "react-i18next"; // ✅ import translation
 
-const SelectRelevantGroup = ({step}) => {
-
+const SelectRelevantGroup = ({ step }) => {
   const dispatch = useDispatch();
+  const { i18n, t } = useTranslation(); // ✅ get i18n for language detection
 
-  const savedRelevant = useSelector((state) => state.stepper.stepData[step]?.relevantSelected || "");
+  const savedRelevant = useSelector(
+    (state) => state.stepper.stepData[step]?.relevantSelected || ""
+  );
   const [relevantSelected, setRelevantSelected] = useState(savedRelevant || "");
 
   useEffect(() => {
@@ -28,7 +31,12 @@ const SelectRelevantGroup = ({step}) => {
   return (
     <div className="border-2 rounded-xl inline-flex flex-wrap gap-10 py-4 px-8">
       {optionsRelevant.map((option) => (
-        <div key={option.id} className="flex items-center gap-3">
+        <div
+          key={option.id}
+          className={`flex items-center gap-3 ${
+            i18n.language === "ar" ? "flex-row-reverse" : ""
+          }`}
+        >
           <Checkbox
             id={`${option.id}-${step}`}
             checked={relevantSelected === option.id}
@@ -37,8 +45,7 @@ const SelectRelevantGroup = ({step}) => {
             }}
           />
           <Label htmlFor={`${option.id}-${step}`}>
-            <span>{option.label}</span>
-            {/* <small className="ml-[-7px]">({option.weight})</small> */}
+            <span>{t(option.label)}</span> {/* ✅ translate label */}
           </Label>
         </div>
       ))}

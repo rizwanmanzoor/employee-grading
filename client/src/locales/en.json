@@ -1,0 +1,156 @@
+{
+  "result": "Result",
+  "progress": "Progress",
+  "logout": "Logout",
+  "logging_out": "Logging out...",
+  "employee_development_portal": "Employee Development Portal",
+  "welcome_title": "Welcome to NOX Group Grading Portal",
+  "welcome_description": "Track your professional growth, identify development opportunities, and advance your career with transparent, data-driven insights.",
+  "how_to_use": "How to Use",
+  "confidentiality_notice": "Confidentiality Notice",
+  "confidentiality_text": "All information submitted through this portal is strictly confidential and used solely for professional development purposes. Providing false information may result in disciplinary action. By using this system, you acknowledge and accept these terms.",
+  "accept_terms": "I have read and accept the terms and conditions stated above",
+  "start_grading": "Start Grading",
+  "education": "Education",
+  "certification": "Certification",
+  "external_experience_excl": "External Experience - Excl Management",
+  "external_experience_mgmt": "External Experience - Management",
+  "english": "English",
+  "internal_experience_excl": "Internal Experience - Excl Management",
+  "internal_experience_mgmt": "Internal Experience - Management",
+  "select_education_level": "Select Your Education Level",
+  "choose_highest_education": "Choose your highest level of education",
+  "Basics": "Basics",
+  "Diploma": "Diploma",
+  "Bachelors": "Bachelors",
+  "Masters": "Masters",
+  "Phd": "Phd",
+  "Verified": "Verified",
+  "Unverified": "Unverified",
+  "Relevant": "Relevant",
+  "Irrelevant": "Irrelevant",
+  "back": "Back",
+  "next": "Next",
+  "submit": "Submit",
+  "how": {
+    "heading": "How to Use the Portal",
+    "subheading": "Follow these simple steps to grade yourself and track your professional growth.",
+
+    "step1": "Step 1",
+    "title1": "Complete the Grading Form",
+    "desc1": "Fill out all sections honestly, including education, certifications, experience, and language proficiency. Each section contributes to your final score.",
+
+    "step2": "Step 2",
+    "title2": "Review Your Score",
+    "desc2": "After submission, view your detailed breakdown showing how each category contributes to your total score and recommended designation.",
+
+    "step3": "Step 3",
+    "title3": "Track Your Progress",
+    "desc3": "Visit the Progress page to see your grading history and identify areas for improvement over time.",
+
+    "scoreBreakdown": "Scoring Breakdown",
+    "score": {
+      "education": "Education",
+      "certifications": "Certifications",
+      "external": "External Experience",
+      "management": "Management Experience",
+      "english": "English Proficiency"
+    },
+
+    "proTips": "Pro Tips",
+    "tip1": "Internal experience contributes to external experience at 0.5 years for each year of service.",
+    "tip2": "Update your grades regularly to track your improvement and career advancement."
+  },
+  "certification_step":{
+      "your_certifications": "Your Certifications",
+      "desc": "Select the number of certifications you have in each category",
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High",
+      "short_course": "Short courses (1 day - 2 weeks)",
+      "short_course_examples": "Examples: Excel, PowerPoint, Word, PBI",
+      "medium_certificates": "Certificates (2 weeks - 6 months)",
+      "medium_certificates_examples": "Examples: Digital marketing, Project management, Cybersecurity",
+      "long_term_certificates": "Long-term certifications",
+      "long_term_certificates_examples": "Examples: CPA, CA, CFA"
+  },
+  "step3": {
+    "title": "External Experience (Excluding Management)",
+    "subtitle": "Select your years of external non-management experience",
+
+    "note_title": "Note:",
+    "note_text": "For external experience gained within the Kingdom of Saudi Arabia, please attach the Mudad Wa Ujoor Certificate issued by the General Organization for Social Insurance (GOSI).",
+
+    "table_experience": "Experience (Years)",
+    "table_select": "Select"
+  },
+  "step4": {
+    "title": "External Management Experience",
+    "subtitle": "Select your years of external management experience",
+
+    "note_title": "Note:",
+    "note_text": "For external experience gained within the Kingdom of Saudi Arabia, please attach the Mudad Wa Ujoor Certificate issued by the General Organization for Social Insurance (GOSI).",
+
+    "table_title": "Management Experience (Years)",
+    "table_select": "Select"
+  },
+  "english_proficiency_step": {
+    "title": "English Proficiency",
+    "desc": "Select your English language proficiency level",
+    "none": "None",
+    "basic": "Basic",
+    "average": "Average",
+    "good": "Good",
+    "excellent": "Excellent"
+  },
+  "step6": {
+    "title": "Internal Experience (Excluding Management)",
+    "subtitle": "Select your years of internal non-management experience",
+    "note_title": "Note:",
+    "note": "Internal experience contributes to external experience calculations at 0.5 years per year of service.",
+    "options": {
+      "none": "None",
+      "1": "1 year",
+      "2": "2 years",
+      "3": "3 years",
+      "4": "4 years",
+      "5": "5 years",
+      "6": "6 years",
+      "7": "7 years",
+      "8": "8 years"
+    },
+    "step7": {
+      "title": "Internal Management Experience",
+      "subtitle": "Select your years of internal management experience",
+      "note_title": "Note",
+      "note": "Internal management experience is weighted at 25% of your total score.",
+      "options": {
+        "none": "None",
+        "1": "1 year",
+        "2": "2 years",
+        "3": "3 years",
+        "4": "4 years",
+        "5": "5 years",
+        "6": "6 years",
+        "7": "7 years",
+        "8": "8 years"
+      }
+    }
+  },
+  "result_page": {
+    "loading": "Loading Result...",
+    "grade_success": "Grade Calculated Successfully",
+    "error": "Error occurred while fetching results",
+    "grades": "Grades",
+    "score": "Score",
+    "employee_info": {
+      "employee_id": "Employee ID",
+      "name": "Name",
+      "designation": "Current Designation"
+    },
+    "recommended_designation": "Recommended Designation",
+    "score_breakdown": "Score Breakdown",
+    "try_again": "Try Again"
+  }
+
+}

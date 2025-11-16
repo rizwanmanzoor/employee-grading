@@ -7,9 +7,13 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import SelectVerifiedGroup from "../selectVerifiedGroup/SelectVerifiedGroup";
 import SelectRelevantGroup from "../selectRelevantGroup/SelectRelevantGroup";
 import UploadFile from "../uploadFile/UploadFile";
+import { useTranslation } from "react-i18next";
 
 const Step2 = () => {
   const dispatch = useDispatch();
+  const { t, i18n } = useTranslation();
+  const isRTL = i18n.language === "ar";
+
     // Fetch previously saved data from Redux
   const savedCertLevels = useSelector((state) => state.stepper.stepData.step2);
 
@@ -42,14 +46,17 @@ const Step2 = () => {
 
   return (
     <>
-      <div className="flex items-center gap-3 pb-4 border-b">
+    <div className={`${isRTL ? "rtl text-right" : "ltr text-left"}`}>
+      <div className={`flex items-center gap-3 pb-4 border-b ${
+          isRTL ? "flex-row-reverse" : "flex-row"
+        }`}>
         <div className="w-12 h-12 rounded-full border-2 border-primary flex items-center justify-center">
           <AwardIcon />
         </div>
         <div>
-          <h3 className="text-xl font-bold">Your Certifications</h3>
+          <h3 className="text-xl font-bold">{t("certification_step.your_certifications")}</h3>
           <p className="text-sm text-gray-600">
-            Select the number of certifications you have in each category
+            {t("certification_step.desc")}
           </p>
         </div>
       </div>
@@ -61,10 +68,10 @@ const Step2 = () => {
         >
           <div className="border-2 rounded-xl p-5">
             <div className="flex flex-col gap-2 mb-3">
-              <h3 className="text-xl font-bold">Low</h3>
+              <h3 className="text-xl font-bold">{t("certification_step.low")}</h3>
               <p className="text-lg text-gray-600">
-                Short courses (1 day - 2 weeks) <br />
-                <small>Examples: Excel, PowerPoint, Word, PBI</small>
+                {t("certification_step.short_course")} <br />
+                <small>{t("certification_step.short_course_examples")}</small>
               </p>
             </div>
 
@@ -85,11 +92,11 @@ const Step2 = () => {
 
           <div className="border-2 rounded-xl p-5">
             <div className="flex flex-col gap-2 mb-3">
-              <h3 className="text-xl font-bold">Medium</h3>
+              <h3 className="text-xl font-bold">{t("certification_step.medium")}</h3>
               <p className="text-lg text-gray-600">
-                Certificates (2 weeks - 6 months) <br />
+                {t("certification_step.medium_certificates")} <br />
                 <small>
-                  Examples: Digital marketing, Project management, Cybersecurity
+                  {t("certification_step.medium_certificates_examples")}
                 </small>
               </p>
             </div>
@@ -110,10 +117,10 @@ const Step2 = () => {
 
           <div className="border-2 rounded-xl p-5">
             <div className="flex flex-col gap-2 mb-3">
-              <h3 className="text-xl font-bold">High</h3>
+              <h3 className="text-xl font-bold">{t("certification_step.high")}</h3>
               <p className="text-lg text-gray-600">
-                Long-term certifications <br />
-                <small>Examples: CPA, CA, CFA</small>
+                {t("certification_step.long_term_certificates")} <br />
+                <small>{t("certification_step.long_term_certificates_examples")}</small>
               </p>
             </div>
 
@@ -138,6 +145,7 @@ const Step2 = () => {
       <div className="max-w-xl flex flex-col gap-4 mt-5">
         <SelectVerifiedGroup step="step2" />
         <SelectRelevantGroup step="step2" />
+      </div>
       </div>
     </>
   );

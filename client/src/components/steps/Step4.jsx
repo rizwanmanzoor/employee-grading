@@ -16,6 +16,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import UploadFile from "../uploadFile/UploadFile";
+import { useTranslation } from "react-i18next";
+
 
 const experiences = [
   { experience: "None"},
@@ -39,6 +41,10 @@ const experiences = [
 const Step4 = () => {
 
   const dispatch = useDispatch();
+
+  const { t, i18n } = useTranslation();
+  
+    const isRTL = i18n.language === "ar";
 
   // Get saved data from Redux store
   const savedExperience = useSelector((state) => state.stepper.stepData.step4);
@@ -69,24 +75,24 @@ const Step4 = () => {
   }, []);
   return (
     <>
-      <div className="flex items-center gap-3 pb-4 border-b">
+      <div className={`flex items-center gap-3 pb-4 border-b ${
+          isRTL ? "flex-row-reverse text-right" : "flex-row text-left"
+        }`}>
         <div className="w-12 h-12 rounded-full border-2 border-primary flex items-center justify-center">
           <UserCheck />
         </div>
         <div>
-          <h3 className="text-xl font-bold">External Management Experience</h3>
+          <h3 className="text-xl font-bold">{t("step4.title")}</h3>
           <p className="text-sm text-gray-600">
-            Select your years of external management experience
+            {t("step4.subtitle")}
           </p>
         </div>
       </div>
 
       <div className="mt-5 bg-accent/70 p-4 rounded-lg border border-primary/20">
-        <p className="text-sm text-primary">
-          <span className="font-bold">Note: </span>
-          For external experience gained within the Kingdom of Saudi Arabia,
-          please attach the Mudad Wa Ujoor Certificate issued by the General
-          Organization for Social Insurance (GOSI).
+        <p className={`text-sm text-primary ${isRTL ? "text-right" : "text-left"}`}>
+          <span className="font-bold">{t("step4.note_title")} </span>
+          {t("step4.note_text")}
         </p>
       </div>
 
@@ -99,11 +105,12 @@ const Step4 = () => {
           <Table className="relative">
             <TableHeader className="text-lg">
               <TableRow>
-                <TableHead>
-                  Management Experience <br />
-                  (Years)
+                 <TableHead className={isRTL ? "text-right" : "text-left"}>
+                  {t("step4.table_title")}
                 </TableHead>
-                <TableHead className="text-right pr-10">Select</TableHead>
+                <TableHead className="text-right pr-10">
+                  {t("step4.table_select")}
+                </TableHead>
               </TableRow>
             </TableHeader>
 

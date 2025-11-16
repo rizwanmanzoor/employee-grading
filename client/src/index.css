@@ -41,6 +41,16 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+html[dir="rtl"] body {
+  direction: rtl;
+  text-align: right;
+}
+
+html[dir="ltr"] body {
+  direction: ltr;
+  text-align: left;
+}
+
 :root {
   /* ===== Base Design Tokens ===== */
   --radius: 0.625rem;

@@ -10,11 +10,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { logoutUser } from "@/features/auth/authSlice";
 
+import { useTranslation } from "react-i18next"; // ✅ import translation
+
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
+   const { t} = useTranslation(); // ✅ get translation function & language
   const { loading, role } = useSelector((state) => state.auth); // ✅ get role
 
   const handleLogout = async () => {
@@ -43,13 +46,13 @@ const Navbar = () => {
             <div className="hidden md:block">
               <ul className="flex items-center gap-8 font-medium">
                 <li>
-                  <Link to="/result" className="text-primary hover:text-primary/80 transition-colors">Result</Link>
+                  <Link to="/result" className="text-primary hover:text-primary/80 transition-colors">{t("result")}</Link>
                 </li>
                 {/* <li>
                   <Link to="/progress" className="text-primary hover:text-primary/80 transition-colors">Progress</Link>
                 </li> */}
                 <li>
-                  <Link to="/how-to-use" className="text-primary hover:text-primary/80 transition-colors">How to Use</Link>
+                  <Link to="/how-to-use" className="text-primary hover:text-primary/80 transition-colors">{t("how_to_use")}</Link>
                 </li>
               </ul>
             </div>
@@ -61,7 +64,7 @@ const Navbar = () => {
                 <LanguageToggle />
               </div>
               <Button className="cursor-pointer" onClick={handleLogout} disabled={loading}>
-                {loading ? "Logging out..." : "Logout"}
+                {loading ? t("logging_out") : t("logout")}
               </Button>
             </div>
           </div>
@@ -73,7 +76,7 @@ const Navbar = () => {
             <ModeToggle />
             <LanguageToggle />
             <Button className="cursor-pointer" onClick={handleLogout} disabled={loading}>
-              {loading ? "Logging out..." : "Logout"}
+              {loading ? t("logging_out") : t("logout")}
             </Button>
           </div>
         )}
@@ -113,22 +116,22 @@ const Navbar = () => {
           <ul className="flex flex-col items-start p-4 space-y-2 font-semibold text-2xl">
             <li>
               <Link to="/grading" className="block py-2 px-3 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors">
-                Start Grading
+                {t("start_grading")}
               </Link>
             </li>
             <li>
               <Link to="/result" className="block py-2 px-3 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors">
-                Result
+                {t("result")}
               </Link>
             </li>
             <li>
               <Link to="/progress" className="block py-2 px-3 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors">
-                Progress
+                {t("progress")}
               </Link>
             </li>
             <li>
               <Link to="/how-to-use" className="block py-2 px-3 rounded-md hover:bg-accent hover:text-accent-foreground transition-colors">
-                How to Use
+                {t("how_to_use")}
               </Link>
             </li>
           </ul>

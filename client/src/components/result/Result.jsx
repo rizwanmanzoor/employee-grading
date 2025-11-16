@@ -6,11 +6,15 @@ import { Repeat, Trophy } from "lucide-react";
 import { Link } from "react-router-dom";
 import { ChartNoAxesCombined, Target } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const Result = () => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
+   const { t, i18n } = useTranslation();
+  const isRTL = i18n.language === "ar";
+
   const { employee, calculateScores, loading, error } = useSelector(
     (state) => state.scores
   );
@@ -24,7 +28,7 @@ const Result = () => {
   if (loading)
     return (
       <div className="flex justify-center items-center mt-20">
-        <p className="text-lg font-bold">Loading Result...</p>
+        <p className="text-lg font-bold">{t("result_page.loading")}</p>
       </div>
     );
 
@@ -39,9 +43,9 @@ const Result = () => {
   // ✅ Data Formatting
   const employeeInfo = employee
     ? [
-        { label: "Employee ID", value: employee.employee_no },
-        { label: "Name", value: employee.name },
-        { label: "Current Designation", value: employee.designation },
+        { label: t("result_page.employee_info.employee_id"), value: employee.employee_no },
+        { label: t("result_page.employee_info.name"), value: employee.name },
+        { label: t("result_page.employee_info.designation"), value: employee.designation }
       ]
     : [];
 
@@ -71,7 +75,7 @@ const Result = () => {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center gap-3 mt-5 text-foreground">
+    <div className={`flex flex-col justify-center items-center gap-3 mt-5 text-foreground ${isRTL ? "text-right" : "text-left"}`}>
       <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-card border shadow-sm">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -92,16 +96,16 @@ const Result = () => {
           <path d="M5 18H3"></path>
         </svg>
         <span className="text-sm font-medium">
-          Grade Calculated Successfully
+          {t("result_page.grade_success")}
         </span>
       </div>
 
       <div className="p-4 my-2 w-full border rounded-2xl shadow-sm">
-        <div className="p-8 flex flex-col md:flex-row items-center md:items-baseline justify-between gap-8">
+        <div className={`p-8 flex flex-col md:flex-row items-center md:items-baseline justify-between gap-8 ${isRTL ? "md:flex-row-reverse" : ""}`}>
           <div className="flex flex-col items-center space-y-1.5 p-6">
             <h3 className="font-semibold tracking-tight flex items-center gap-2 text-xl mb-5">
               {/* <Trophy className="w-5 h-5" /> */}
-              Grades
+              {t("result_page.grades")}
             </h3>
             <div className="inline-block max-w-max px-8 py-4 rounded-2xl shadow-lg bg-card">
               <h2 className="text-4xl font-bold text-primary">{recommededGrade}</h2>
@@ -109,7 +113,7 @@ const Result = () => {
 
             <h3 className="font-semibold tracking-tight flex items-center gap-2 text-xl mt-7 mb-5">
               {/* <Trophy className="w-5 h-5" /> */}
-              Score
+               {t("result_page.score")}
             </h3>
             <div className="inline-block max-w-max px-8 py-4 rounded-2xl shadow-lg bg-card">
               <h2 className="text-4xl font-bold text-primary">{totalScore}</h2>
@@ -128,7 +132,7 @@ const Result = () => {
               <div className="flex items-center gap-2 mb-1">
                 <Target className="w-4 h-4 text-destructive" />
                 <p className="text-sm font-medium text-(--primary-amber)">
-                  Recommended Designation
+                 {t("result_page.recommended_designation")}
                 </p>
 
               </div>
@@ -152,7 +156,7 @@ const Result = () => {
         <div className="flex flex-col space-y-1.5 p-6">
           <h3 className="font-semibold tracking-tight flex items-center gap-2 text-2xl text-primary">
             <ChartNoAxesCombined />
-            Score Breakdown
+           {t("result_page.score_breakdown")}
           </h3>
         </div>
 
@@ -166,8 +170,8 @@ const Result = () => {
                   <div className={`w-3 h-3 rounded-full ${colorMap[key]}`} />
                   <span className="font-medium">
                     {
-                      key.replace(/_/g, " ")
-                      .replace(/\b\w/g, (char) => char.toUpperCase())
+                      t(key.replace(/_/g, " ")
+                      .replace(/\b\w/g, (char) => char.toUpperCase()))
                     }
                   </span>
                   <div className="border px-2 py-0.5 text-xs bg-accent rounded-full">
@@ -196,7 +200,7 @@ const Result = () => {
       onClick={handleTryAgain}
     >
       <Repeat className="w-5 h-5" />
-      Try Again
+       {t("result_page.try_again")}
     </Button>
       </div>
     </div>

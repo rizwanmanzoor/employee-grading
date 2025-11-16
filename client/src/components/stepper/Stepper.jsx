@@ -1,6 +1,9 @@
+import { useTranslation } from "react-i18next";
 import { CheckIcon } from "lucide-react";
 
 const Stepper = ({ steps, currentStep }) => {
+  const { t } = useTranslation();
+
   return (
     <div className="md:sticky top-0 z-10 flex overflow-x-auto items-start justify-between gap-3 px-2 py-4 border rounded-2xl bg-card text-card-foreground">
       {steps.map((step, index) => {
@@ -8,10 +11,7 @@ const Stepper = ({ steps, currentStep }) => {
         const isActive = index === currentStep;
 
         return (
-          <div
-            key={index}
-            className="flex flex-col items-center text-center flex-1 group"
-          >
+          <div key={index} className="flex flex-col items-center text-center flex-1 group">
             <div
               className={`flex items-center justify-center w-10 h-10 rounded-full border-2 transition-all duration-300
               ${
@@ -33,12 +33,9 @@ const Stepper = ({ steps, currentStep }) => {
               }`}
             >
               <span className="block text-lg text-primary min-h-6">
-                <strong>
-                  {step.weight}
-                </strong>
-                {/* <small className="pl-1"></small> */}
+                <strong>{step.weight}</strong>
               </span>
-              <span className="block">{step.label}</span>
+              <span className="block">{step.label(t)}</span> {/* ✅ Call label(t) */}
             </p>
           </div>
         );
