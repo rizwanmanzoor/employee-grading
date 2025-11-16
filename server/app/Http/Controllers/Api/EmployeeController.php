@@ -35,8 +35,8 @@ class EmployeeController extends Controller
         if ($validateEmployee) {
             return response()->json([
                 'success' => false,
-                'error' => "You have already submitted your application. If you want to reapply, please contact HR."
-            ]);
+                'error' => "You have already submitted your final application. If you want to reapply, please contact HR."
+            ], 400);
         }
 
         try {

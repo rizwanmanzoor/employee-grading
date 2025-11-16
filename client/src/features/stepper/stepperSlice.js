@@ -32,7 +32,12 @@ export const submitFinalForm = createAsyncThunk(
         body: formData,
       });
 
-      if (!res.ok) throw new Error("Failed to submit form");
+      if (!res.ok) {
+        const errorData = await res.json(); // <-- backend ka message mil jayega
+
+        // Backend: { success:false, error:"You have already submitted..." }
+        return rejectWithValue(errorData.error || "Something went wrong");
+      }
       return await res.json();
     } catch (err) {
       return rejectWithValue(err.message);

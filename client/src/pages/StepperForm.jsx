@@ -50,6 +50,7 @@ useEffect(() => {
       toast.success(t("success_message"));
       navigate("/result");
     } catch (error) {
+      console.error("Submission failed:", error);
       toast.error(error || "Submission failed!");
     }
   };
