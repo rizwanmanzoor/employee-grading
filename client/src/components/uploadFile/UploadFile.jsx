@@ -49,15 +49,12 @@ const handleFiles = (selectedFiles) => {
       }
     });
 
-    // ❌ Show error for invalid files
+    // Show error for invalid files
     if (invalidFiles.length > 0) {
       toast.error(`"${invalidFiles.join(", ")}" invalid format.\nAllowed: JPG, JPEG, PNG, PDF`);
-      // alert(
-      //   `"${invalidFiles.join(", ")}" invalid format.\nAllowed: JPG, JPEG, PNG, PDF`
-      // );
     }
 
-    // ❌ If no valid files → set error flag and return
+    // If no valid files → set error flag and return
     if (validFiles.length === 0) {
       dispatch(saveStepData({ step, data: { fileRequiredError: true } }));
       return;
@@ -80,7 +77,7 @@ const handleFiles = (selectedFiles) => {
           step,
           data: {
             files: updated,
-            fileRequiredError: false,
+            fileRequiredError: updated.length === 0 ? true : false,
           },
         })
       );

@@ -26,6 +26,8 @@ useEffect(() => {
     dispatch(loadSelectedOption());
   }, [dispatch]);
 
+  const fileRequiredSteps = [1, 2, 3, 4];
+
   const { currentStep, stepData, loading } = useSelector((state) => state.stepper);
   const { selectedOption } = useSelector((state) => state.appFlag);
 
@@ -35,6 +37,16 @@ useEffect(() => {
   const isLastStep = currentStep >= steps.length - 1;
 
   const handleNext = () => {
+    const stepNumber = currentStep + 1;
+
+    if (selectedOption === "grading" && fileRequiredSteps.includes(stepNumber)) {
+      const files = stepData[`step${stepNumber}`]?.files;
+
+      if (!files || files.length === 0) {
+        toast.error("File upload is required on this step.");
+        return;
+      }
+    }
     dispatch(setCurrentStep(currentStep + 1));
   };
 
