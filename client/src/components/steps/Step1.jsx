@@ -13,6 +13,8 @@ const Step1 = () => {
   const dispatch = useDispatch();
   const { t, i18n } = useTranslation();
 
+   // GET SELECTED OPTION FROM REDUX
+  const selectedOption = useSelector((state) => state.appFlag.selectedOption);
   const savedEducation = useSelector((state) => state.stepper.stepData.step1?.education);
   const [education, setEducation] = useState(savedEducation || "Basics");
 
@@ -58,7 +60,8 @@ const Step1 = () => {
       </div>
 
       {/* Upload & Other Components */}
-      <UploadFile step="step1" />
+      {/* Upload File — Only When Selected Option is "grading" */}
+      {selectedOption === "grading" && <UploadFile step="step1" />}
 
       <div className="max-w-xl flex flex-col gap-4 mt-5 justify-start">
         <SelectVerifiedGroup step="step1" />

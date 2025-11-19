@@ -4,7 +4,7 @@ import { UploadCloud, X } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { saveStepData } from "@/features/stepper/stepperSlice";
 import { useTranslation } from "react-i18next";
-
+import { toast } from "sonner";
 const UploadFile = ({ step }) => {
 
   const dispatch = useDispatch();
@@ -17,6 +17,13 @@ const UploadFile = ({ step }) => {
   );
 
   const uploadIntervals = useRef({});
+   // ALLOWED FILE TYPES
+  const allowedTypes = [
+    "image/jpeg",
+    "image/jpg",
+    "image/png",
+    "application/pdf",
+  ];
 
 //   useEffect(() => {
 //   // Only update if stepFiles actually changed
@@ -31,7 +38,33 @@ const UploadFile = ({ step }) => {
 
   // === Handle file selection or drop ===
 const handleFiles = (selectedFiles) => {
-    const newFiles = Array.from(selectedFiles).map((file) => ({
+    const validFiles = [];
+    const invalidFiles = [];
+
+    Array.from(selectedFiles).forEach(file => {
+      if (allowedTypes.includes(file.type)) {
+        validFiles.push(file);
+      } else {
+        invalidFiles.push(file.name);
+      }
+    });
+
+    // ❌ Show error for invalid files
+    if (invalidFiles.length > 0) {
+      toast.error(`"${invalidFiles.join(", ")}" invalid format.\nAllowed: JPG, JPEG, PNG, PDF`);
+      // alert(
+      //   `"${invalidFiles.join(", ")}" invalid format.\nAllowed: JPG, JPEG, PNG, PDF`
+      // );
+    }
+
+    // ❌ If no valid files → set error flag and return
+    if (validFiles.length === 0) {
+      dispatch(saveStepData({ step, data: { fileRequiredError: true } }));
+      return;
+    }
+
+    // 👍 Valid files → continue
+    const newFiles = validFiles.map((file) => ({
       file,
       name: file.name,
       size: file.size,
@@ -41,8 +74,17 @@ const handleFiles = (selectedFiles) => {
 
     setFilesWithProgress((prev) => {
       const updated = [...prev, ...newFiles];
-      // Save only file info (without progress) to Redux
-      dispatch(saveStepData({ step, data: { files: updated.map(f => ({ name: f.name, size: f.size, type: f.type, file: f.file })) } }));
+
+      dispatch(
+        saveStepData({
+          step,
+          data: {
+            files: updated,
+            fileRequiredError: false,
+          },
+        })
+      );
+
       return updated;
     });
 
@@ -104,18 +146,20 @@ const handleFiles = (selectedFiles) => {
     uploadIntervals.current[fileObj.name] = interval;
   };
 
-  const handleRemoveFile = (index) => {
-    const removedFile = filesWithProgress[index];
-    if (uploadIntervals.current[removedFile.name]) {
-      clearInterval(uploadIntervals.current[removedFile.name]);
-      delete uploadIntervals.current[removedFile.name];
-    }
+   const handleRemoveFile = (index) => {
+    const updated = filesWithProgress.filter((_, i) => i !== index);
 
-    setFilesWithProgress((prev) => {
-      const updated = prev.filter((_, i) => i !== index);
-      dispatch(saveStepData({ step, data: { files: updated.map(f => ({ name: f.name, size: f.size, type: f.type, file: f.file })) } }));
-      return updated;
-    });
+    setFilesWithProgress(updated);
+
+    dispatch(
+      saveStepData({
+        step,
+        data: {
+          files: updated,
+          fileRequiredError: updated.length === 0 ? true : false,
+        },
+      })
+    );
   };
   return (
     <div

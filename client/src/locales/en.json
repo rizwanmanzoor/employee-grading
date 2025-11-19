@@ -3,6 +3,7 @@
   "progress": "Progress",
   "logout": "Logout",
   "logging_out": "Logging out...",
+  "start_calculation": "Start Calculation",
   "employee_development_portal": "Employee Development Portal",
   "welcome_title": "Welcome to NOX Group Grading Portal",
   "welcome_description": "Track your professional growth, identify development opportunities, and advance your career with transparent, data-driven insights.",
@@ -65,6 +66,8 @@
   "certification_step":{
       "your_certifications": "Your Certifications",
       "desc": "Select the number of certifications you have in each category",
+      "note_title": "Note:",
+      "note_text": "Choose your certification level (Low, Medium, or High). The system allows only one selection and automatically includes your points from previous categories.",
       "low": "Low",
       "medium": "Medium",
       "high": "High",

@@ -14,6 +14,8 @@ const Step2 = () => {
   const { t, i18n } = useTranslation();
   const isRTL = i18n.language === "ar";
 
+   // GET SELECTED OPTION FROM REDUX
+  const selectedOption = useSelector((state) => state.appFlag.selectedOption);
     // Fetch previously saved data from Redux
   const savedCertLevels = useSelector((state) => state.stepper.stepData.step2);
 
@@ -61,7 +63,12 @@ const handleChange = (category, value) => {
           </p>
         </div>
       </div>
-
+      <div className="mt-5 bg-accent/70 p-4 rounded-lg border border-primary/20">
+        <p className={`text-sm text-primary ${isRTL ? "text-right" : "text-left"}`}>
+          <span className="font-bold">{t("certification_step.note_title")} </span>
+          {t("certification_step.note_text")}
+        </p>
+      </div>
       <div className="mt-5 mb-7">
         <div
           // className="grid grid-cols-[repeat(auto-fit,minmax(200px,1fr))] gap-4"
@@ -141,7 +148,8 @@ const handleChange = (category, value) => {
         </div>
       </div>
 
-      <UploadFile step="step2" />
+      {/* Upload File — Only When Selected Option is "grading" */}
+      {selectedOption === "grading" && <UploadFile step="step2" />}
 
       <div className="max-w-xl flex flex-col gap-4 mt-5">
         <SelectVerifiedGroup step="step2" />

@@ -88,7 +88,7 @@ useEffect(() => {
           </Button>
         ) : (
           <Button className={"px-6 py-2"} onClick={handleNext}>
-            {ButtonLabels.SUBMIT}
+            {ButtonLabels.NEXT}
           </Button>
         )}
       </div>

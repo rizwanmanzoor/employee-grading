@@ -1,17 +1,23 @@
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { Button } from "../ui/button";
 import { Link } from "react-router-dom";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Sparkles, ShieldCheck } from "lucide-react";
-
+import { useDispatch, useSelector } from "react-redux";
+import { loadSelectedOption } from "@/features/appFlag/appFlagSlice";
 
 const Home = () => {
   const [isChecked, setIsChecked] = useState(false);
   const { t, i18n } = useTranslation();
+  
+  const dispatch = useDispatch();
+  const selectedOption = useSelector((state) => state.appFlag.selectedOption);
 
-
+    useEffect(() => {
+      dispatch(loadSelectedOption());
+    }, [dispatch]);
   return (
     <div className="flex flex-col justify-between h-full items-center gap-4 py-4 md:py-8 text-foreground">
       <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-card border border-border shadow-sm">
@@ -36,12 +42,27 @@ const Home = () => {
           {t("welcome_description")}
         </p>
 
-        <Link to="/how-to-use" className="mt-3">
-          <Button size={"lg"} className="cursor-pointer">
-            {t("how_to_use")}
-          </Button>
-        </Link>
+        {/* Buttons Row */}
+        <div className="flex flex-row gap-4 mt-3">
+          <Link to="/how-to-use">
+            <Button size="lg" className="cursor-pointer">
+              {t("how_to_use")}
+            </Button>
+          </Link>
+
+          {selectedOption === "calculator" ? (
+            <Button size="lg" className="cursor-pointer">
+              <Link to="/grading">{t("start_calculation")}</Link>
+            </Button>
+          ) : null}
+        </div>
       </div>
+
+
+      {/* Show Calculator Only If Selected */}
+      {selectedOption === "calculator" ? (
+        <div></div>
+      ): (
 
       <div
         className="rounded-lg border text-card-foreground max-w-4xl shadow-sm border-l-4 bg-card/50"
@@ -81,19 +102,20 @@ const Home = () => {
               </div>
 
               <div
-  className={`mt-5 flex ${
-    i18n.language === "ar" ? "justify-start" : "justify-start"
-  }`}
->
-  <Button disabled={!isChecked} className="cursor-pointer">
-    <Link to="/grading">{t("start_grading")}</Link>
-  </Button>
-</div>
+                className={`mt-5 flex ${
+                  i18n.language === "ar" ? "justify-start" : "justify-start"
+                }`}
+              >
+                <Button disabled={!isChecked} className="cursor-pointer">
+                  <Link to="/grading">{t("start_grading")}</Link>
+                </Button>
+              </div>
 
             </div>
           </div>
         </div>
       </div>
+      )}
     </div>
   );
 };

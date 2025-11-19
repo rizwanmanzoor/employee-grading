@@ -46,6 +46,8 @@ const Step4 = () => {
   
     const isRTL = i18n.language === "ar";
 
+     // GET SELECTED OPTION FROM REDUX
+  const selectedOption = useSelector((state) => state.appFlag.selectedOption);
   // Get saved data from Redux store
   const savedExperience = useSelector((state) => state.stepper.stepData.step4);
 
@@ -88,13 +90,15 @@ const Step4 = () => {
           </p>
         </div>
       </div>
+      {selectedOption === "grading" &&
 
-      <div className="mt-5 bg-accent/70 p-4 rounded-lg border border-primary/20">
-        <p className={`text-sm text-primary ${isRTL ? "text-right" : "text-left"}`}>
-          <span className="font-bold">{t("step4.note_title")} </span>
-          {t("step4.note_text")}
-        </p>
-      </div>
+        <div className="mt-5 bg-accent/70 p-4 rounded-lg border border-primary/20">
+          <p className={`text-sm text-primary ${isRTL ? "text-right" : "text-left"}`}>
+            <span className="font-bold">{t("step4.note_title")} </span>
+            {t("step4.note_text")}
+          </p>
+        </div>
+      }
 
       <div className="mt-5 mb-7">
         <RadioGroup  
@@ -140,7 +144,8 @@ const Step4 = () => {
         </RadioGroup>
       </div>
 
-      <UploadFile step="step4" />
+      {/* Upload File — Only When Selected Option is "grading" */}
+      {selectedOption === "grading" && <UploadFile step="step4" />}
 
       <div className="max-w-xl flex flex-col gap-4 mt-5">
         <SelectVerifiedGroup step="step4" />

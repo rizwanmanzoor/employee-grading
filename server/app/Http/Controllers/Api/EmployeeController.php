@@ -30,14 +30,14 @@ class EmployeeController extends Controller
 
         DB::beginTransaction();
 
-        $validateEmployee = Employee::where('user_id', auth()->id())
-            ->where('application_gateway', 'grading')->first();
-        if ($validateEmployee) {
-            return response()->json([
-                'success' => false,
-                'error' => "You have already submitted your final application. If you want to reapply, please contact HR."
-            ], 400);
-        }
+        // $validateEmployee = Employee::where('user_id', auth()->id())
+        //     ->where('application_gateway', 'grading')->first();
+        // if ($validateEmployee) {
+        //     return response()->json([
+        //         'success' => false,
+        //         'error' => "You have already submitted your final application. If you want to reapply, please contact HR."
+        //     ], 400);
+        // }
 
         try {
             // Extract data from steps safely
