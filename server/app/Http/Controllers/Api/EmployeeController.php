@@ -30,14 +30,26 @@ class EmployeeController extends Controller
 
         DB::beginTransaction();
 
-        // $validateEmployee = Employee::where('user_id', auth()->id())
-        //     ->where('application_gateway', 'grading')->first();
-        // if ($validateEmployee) {
-        //     return response()->json([
-        //         'success' => false,
-        //         'error' => "You have already submitted your final application. If you want to reapply, please contact HR."
-        //     ], 400);
-        // }
+        // Check only if current submission is using grading
+        if ($selectedOption === 'grading') {
+            
+            // Step 1: Get the employee record using user_id
+            $employee = Employee::where('user_id', auth()->id())->first();
+
+            if ($employee) {
+                // Step 2: Check employee_activity using employee->id
+                $validateEmployee = EmployeeActivity::where('employee_id', $employee->id)
+                    ->where('application_gateway', 'grading')
+                    ->first();
+
+                if ($validateEmployee) {
+                    return response()->json([
+                        'success' => false,
+                        'error' => "You have already submitted your final application via Grading. If you want to reapply, please contact HR."
+                    ], 400);
+                }
+            }
+        }
 
         try {
             // Extract data from steps safely
@@ -81,6 +93,8 @@ class EmployeeController extends Controller
                 // Experience - Internal Management
                 'experience_internal_management' => $internalManagementStep['experience'] ?? null,
                 'experience_internal_management_verified' => $internalManagementStep['verifiedSelected'] ?? "unverified",
+                'application_gateway' => $selectedOption
+
             ]);
 
             // Create or update employee record

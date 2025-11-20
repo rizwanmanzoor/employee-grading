@@ -147,11 +147,13 @@ if (!function_exists('calculateExternalExperienceScore')) {
         }
         $years = (int) $years;
 
-        if (!isset($gradeMap[$years])) {
-            return 0; // invalid or out of range
+        // Correct logic
+        if (isset($gradeMap[$years])) {
+            $selectedGrade = $gradeMap[$years];
+        } else {
+            // If out of range → fallback to max
+            $selectedGrade = max($gradeMap);
         }
-
-        $selectedGrade = $gradeMap[$years];
 
         // Maximum possible grade is highest value in array (15)
         $maxGrade = max($gradeMap);
@@ -183,11 +185,13 @@ if (!function_exists('calculateManagementExperienceScore')) {
 
         $years = (int) $years;
 
-        if (!isset($gradeMap[$years])) {
-            return 0; // invalid or out of range
+        if (isset($gradeMap[$years])) {
+            $selectedGrade = $gradeMap[$years];
+        } else {
+            // If out of range → fallback to max
+            $selectedGrade = max($gradeMap);
         }
 
-        $selectedGrade = $gradeMap[$years];
 
         // Max possible grade (20)
         $maxGrade = max($gradeMap);

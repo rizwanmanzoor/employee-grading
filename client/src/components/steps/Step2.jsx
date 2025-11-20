@@ -86,7 +86,7 @@ const handleChange = (category, value) => {
             <RadioGroup
               value={certLevels.low}
               onValueChange={(val) => handleChange("low", val)}
-              defaultValue="option-1"
+              defaultValue="0"
               className="grid grid-cols-[repeat(auto-fit,minmax(auto,50px))] gap-4"
             >
               {["0","1", "2", "3"].map((val, i) => (
@@ -112,6 +112,7 @@ const handleChange = (category, value) => {
             <RadioGroup
               value={certLevels.medium}
               onValueChange={(val) => handleChange("medium", val)}
+              defaultValue="0"
               className="grid grid-cols-[repeat(auto-fit,minmax(auto,50px))] gap-4"
             >
               {["0","1", "2", "3"].map((val, i) => (
@@ -135,6 +136,7 @@ const handleChange = (category, value) => {
             <RadioGroup
               value={certLevels.high}
               onValueChange={(val) => handleChange("high", val)}
+              defaultValue="0"
               className="grid grid-cols-[repeat(auto-fit,minmax(auto,50px))] gap-4"
             >
               {["0","1", "2"].map((val, i) => (
