@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { loginUser } from "@/features/auth/authSlice";
+import { loginUser,sendOtp,verifyOtp,resendOtp } from "@/features/auth/authSlice";
 import { Link } from "react-router-dom";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -19,6 +19,9 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [otp, setOtp] = useState("");
+  const [otpModalOpen, setOtpModalOpen] = useState(false);
+  const [timer, setTimer] = useState(50); // 5 minutes in seconds
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -30,12 +33,46 @@ const Login = () => {
   const togglePassword = () => {
     setShowPassword((prev) => !prev);
   };
+  useEffect(() => {
+    if (token && role) {
+      if (role === "admin") navigate("/admin");
+      else if (role === "employee") navigate("/gateway");
+    }
+  }, [token, role]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    dispatch(loginUser({ username, password }));
+    if (!username) return;
+
+    const result = await dispatch(sendOtp({ username }));
+    if (result.meta.requestStatus === "fulfilled") {
+      setOtpModalOpen(true);
+      setTimer(50); // start 5 min timer
+    }
   };
 
+  // =========================
+  // VERIFY OTP
+  // =========================
+  const handleVerifyOtp = async () => {
+    if (!otp) return;
+
+    const result = await dispatch(verifyOtp({ username, otp }));
+    if (result.meta.requestStatus === "fulfilled") {
+      setOtpModalOpen(false);
+    }
+  };
+
+  // =========================
+  // RESEND OTP
+  // =========================
+  const handleResendOtp = async () => {
+    const result = await dispatch(resendOtp({ username }));
+
+    if (result.meta.requestStatus === "fulfilled") {
+      setTimer(50);
+    }
+  };
   // ⭐ CHECK LANGUAGE FROM LOCALSTORAGE ON PAGE LOAD
   useEffect(() => {
     const savedLang = localStorage.getItem("appLanguage");
@@ -48,15 +85,25 @@ const Login = () => {
     }
   }, []);
 
+  // useEffect(() => {
+  //   if (token) {
+  //     if (role === "admin") {
+  //     navigate("/admin");
+  //   } else if (role === "employee") {
+  //     navigate("/gateway");
+  //   }
+  //   }
+  // }, [token,role, navigate]);
+
   useEffect(() => {
-    if (token) {
-      if (role === "admin") {
-      navigate("/admin");
-    } else if (role === "employee") {
-      navigate("/gateway");
-    }
-    }
-  }, [token,role, navigate]);
+    if (!otpModalOpen || timer <= 0) return;
+
+    const interval = setInterval(() => {
+      setTimer(prev => prev - 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [otpModalOpen, timer]);
 
   return (
     <div
@@ -111,28 +158,39 @@ const Login = () => {
               </Button> */}
 
               <CommonDialog
-                open={open}
-                onOpenChange={setOpen}
-                title="Edit Profile"
-                description="Make changes to your profile here."
-                footer={
-                  <>
-                    <Button variant="outline" onClick={() => setOpen(false)}>
-                      Cancel
-                    </Button>
-                    <Button onClick={() => setOpen(false)}>Save Changes</Button>
-                  </>
-                }
+                open={otpModalOpen}
+                onOpenChange={setOtpModalOpen}
+                title="Verify Account"
+                description={`Enter the OTP sent to ${username}`}
               >
-                {/* Dialog Body */}
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium">Name</label>
-                  <input
+                <div className="space-y-4">
+                  <Input
                     type="text"
-                    className="w-full border p-2 rounded-md"
-                    placeholder="Enter name"
+                    placeholder="Enter OTP"
+                    value={otp}
+                    onChange={(e) => setOtp(e.target.value)}
                   />
+
+                  <div className="flex justify-between items-center">
+                    <span>Expires in: {Math.floor(timer / 60)}:{(timer % 60).toString().padStart(2,'0')}</span>
+                    {timer === 0 && (
+                      <Button size="sm" onClick={handleResendOtp}>
+                        Resend OTP
+                      </Button>
+                    )}
+                  </div>
+
+                  <Button
+                    className="mt-4 w-full"
+                    onClick={handleVerifyOtp}
+                    disabled={loading}
+                  >
+                    Verify OTP
+                  </Button>
                 </div>
+                {otpModalOpen && error && (
+                  <p className="text-red-500 text-sm mt-1 text-center">{error}</p>
+                )}
               </CommonDialog>
             </div>
 
@@ -171,7 +229,7 @@ const Login = () => {
                 </div>
               </div>
 
-              <div>
+              {/* <div>
                 <Label
                   htmlFor="password"
                   className={`text-sm font-medium mb-2 ${isRTL ? "text-right" : "text-left"}`}
@@ -208,9 +266,9 @@ const Login = () => {
                     )}
                   </button>
                 </div>
-              </div>
+              </div> */}
               {/* ERROR */}
-              {error && (
+              {!otpModalOpen && error && (
                 <p className="text-red-500 text-sm text-center">{error}</p>
               )}
               {/* SUBMIT */}

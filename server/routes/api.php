@@ -19,6 +19,11 @@ use App\Http\Controllers\Api\EmployeeController;
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout']);
 
+Route::post('/send-otp', [AuthController::class, 'sendOtp']);
+Route::post('/verify-otp', [AuthController::class, 'verifyOtp']);
+Route::post('/resend-otp', [AuthController::class, 'resendOtp']);
+
+
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::prefix('employee')->group(function () {
