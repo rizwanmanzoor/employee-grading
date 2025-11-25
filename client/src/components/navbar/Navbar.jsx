@@ -46,6 +46,9 @@ const Navbar = () => {
             <div className="hidden md:block">
               <ul className="flex items-center gap-8 font-medium">
                 <li>
+                  <Link to="/grading-criteria" className="text-primary hover:text-primary/80 transition-colors">{t("grading_criteria")}</Link>
+                </li>
+                <li>
                   <Link to="/result" className="text-primary hover:text-primary/80 transition-colors">{t("result")}</Link>
                 </li>
                 {/* <li>

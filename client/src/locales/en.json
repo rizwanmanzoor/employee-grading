@@ -8,6 +8,7 @@
   "welcome_title": "Welcome to NOX Group Grading Portal",
   "welcome_description": "Track your professional growth, identify development opportunities, and advance your career with transparent, data-driven insights.",
   "how_to_use": "How to Use",
+  "grading_criteria": "Grading Criteria",
   "confidentiality_notice": "Confidentiality Notice",
   "confidentiality_text": "All information submitted through this portal is strictly confidential and used solely for professional development purposes. Providing false information may result in disciplinary action. By using this system, you acknowledge and accept these terms.",
   "accept_terms": "I have read and accept the terms and conditions stated above",
@@ -145,7 +146,7 @@
     "loading": "Loading Result...",
     "grade_success": "Grade Calculated Successfully",
     "error": "Error occurred while fetching results",
-    "grades": "Grades",
+    "grades": "Grade",
     "score": "Score",
     "employee_info": {
       "employee_id": "Employee ID",

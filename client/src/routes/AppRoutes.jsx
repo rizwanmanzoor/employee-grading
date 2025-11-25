@@ -12,6 +12,7 @@ import StepperForm from "@/pages/StepperForm";
 import ProgressPage from "@/pages/ProgressPage";
 import HowToUsePage from "@/pages/HowToUsePage";
 import ProtectedRoute from "@/routes/ProtectedRoute";
+import GradingCriteriaPage from "@/pages/GradingCriteriaPage";
 // admin home page
 import AdminHomePage from "@/pages/AdminHomePage";
 import EmployeeList from "@/components/admin/employeeList";
@@ -27,6 +28,7 @@ const employeePages = (
     <Route path="/result" element={<ResultPage />} />
     <Route path="/progress" element={<ProgressPage />} />
     <Route path="/how-to-use" element={<HowToUsePage />} />
+    <Route path="/grading-criteria" element={<GradingCriteriaPage />} />
     </Route>
   </Route>
 );
