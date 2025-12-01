@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { API_BASE_URL } from "@/constants/ApiConstant";
+import { resetStepper } from "@/features/stepper/stepperSlice";
 
 // 🔹 Async thunk to call Laravel API
 export const loginUser = createAsyncThunk(
@@ -33,7 +34,7 @@ export const loginUser = createAsyncThunk(
 // 🔸 Logout API call using fetch
 export const logoutUser = createAsyncThunk(
   "auth/logoutUser",
-  async (_, { rejectWithValue }) => {
+  async (_, {dispatch, rejectWithValue }) => {
     try {
       const response = await fetch(`${API_BASE_URL}/logout`, {
         method: "POST",
@@ -43,6 +44,7 @@ export const logoutUser = createAsyncThunk(
         },
       });
 
+      dispatch(resetStepper());
       if (!response.ok) {
         throw new Error("Logout failed");
       }

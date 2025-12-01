@@ -21,7 +21,7 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [otp, setOtp] = useState("");
   const [otpModalOpen, setOtpModalOpen] = useState(false);
-  const [timer, setTimer] = useState(50); // 5 minutes in seconds
+  const [timer, setTimer] = useState(300); // 5 minutes in seconds
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -47,7 +47,7 @@ const Login = () => {
     const result = await dispatch(sendOtp({ username }));
     if (result.meta.requestStatus === "fulfilled") {
       setOtpModalOpen(true);
-      setTimer(50); // start 5 min timer
+      setTimer(300); // start 5 min timer
     }
   };
 
@@ -70,7 +70,7 @@ const Login = () => {
     const result = await dispatch(resendOtp({ username }));
 
     if (result.meta.requestStatus === "fulfilled") {
-      setTimer(50);
+      setTimer(300);
     }
   };
   // ⭐ CHECK LANGUAGE FROM LOCALSTORAGE ON PAGE LOAD
